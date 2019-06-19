@@ -1,0 +1,50 @@
+
+    if(flag) {
+        switch(sizeof(T)) {
+            case sizeof(UserData): {
+                for(size_t i = 0;i < res.num_rows();++i) {
+                    UserData data;
+                    bzero(&data,sizeof(data));
+                    memcpy(data.userId,res[i]["userId"],8);
+                    memcpy(data.userName,res[i]["userName"],10);
+                    memcpy(data.userPasswd,res[i]["userPasswd"],10);
+                    memcpy(&data.userType,res[i]["userType"],1);
+                    memcpy(data.userMail,res[i]["userMail"],20);
+                    V1.push_back(data);
+                }
+            
+            }
+            return;
+            case sizeof(MovieData): {
+                for(size_t i = 0;i < res.num_rows();++i) {
+                    MovieData data;
+                    bzero(&data,sizeof(data));
+                    memcpy(data.movieId,res[i]["movieId"],8);
+                    memcpy(data.title,res[i]["title"],20);
+                    memcpy(&data.rating,res[i]["rating"],8);
+                    memcpy(data.genres,res[i]["genres"],20);
+                    memcpy(&data.runTime,res[i]["runTime"],4);
+                    memcpy(data.poster,res[i]["poster"],20);
+                    memcpy(data.writers,res[i]["writers"],20);
+                    memcpy(data.directors,res[i]["directors"],20);
+                    memcpy(data.actors,res[i]["actors"],20);
+                    memcpy(data.plotSimple,res[i]["plotSimple"],30);
+                    memcpy(data.country,res[i]["country"],10);
+                    memcpy(data.alsoKnownAs,res[i]["alsoKnownAs"],10);
+                    V2.push_back(data);
+                }
+            }
+            return;
+            case sizeof(RoomData): {
+                for(size_t i = 0;i < res.num_rows();++i) {
+                    RoomData data;
+                    bzero(&data,sizeof(data));
+                    memcpy(data.roomId,res[i]["roomId"],8);
+                    memcpy(data.roomName,res[i]["roomName"],10);
+                    memcpy(&data.rows,res[i]["rows"],4);
+                    memcpy(&data.cols,res[i]["cols"],4);
+                    memcpy(data.distrbute,res[i]["distrbute"],20);
+                    V3.push_back(data);
+                }
+            }
+     
