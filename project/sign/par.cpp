@@ -16,6 +16,9 @@ int main()
     
     cout << 0x0806 << endl;
     cout << ETHERTYPE_ARP << endl; 
+    unsigned char i = 234;
+    int m = i;
+    cout  << hex <<  m;
 
     return 0;
 }

@@ -30,11 +30,14 @@ using namespace std;
 class MacGet
 {
 public:
-    MacGet(string &dst) : dst_ip(dst) {}
-    MacGet(string &dst,string &mac) : dst_ip(dst),dst_mac_addr(mac) {  }
+    MacGet(string &dst) : dst_ip(dst){  }
     MacGet() {  }
     ~MacGet() {
         close(sock_raw_fd);
+   }
+    MacGet &operator=(string &dst) {
+        this->dst_ip = dst;
+        return *this;
     }
 
     int arpSend();   //发送arp帧
@@ -48,8 +51,8 @@ private:
     string dst_ip;      //目的ip地址
     string src_mac_addr;  //源mac地址
     string dst_mac_addr;    //目的mac地址
-    struct ether_header *arp_head = NULL;    //arp帧首部
-    struct sockaddr_ll *arp_addr = NULL;//物理地址结构
+    struct ether_header *arp_head;    //arp帧首部
+    struct sockaddr_ll arp_addr;//物理地址结构
     char buf[ETHER_ARP_PACKET_LEN];//缓冲区
 };
 

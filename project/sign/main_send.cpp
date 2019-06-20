@@ -1,24 +1,23 @@
 #include <iostream>
+#include <hiredis/hiredis.h>
 #include "MacGet.h"
 #include <thread>
+#include <fstream>
+#include <vector>
 
-string dst_mac;
+vector<string> vec;
 void Recv(void) {
     MacGet mc;
-    int flag = 1;
+    string result;
     while(1) {
-        if(flag) {
-            dst_mac = mc.arpRecv();
-            flag = 0;
-    
-        }
-        else
-            mc.arpRecv();
+        result = mc.arpRecv();
+        vec.push_back(result);
     }
 }
+
 int main()
 {    
-    string dst = "192.168.3.47";
+    string dst;
 
     thread t(Recv);
     t.detach();
@@ -28,6 +27,23 @@ int main()
         dst = "192.168.3."+to_string(i);
         MacGet mc(dst);
         mc.arpSend();
+    }
+
+    cout << vec.size() << endl;
+    for(auto p = vec.begin();p != vec.end();++p) {
+        /*
+        for(size_t i = 0;i < p->length();++i) {
+            unsigned char q = p->at(i);
+            printf("%0x ",q);
+        }
+        cout << endl;
+        */
+        for(size_t i = 0;i < p->length();++i) {
+            unsigned char q = p->at(i);
+            int m = q;
+            cout << hex << m << ":";
+        }
+        cout << endl;
     }
     return 0;
 }
