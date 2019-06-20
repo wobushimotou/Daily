@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <netinet/if_ether.h>       
 #include <net/if_arp.h>             
@@ -30,8 +31,14 @@ using namespace std;
 class MacGet
 {
 public:
-    MacGet(string &dst) : dst_ip(dst){  }
-    MacGet() {  }
+    MacGet(string &dst) : dst_ip(dst){  
+        if ((sock_raw_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP))) == -1)
+            cout << "套接字申请失败" << endl;
+    }
+    MacGet() {  
+        if ((sock_raw_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP))) == -1)
+            cout << "套接字申请失败" << endl;
+    }
     ~MacGet() {
         close(sock_raw_fd);
    }

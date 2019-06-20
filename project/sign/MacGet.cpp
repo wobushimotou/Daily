@@ -30,12 +30,9 @@ int MacGet::arpSend() {
     struct ifreq ifr;
     unsigned char src_mac_addr[ETH_ALEN];
     unsigned char dst_mac_addr[ETH_ALEN] = BROADCAST_ADDR;
-    int sock_raw_fd, ret_len, i;
+    int ret_len, i;
 
 
-    /* 申请链路层原始套接字,协议类型为ARP协议 */
-    if ((sock_raw_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP))) == -1)
-        cout << "套接字申请失败" << endl;
 
     bzero(&arp_addr, sizeof(struct sockaddr_ll));
     bzero(&ifr, sizeof(struct ifreq));
@@ -87,32 +84,21 @@ int MacGet::arpSend() {
 string MacGet::arpRecv() {
 
     string dst_mac_addr;    
-    if ((sock_raw_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP))) == -1)
-        cout << "套接字申请失败" << endl;
-
-
-        bzero(buf, ETHER_ARP_PACKET_LEN);
-        int i = 0;
-        int ret_len = recv(sock_raw_fd, buf, ETHER_ARP_PACKET_LEN, 0);
-        if (ret_len > 0)
-        {
-            /* 剥去以太头部 */
-            arp_data = (struct ether_arp *)(buf + ETHER_HEADER_LEN);
-            /* arp操作码为2代表arp应答 */
-            if (ntohs(arp_data->arp_op) == 2)
-            {
-                printf("from ip:");
-                for (i = 0; i < IP_ADDR_LEN; i++)
-                    printf(".%u", arp_data->arp_spa[i]);
-                printf("    from mac");
-                for (i = 0; i < ETH_ALEN; i++) {
-                    printf(":%02x", arp_data->arp_sha[i]);
-                    dst_mac_addr.push_back(arp_data->arp_sha[i]);
-                }
-                printf("\n");
-            }
-
-            return dst_mac_addr;
+    bzero(buf, ETHER_ARP_PACKET_LEN);
+    int i = 0;
+    unsigned long ret_len = 0;
+    while(ret_len < ETHER_ARP_PACKET_LEN) {
+        ret_len += recv(sock_raw_fd, buf, ETHER_ARP_PACKET_LEN, 0);
+    }
+    /* 剥去以太头部 */
+    arp_data = (struct ether_arp *)(buf + ETHER_HEADER_LEN);
+    /* arp操作码为2代表arp应答 */
+    if (ntohs(arp_data->arp_op) == 2)
+    {
+        for (i = 0; i < ETH_ALEN; i++) {
+            dst_mac_addr.push_back(arp_data->arp_sha[i]);
         }
-        return "";
+        return dst_mac_addr;
+    }
+    return "wh";
 }

@@ -6,12 +6,14 @@
 #include <vector>
 
 vector<string> vec;
+
 void Recv(void) {
     MacGet mc;
     string result;
     while(1) {
         result = mc.arpRecv();
-        vec.push_back(result);
+        if(result != "wh")
+            vec.push_back(result);
     }
 }
 
@@ -29,7 +31,6 @@ int main()
         mc.arpSend();
     }
 
-    cout << vec.size() << endl;
     for(auto p = vec.begin();p != vec.end();++p) {
         /*
         for(size_t i = 0;i < p->length();++i) {
@@ -45,6 +46,7 @@ int main()
         }
         cout << endl;
     }
+    cout << "size=" << vec.size() << endl;
     return 0;
 }
 
