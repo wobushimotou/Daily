@@ -32,16 +32,11 @@ int main()
     }
 
     for(auto p = vec.begin();p != vec.end();++p) {
-        /*
-        for(size_t i = 0;i < p->length();++i) {
-            unsigned char q = p->at(i);
-            printf("%0x ",q);
-        }
-        cout << endl;
-        */
-        for(size_t i = 0;i < p->length();++i) {
+       for(size_t i = 0;i < p->length();++i) {
             unsigned char q = p->at(i);
             int m = q;
+            cout.width(2);
+            cout.fill('0');
             cout << hex << m << ":";
         }
         cout << endl;

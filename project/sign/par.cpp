@@ -16,8 +16,10 @@ int main()
     
     cout << 0x0806 << endl;
     cout << ETHERTYPE_ARP << endl; 
-    unsigned char i = 234;
+    unsigned char i = 15;
     int m = i;
+    cout.width(2);
+    cout.fill('0');
     cout  << hex <<  m;
 
     return 0;
