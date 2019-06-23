@@ -1,6 +1,6 @@
 #include <iostream>
 #include <hiredis/hiredis.h>
-#include "MacGet.h"
+#include "Arp.h"
 #include <thread>
 #include <fstream>
 #include <vector>
@@ -8,7 +8,7 @@
 vector<string> vec;
 
 void Recv(void) {
-    MacGet mc;
+    Arp mc;
     string result;
     while(1) {
         result = mc.arpRecv();
@@ -27,7 +27,7 @@ int main()
     //得到路由器mac地址
     for(int i = 1;i < 255;++i) {
         dst = "192.168.3."+to_string(i);
-        MacGet mc(dst);
+        Arp mc(dst);
         mc.arpSend();
     }
 

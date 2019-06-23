@@ -3,25 +3,17 @@
 #include <arpa/inet.h>
 #include <netinet/if_ether.h>
 #include <string.h>
+#include <sstream>
 using namespace std;
 int main()
 {
-    struct addrinfo *result;
-    if(getaddrinfo("192.168.3.1",NULL,NULL,&result) == 0) {
-        cout << "成功" << endl;
-        if(result) {
-            cout << inet_ntoa(((struct sockaddr_in *)result->ai_addr)->sin_addr) << endl;
-        }
-    }
+    unsigned char m = 156;
+    string buf;
+    stringstream istr;
+    istr << hex << (int)m;
     
-    cout << 0x0806 << endl;
-    cout << ETHERTYPE_ARP << endl; 
-    unsigned char i = 15;
-    int m = i;
-    cout.width(2);
-    cout.fill('0');
-    cout  << hex <<  m;
-
+    buf = istr.str(); 
+    cout << buf << endl;
     return 0;
 }
 
