@@ -1,17 +1,15 @@
 #include <iostream>
 #include <list>
+#include <vector>
 
 using namespace std;
-list<int> &addTwoNumber(list<int> &l1,list<int> &l2)
-{
-    list<int> L;
-    
-    }
-
-}
 int main()
 {
-
+    vector<int> vec;
+    for(int i = 0;i < 10;++i) {
+        vec.push_back(i);
+    }
+    
     
 }
 

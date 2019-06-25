@@ -38,10 +38,17 @@ public:
             delete buf;
     }
 
+    Arp& operator=(string &dst) {
+        dst_ip = dst;
+        return *this;
+    }
+
     //根据dst_ip构造arp请求报,返回数据报首地址
     char *ArpFill();  
     //解析arp应答报，返回应答中的目标mac地址的字符串
     string ArpAnalysis(char *arp);
+    //获取本地网卡接口ip
+    string GetIpAddr();
     struct sockaddr_ll GetAddr() {
         return arp_addr;
     }

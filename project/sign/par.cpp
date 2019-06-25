@@ -7,13 +7,8 @@
 using namespace std;
 int main()
 {
-    unsigned char m = 156;
-    string buf;
-    stringstream istr;
-    istr << hex << (int)m;
-    
-    buf = istr.str(); 
-    cout << buf << endl;
+    string dst = "192.168.3.1";
+    cout << dst.substr(0,dst.rfind(".",dst.length() - 1)+1) << endl;
     return 0;
 }
 

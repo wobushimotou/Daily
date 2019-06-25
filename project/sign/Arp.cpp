@@ -1,29 +1,25 @@
 #include <iostream>
-#include "Arp2.h"
+#include "Arp.h"
 char *Arp::ArpFill() {
     //存储arp应答数据报的缓冲区
-    buf = new char[ETHER_ARP_PACKET_LEN];
+    if(!buf)
+        buf = new char[ETHER_ARP_PACKET_LEN];
     string src_ip;
     unsigned char src_mac_addr[6];
     unsigned char dst_mac_addr[6] = BROADCAST_ADDR;
-    
 
     int sockfd = socket(AF_INET,SOCK_STREAM,0);
     struct ifreq ifr;
     bzero(&ifr,sizeof(ifr));
     memcpy(ifr.ifr_name,"wlp4s0",strlen("wlp4s0"));
     
-    /* 获取网卡接口IP地址 */
-    if(ioctl(sockfd,SIOCGIFADDR,&ifr) == -1) {
-        cout << "获取网卡接口ip失败" << endl;
-        exit(0);
-    }
-    src_ip = inet_ntoa(((struct sockaddr_in *)&ifr.ifr_ifru.ifru_addr)->sin_addr);
-
-    /* 获取网卡接口MAC地址 */
+      /* 获取网卡接口MAC地址 */
     if (ioctl(sockfd, SIOCGIFHWADDR, &ifr))
         cout << "获取网卡接口mac地址失败" << endl;
     memcpy(src_mac_addr, ifr.ifr_hwaddr.sa_data, ETH_ALEN);
+
+    //获取网卡接口ip
+    src_ip = GetIpAddr();
 
     //获取网卡接口索引
     bzero(&arp_addr,sizeof(arp_addr));
@@ -78,4 +74,17 @@ string Arp::ArpAnalysis(char *arp) {
         return istr.str();
     }
     return "";
+}
+
+string Arp::GetIpAddr() {
+    int sockfd = socket(AF_INET,SOCK_STREAM,0);
+    struct ifreq ifr;
+    bzero(&ifr,sizeof(ifr));
+    memcpy(ifr.ifr_name,"wlp4s0",strlen("wlp4s0"));
+    /* 获取网卡接口IP地址 */
+    if(ioctl(sockfd,SIOCGIFADDR,&ifr) == -1) {
+        cout << "获取网卡接口ip失败" << endl;
+        exit(0);
+    }
+    return inet_ntoa(((struct sockaddr_in *)&ifr.ifr_ifru.ifru_addr)->sin_addr);
 }
