@@ -9,10 +9,15 @@ int main()
     for(int i = 0;i < 10;++i) {
         vec.push_back(i);
     }
-    cout << vec.at(1) << endl;
-    vec.clear();
-    vec.push_back(11);
-    cout << vec.at(0) << endl;
-    
+    auto p = vec.begin();
+    auto q = p+1;
+    int temp = *q;
+    temp = *q;
+    *q = *p;
+    *p = temp;
+
+    cout << *vec.begin() << endl;
+    cout << *(vec.begin()+1) << endl;
+   
 }
 
