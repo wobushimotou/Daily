@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string.h>
 
 using namespace std;
 class NumTransForMation{
@@ -14,16 +15,15 @@ public:
     int i,j;
     int k;
     bool found;
-    vector<int> Vec;
+    int Vec[1000];
     bool Find(int n) {
-        for(auto p = Vec.begin();p != Vec.end();++p) {
-            if(*p == n)
+        for(int i = 0;i < 1000 && Vec[i];++i) {
+            if(Vec[i] == n)
                 return true;
         }
         return false;
     }
-    vector<int> CurrPath;
-    vector<int> BestPath;
+    int CurrPath[1000];
 };
 
 bool NumTransForMation::BackTrack(int m,int depth) {
@@ -31,17 +31,17 @@ bool NumTransForMation::BackTrack(int m,int depth) {
         return false;
     }
     else {
-        for(int i = 0;i < 2;++i) {
-            int temp = f(m,i);
+        for(int n = 1;n < 3;++n) {
+            int temp = f(m,n-1);
             if(Find(temp)) {
                 found = false;
                 return false;
             }
-            CurrPath.push_back(i);
-            Vec.push_back(temp);
+            CurrPath[depth] = n;
+            Vec[depth] = temp;
             if(temp == j || BackTrack(temp,depth+1)) {
-                BestPath = CurrPath;
-                return true;
+                found = true;
+                return found;
             }
         }
         CurrPath[depth] = 0;
@@ -56,6 +56,9 @@ int main()
     NumTransForMation n;
     cin >> n.i >> n.j;
     n.found = true;
+    n.k = 1;
+    bzero(n.CurrPath,1000*4);
+    bzero(n.Vec,1000*4);
 
     while(!n.BackTrack(n.i,1)) {
         //出现重复值
@@ -63,17 +66,17 @@ int main()
             break;
         }
         n.k++;
-        n.CurrPath.clear();
-        n.BestPath.clear();
+        bzero(n.CurrPath,1000*4);
+        bzero(n.Vec,1000*4);
     }
 
     if(n.found) {
-        for(auto p = n.BestPath.begin();p != n.BestPath.end();++p) {
-            if(*p == 0) {
+        for(int i = 1;i < 1000 && n.CurrPath[i];++i) {
+            if(n.CurrPath[i] == 1) {
                 n.i = n.i*3;
                 cout << "i*3=" << n.i << endl;
             }
-            else { 
+            if(n.CurrPath[i] == 2){ 
                 n.i = n.i/2;
                 cout << "i/2=" << n.i << endl;
             }
