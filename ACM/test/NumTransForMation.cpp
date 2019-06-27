@@ -1,9 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string.h>
-/*
-    整数变换问题　回溯法
-    */
 
 using namespace std;
 class NumTransForMation{

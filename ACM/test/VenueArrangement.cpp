@@ -1,9 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-/*
-    会场活动安排问题　贪心
-    */
 using namespace std;
 
 struct time{

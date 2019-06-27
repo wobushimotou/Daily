@@ -1,9 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string.h>
-/*
-    最优调度问题，回溯法
-  */
 using namespace std;
 class BestSchedule{
 public:

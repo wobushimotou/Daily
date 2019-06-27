@@ -1,8 +1,5 @@
 #include <iostream>
 #include <vector>
-/*
-    多处服务最优问题　贪心
-    */
 
 using namespace std;
 struct Custom{
