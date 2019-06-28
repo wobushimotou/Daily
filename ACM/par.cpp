@@ -1,36 +1,23 @@
 #include <iostream>
 #include <list>
-#include <vector>
-
+#include <string>
+#include <sstream>
 using namespace std;
-void f(vector<int> &ar,int left,int right,size_t k) {
-    if(k < 1)
-        return;
-    if(k == ar.size()/2) {  //两边数组大小相等,直接交换
-        for(size_t i = left;i < k;++i)
-            swap(ar[i],ar[k]);
-    }
-    else if(k < ar.size()/2) {
-        for(size_t i = 0;i < k;++i)
-            swap(ar[i],ar[k+i]);
-        f(ar,k,right,k*2);
-    }
-    else {
-        for(size_t i = 0;i < ar.size()-k;++i)
-            swap(ar[i],ar[k+i-1]);
-        f(ar,ar.size()-k,right,k);
+int GetNum(int k,int m,int n) {//得到I的[m:n]范围内的后k位数字
+    int I = 1231;
+    string num;
+    stringstream os;
+    os << I;
+    os >> num;
+    int value = 0;
+    m--,n--;
+    for(int i = n+1-k;i <= n;++i)
+        value = value*10 + num[i]-'0';
 
-    }
+    return value;
 }
 int main()
 {
-    vector<int> vec;
-    for(int i = 0;i < 10;++i) {
-        vec.push_back(i);
-    }
-    f(vec,1,vec.size(),3);
-    for(auto e:vec)
-        cout << e << " ";
-   
+    cout << GetNum(2,1,4) << endl;
 }
 
