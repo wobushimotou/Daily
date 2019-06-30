@@ -54,8 +54,8 @@ int MaxProduct::GetMax(int n,int m) {
 int main()
 {
     MaxProduct mp;
-    mp.I = 12345;
-    cout << mp.GetMax(5,2) << endl;
+    mp.I = 5354;
+    cout << mp.GetMax(4,3) << endl;
     return 0;
 }
 
