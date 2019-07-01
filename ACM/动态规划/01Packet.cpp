@@ -38,7 +38,7 @@ int main()
     pk.w = {2,2,6,5,4};
     pk.v = {6,3,5,4,6};
         
-    cout << pk.GetMaxV(5,10) << endl;
+    cout << pk.GetMaxV(4,10) << endl;
     return 0;
 }
 
