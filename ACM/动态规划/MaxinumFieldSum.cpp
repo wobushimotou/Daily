@@ -34,10 +34,7 @@ int main()
     int num;
     bzero(mf.ar,sizeof(mf.ar));
 
-    for(int i = 0;i < 8;++i) {
-        cin >> num;
-        mf.vec.push_back(num);
-    }
+     mf.vec = {1,-2,3,-4,5,-6};
     
     cout << mf.GetMax(mf.vec.size()-1) << endl;
     return 0;
