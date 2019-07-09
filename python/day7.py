@@ -4,8 +4,6 @@
 import os
 import time
 import random
-def main():
-    print(WhichDay(2000,2,1))
 
 def horse():
     content = '北京欢迎你为你开天辟地......'
@@ -48,14 +46,31 @@ def WhichDay(year,month,day):
         day_of_month[1] += 1
 
     sum = 0;
-    for i in range(0,month-1):
+    for i in range(0,month):
         if i == month-1:
             sum += day
             break
         sum += day_of_month[i]
     return sum
 
+#打印杨辉三角
+def Triangle(n):
+    l = [[]] * n
+    for i in range(0,n):
+        l[i] = [None]*(i+1)
+        for j in range(len(l[i])):
+            if i == 0 or j == 0:
+                l[i][j] = 1
+            elif i == j:
+                l[i][j] = 1
+            else:
+                l[i][j] = l[i-1][j] + l[i-1][j-1]
+            print(l[i][j],end=' ')
+        print()
+        
 
+def main():
+    pass
 
 
 
