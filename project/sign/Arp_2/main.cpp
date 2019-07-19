@@ -13,6 +13,7 @@ void Recv(int sockfd) {
  
     }
 }
+
 int main()
 {
     string dst = "192.168.3.";
@@ -32,8 +33,7 @@ int main()
         char *buf_send = arp.ArpFill();
         struct sockaddr_ll arp_addr = arp.GetAddr();
         sendto(sockfd, buf_send, ETHER_ARP_PACKET_LEN, 0, (struct sockaddr *)(&arp_addr), sizeof(struct sockaddr_ll));
-        sleep(1);
-   }
+    }
     t.join();
     return 0;
 }

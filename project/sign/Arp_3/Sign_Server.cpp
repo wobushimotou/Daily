@@ -1,4 +1,6 @@
 #include "Arp.h"
+#include <thread>
+#include <vector>
 #include <iostream>
 #include <sys/epoll.h>
 #include <sys/socket.h>
@@ -12,7 +14,19 @@ void error_msg(string msg) {
     cout << msg << "errno" << endl;
     exit(0);
 }
-
+void Recv(int sawfd) {
+    int ret_len;
+    char buf_recv[ETHER_ARP_PACKET_LEN];
+    Arp arp;
+    while(1) {
+        ret_len = recv(sawfd,buf_recv,sizeof(buf_recv),0);
+        if(ret_len == sizeof(buf_recv)) {
+            string s = arp.ArpAnalysis(buf_recv);
+            if(s.size())
+                cout << s << endl;
+        }
+    }
+}
 int main()
 {
     //读缓冲区
@@ -126,10 +140,10 @@ int main()
                     }
                     else {
                         //发送arp请求
+                                             cout << "开始发送Arp请求" << endl;
                         Arp SendArp;
                         string dst = SendArp.GetIpAddr();
                         dst = dst.substr(0,dst.rfind(".",dst.length()-1)+1);
-                        struct sockaddr_ll arp_addr = SendArp.GetAddr();
                         char *buf_send;
 
                         int sockfd = socket(PF_PACKET,SOCK_RAW,htons(ETH_P_ARP));
@@ -137,13 +151,21 @@ int main()
                             cout << "create raw socket error" << endl;
                             exit(0);
                         }    
-
+                        /*
+                        thread t(Recv,sockfd);
+                        t.detach();
+                        */
                         for(int i = 1;i < 256;++i) {
-                            dst += to_string(i);
-                            SendArp = dst;
+                            string temp = dst + to_string(i);
+                            SendArp = temp;
                             buf_send = SendArp.ArpFill();
+                            struct sockaddr_ll arp_addr = SendArp.GetAddr();
                             sendto(sockfd, buf_send, ETHER_ARP_PACKET_LEN, 0, (struct sockaddr *)(&arp_addr), sizeof(struct sockaddr_ll));
+                            usleep(1000);
                         }
+                        cout << "Arp请求发送完毕" << endl;
+                        char ch = 'c';
+                        send(events[i].data.fd,&ch,1,0);
                     }
                 }
             }
