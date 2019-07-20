@@ -6,18 +6,20 @@
 #include <condition_variable>
 #include <future>
 #include <functional>
-#include <functional>
 #include <memory>
+#include <iostream>
 class mythreadpool
 {
 public:
     mythreadpool(size_t n); //构造函数,n表示工作线程数
     //添加任务函数到任务队列
     
-
+    template<class F,class...Args>
+    auto Append(F&& f,Args&&... args)->std::future<typename std::result_of<F(Args...)>::type>;
+    
     ~mythreadpool();        
     
-    static void work(void *arg);
+    static void work(mythreadpool *,int);
 private:
     std::vector<std::thread> work_threads;  //工作线程
     std::queue<std::function<void()>> tasks;//任务队列
@@ -28,9 +30,9 @@ private:
 
 mythreadpool::mythreadpool(size_t n) : stop(false){
     for(size_t i = 0;i < n;++i) {
-        work_threads.emplace_back(work,this);
+        work_threads.emplace_back(work,this,i);
     }
-    
+
 }
 mythreadpool::~mythreadpool() {
     std::unique_lock<std::mutex> lock(this->tasks_mutex);
@@ -44,15 +46,38 @@ mythreadpool::~mythreadpool() {
     }
 }
 
-void mythreadpool::work(void *arg) {
-    mythreadpool *t = (mythreadpool *)arg;
+template<class F,class ...Args>
+auto mythreadpool::Append(F&& f,Args&&... args)->std::future<typename std::result_of<F(Args...)>::type> {
+    
+    //获取返回值类型
+    using return_type = typename std::result_of<F(Args...)>::type;
+    
+    //获取任务函数
+    auto task = std::make_shared<std::packaged_task<return_type()>>(std::bind(std::forward<F>(f),std::forward<Args>(args)...));
+    
+    std::future<return_type> res = task->get_future();
+
+    std::unique_lock<std::mutex> lock(this->tasks_mutex);
+    this->tasks.emplace( [task](){(*task)();} );
+    lock.unlock();
+
+    this->condition.notify_one();
+    
+    return res;
+}
+
+void mythreadpool::work(mythreadpool *t,int t_num) {
     while(!t->stop) {
+        std::cout << "1" << std::endl;
         std::unique_lock<std::mutex> lock(t->tasks_mutex);
+        std::cout << "2" << std::endl;
         t->condition.wait(lock,
-            [t]{return t->stop || t->tasks.empty();});
+            [t]{return t->stop || !t->tasks.empty();});
+    
         //结束时
         if(t->stop && t->tasks.empty())
             return;
+
         //从任务队列里拿出函数
         std::function<void()> task = t->tasks.front();
         t->tasks.pop();
@@ -62,7 +87,8 @@ void mythreadpool::work(void *arg) {
     }
 }
 
-int main()
-{
-
+int f(int i) {
+    return 10;
 }
+
+

@@ -27,6 +27,7 @@ int main()
 
 
     thread t(Recv,sockfd);
+    t.detach();
     for(int i = 1;i < 256;++i) {
         string dst_ip = dst + to_string(i);
         Arp arp = dst_ip;
@@ -34,7 +35,7 @@ int main()
         struct sockaddr_ll arp_addr = arp.GetAddr();
         sendto(sockfd, buf_send, ETHER_ARP_PACKET_LEN, 0, (struct sockaddr *)(&arp_addr), sizeof(struct sockaddr_ll));
     }
-    t.join();
+    sleep(1);
     return 0;
 }
 
