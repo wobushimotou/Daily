@@ -71,7 +71,6 @@ void *run(void *arg) {
         //开始执行任务
         temp->process(temp->arg);
         free(temp);
-        temp = NULL;
     }
 }
 
