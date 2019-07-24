@@ -3,6 +3,11 @@
 #include <memory>
 #include <thread>
 #include <mutex>
+#include <sys/uio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 using namespace std;
 std::mutex mtx;
 class Foo *X;
@@ -52,11 +57,10 @@ class a{
 class aa : public a{
 
 };
+using namespace std;
 int main()
 {
-    std::cout << sizeof(aa) << std::endl;
-    return 0;
+    int fd = open("1.txt",O_RDWR);
 
-    
 }
 
