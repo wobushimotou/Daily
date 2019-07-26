@@ -49,9 +49,9 @@ void InitPool(size_t t_num) {
 void *run(void *arg) {
     while(!pool->stop) {
         pthread_mutex_lock(&(pool->mutex));
-        
         //若等待队列为0则处于阻塞状态
         while(pool->cur_tasks == 0 && !pool->stop) {
+            printf("thread is wait\n");
             pthread_cond_wait(&(pool->cond),&(pool->mutex));
         }
 
@@ -135,6 +135,7 @@ void *f(void *arg) {
 int main()
 {
     InitPool(10);
+    sleep(5);
     for(int i = 0;i < 10;++i) {
         sleep(1);
         Append(f,(void *)&i);

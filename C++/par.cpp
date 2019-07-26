@@ -57,10 +57,19 @@ class a{
 class aa : public a{
 
 };
-using namespace std;
+class e{
+    void a() { std::cout << "a" << std::endl; }
+protected:
+    void b() {  std::cout << "b" << std::endl;  }
+public:
+    void c() {  std::cout << "c" << std::endl;  }
+};
+class pe:private e{
+
+};
 int main()
 {
-    int fd = open("1.txt",O_RDWR);
+    pe p;
 
 }
 
