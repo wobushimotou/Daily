@@ -1,7 +1,7 @@
 #include "EventLoop.h"
 
 EventLoop::EventLoop()
-    :threadId(syscall(SYS_gettid)),looping(false)
+    :threadId(syscall(SYS_gettid)),looping(false),poll_(std::make_shared<epoll>(this))
 {
     LOG_DEBUG << "EventLoop Created\n";
 }
@@ -21,9 +21,27 @@ void EventLoop::loop()
     }
 
     looping = true;
-    ::poll(NULL,0,1000);
+    quit_ = false;
+    while(!quit_) {
+        activeChanels.clear();
+        poll_->poll(1000,&activeChanels);
+        for(auto p = activeChanels.begin();p != activeChanels.end();++p) {
+            (*p)->handleEvent();
+        }
+    }
     LOG_DEBUG << "EventLoop stop looping\n";
-    looping  = false;
+    looping = false;
 }
 
+
+void EventLoop::updateChannel(Channel *channel)
+{
+    std::cout << "EventLoop updateChannel()\n";
+    poll_->updateChannel(channel);
+}
+
+void EventLoop::quit()
+{
+    quit_ = true;
+}
 

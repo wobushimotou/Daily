@@ -19,6 +19,7 @@ public:
     int poll(int timeoutMs,ChannelList *activeChannels);
 
     void updateChannel(Channel *channel);
+    void update(int operation,Channel *channel);
     
     void assertInLoopThread();
 private:
@@ -27,8 +28,8 @@ private:
     typedef std::map<int,Channel*> ChannelMap;
 
     EventLoop *ownerLoop;
-    EPollList events;
     ChannelMap channels;
+    EPollList events;
     int epollfd;
     log LOG_DEBUG;
 };

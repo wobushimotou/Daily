@@ -16,12 +16,14 @@ Channel::Channel(EventLoop *loop,int fd)
 
 void Channel::update()
 {
+    std::cout << "channel update()\n";
     loop_->updateChannel(this);    
 }
 
 
 void Channel::handleEvent()
 {
+    std::cout << "处理事件" << std::endl;
     if(revents_ & POLLNVAL) {
         LOG_DEBUG << "Channel::handle_event() POLLNVAL\n";
     }

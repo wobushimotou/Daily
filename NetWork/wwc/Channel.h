@@ -37,13 +37,10 @@ private:
     int fd_;
     int events_;
     int revents_;
-    int index_;
+    int index_;     //存储在epoll::events数组中的位置
     log LOG_DEBUG;
 
     EventCallback readCallback;
     EventCallback writeCallback;
     EventCallback errorCallback;
-
-
 };
-
