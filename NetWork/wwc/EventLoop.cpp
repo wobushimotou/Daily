@@ -1,7 +1,10 @@
 #include "EventLoop.h"
-
 EventLoop::EventLoop()
-    :threadId(syscall(SYS_gettid)),looping(false),poll_(std::make_shared<epoll>(this))
+    :threadId(syscall(SYS_gettid)),
+    looping(false),
+    poll_(new epoll(this)),
+    wakeupFd(createEventfd()),
+    weakupChannel(new Channel(this,wakeupFd))
 {
     LOG_DEBUG << "EventLoop Created\n";
 }
@@ -28,6 +31,7 @@ void EventLoop::loop()
         for(auto p = activeChanels.begin();p != activeChanels.end();++p) {
             (*p)->handleEvent();
         }
+        doPendingFunctors();
     }
     LOG_DEBUG << "EventLoop stop looping\n";
     looping = false;
@@ -45,3 +49,62 @@ void EventLoop::quit()
     quit_ = true;
 }
 
+void EventLoop::runInLoop(const Functor &cb)
+{
+    if(isInLoopThread()) {
+        cb();
+    }
+    else {
+        queueInLoop(cb);        
+    }
+}
+
+void EventLoop::queueInLoop(const Functor &cb)
+{
+    Mutex.lock();
+    pendingFunctions.push_back(cb);
+    Mutex.unlock();
+    if(!isInLoopThread() || callingPendingFunctors) {
+        wakeup();
+    }
+}
+
+void EventLoop::doPendingFunctors()
+{
+    std::vector<Functor> functors;
+    callingPendingFunctors = true;
+
+    Mutex.lock();
+    functors.swap(pendingFunctions);
+    Mutex.unlock();
+
+    for(size_t i = 0;i < functors.size();++i)
+        functors[i]();
+
+    callingPendingFunctors = false;
+}
+
+void EventLoop::wakeup()
+{
+    char ch;
+    size_t n = ::write(wakeupFd,&ch,1);
+    if(n != sizeof ch) {
+        LOG_DEBUG << "EventLoop::wakeup() writes error";
+    }
+}
+
+void EventLoop::handleRead() {
+    char ch;
+    size_t n = ::read(wakeupFd,&ch,1);
+    if(n != sizeof ch) {
+        LOG_DEBUG << "EventLoop::wakeup() read error";
+    }
+}
+
+int EventLoop::createEventfd() {
+    int evfd = ::eventfd(0,EFD_NONBLOCK | EFD_CLOEXEC);
+    if(evfd < 0) {
+        LOG_DEBUG << "create eventfd error\n";
+    }
+    return evfd;
+}
