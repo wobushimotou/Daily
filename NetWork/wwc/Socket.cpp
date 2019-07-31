@@ -31,6 +31,11 @@ void Socket::listenAddr()
 
 int Socket::acceptAddr(struct sockaddr_in *addr)
 {
-        
+    socklen_t len = sizeof addr;
+    bzero(&addr,sizeof addr);        
+    int connfd = ::accept(sockfd,(sockaddr *)addr,&len);
+    if(connfd >= 0)
+        return connfd;
+    return -1;
 }
 

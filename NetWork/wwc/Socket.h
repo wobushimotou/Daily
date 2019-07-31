@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <netinet/in.h>
+#include <string.h>
 class Socket
 {
 public:
@@ -15,7 +16,6 @@ public:
     void SetNonblock();
     void listenAddr(); 
     int acceptAddr(struct sockaddr_in *addr);
-
 private:
     int sockfd;
 };

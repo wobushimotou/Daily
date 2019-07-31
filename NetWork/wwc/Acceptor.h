@@ -2,12 +2,13 @@
 #include <netinet/in.h>
 #include <functional>
 #include "./EventLoop.h"
+#include "./Socket.h"
 class InetAddress;
 class Acceptor
 {
 public:
     typedef std::function<void (int sockfd,struct sockaddr addr)> NewConnectionCallback;
-    Acceptor(EventLoop *loop,struct sockaddr listenaddr);
+    Acceptor(EventLoop *loop,std::string sockaddr);
     ~Acceptor();
 
     void setNewConnectionCallback(const NewConnectionCallback& cb) { newConnectionCallback_ = cb; }
@@ -18,8 +19,9 @@ private:
     void handleRead();
 
     EventLoop *loop;
-    int acceptSocket;
+    Socket acceptSocket;
     Channel acceptChannel;
+    struct sockaddr addr;
     NewConnectionCallback newConnectionCallback_;
     bool listening_;
 };

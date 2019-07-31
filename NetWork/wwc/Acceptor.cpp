@@ -1,5 +1,6 @@
 #include "Acceptor.h"
-Acceptor::Acceptor(EventLoop *loop,struct sockaddr listenaddr)
+Acceptor::Acceptor(EventLoop *loop,std::string sockaddr)
+    :loop(loop),
 {
 
 }

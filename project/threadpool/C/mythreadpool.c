@@ -94,10 +94,9 @@ int Append(void *(*process)(void *arg),void *arg) {
         pool->tasks = newWork; 
 
     pool->cur_tasks++;
-    pthread_mutex_unlock(&(pool->mutex));
-
     //唤醒线程去执行此任务
     pthread_cond_signal(&(pool->cond));
+    pthread_mutex_unlock(&(pool->mutex));
     return 0;
 }
 
@@ -130,16 +129,22 @@ int Desory() {
     free(pool);
 }
 void *f(void *arg) {
-    printf("**%d**\n",*(int*)arg);
+    int a = *(int *)arg;
+    printf("**%d**\n",a);
 }
+
 int main()
 {
     InitPool(10);
-    sleep(5);
-    for(int i = 0;i < 10;++i) {
-        sleep(1);
-        Append(f,(void *)&i);
+    int ar[100];
+    for(int i = 0;i < 100;++i) {
+        ar[i] = i;
+        Append(f,(void *)(ar+i));
     }
+
+    int a;
+    scanf("%d",&a);
+    printf("任务队列长度为%d\n",pool->cur_tasks);
     Desory();
     return 0;
 }
