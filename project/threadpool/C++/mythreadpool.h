@@ -68,9 +68,7 @@ auto mythreadpool::Append(F&& f,Args&&... args)->std::future<typename std::resul
 
 void mythreadpool::work(mythreadpool *t,int t_num) {
     while(!t->stop) {
-        std::cout << "1" << std::endl;
         std::unique_lock<std::mutex> lock(t->tasks_mutex);
-        std::cout << "2" << std::endl;
         t->condition.wait(lock,
             [t]{return t->stop || !t->tasks.empty();});
     
