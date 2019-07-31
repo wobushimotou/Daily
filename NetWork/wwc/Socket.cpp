@@ -39,3 +39,7 @@ int Socket::acceptAddr(struct sockaddr_in *addr)
     return -1;
 }
 
+Socket::~Socket()
+{
+}
+
