@@ -10,27 +10,22 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include "Acceptor.h"
+#include "TcpServer.h"
 EventLoop loop;
-void newConnectionCallback(int sockfd,struct sockaddr_in addr) {
-    std::cout << "newConnectionCallback():一号服务器" << std::endl;
-    ::write(sockfd,"How are you?\n",14);
-    close(sockfd);
-}
-void f2(int sockfd,struct sockaddr_in addr) {
-    std::cout << "newConnectionCallback():二号服务器" << std::endl;
-    ::write(sockfd,"I'am fine\n",10);
-    close(sockfd);
+void onConnection(std::shared_ptr<TcpConnection> conn) {
+    printf("onConnection():new connection\n");
 }
 
+void onMessage(std::shared_ptr<TcpConnection> conn,char *data,size_t n) {
+    
+    printf("onMessagea():received %zd bytes\ndata:%s",n,data);
+}
 int main()
 {
-    
-    Acceptor ac(&loop,9981);
-    Acceptor ac2(&loop,8864);
-    ac.setNewConnectionCallback(newConnectionCallback);
-    ac2.setNewConnectionCallback(f2);
-    ac.listen();
-    ac2.listen();
+    TcpServer server(&loop,9981,"wh");
+    server.setConnectionCallback(onConnection);
+    server.setMessageCallback(onMessage);
+    server.start();
     loop.loop();
     return 0;
 }

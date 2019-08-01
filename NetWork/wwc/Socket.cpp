@@ -43,3 +43,8 @@ Socket::~Socket()
 {
 }
 
+Socket::Socket(int fd)
+{
+    sockfd = fd;
+}
+

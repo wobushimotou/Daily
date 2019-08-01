@@ -10,6 +10,7 @@ class Socket
 {
 public:
     Socket();
+    Socket(int fd);
     ~Socket();
     int fd() const { return sockfd; }
     void bindAddress(struct sockaddr_in addr);

@@ -43,4 +43,5 @@ private:
     EventCallback readCallback;
     EventCallback writeCallback;
     EventCallback errorCallback;
+    EventCallback closeCallback;
 };

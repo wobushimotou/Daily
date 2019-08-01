@@ -40,7 +40,6 @@ void EventLoop::loop()
 
 void EventLoop::updateChannel(Channel *channel)
 {
-    std::cout << "EventLoop updateChannel()\n";
     poll_->updateChannel(channel);
 }
 
