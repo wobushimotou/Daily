@@ -5,7 +5,7 @@
 void *f(void *arg) {
     pthread_mutex_t *mutex = (pthread_mutex_t *)arg;
     pthread_mutex_lock(mutex);
-    sleep(10);
+    sleep(1);
     pthread_mutex_unlock(mutex);
     pthread_exit(NULL);
 }
@@ -21,7 +21,7 @@ int main()
 
     pthread_mutex_lock(&mutex);
 
-    if(pthread_mutex_destroy(&mutex) == EBUSY)
+    if(pthread_mutex_destroy(&mutex) != 0)
         printf("销毁错误\n");
     pthread_mutex_unlock(&mutex);
 

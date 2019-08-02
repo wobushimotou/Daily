@@ -5,9 +5,9 @@
 
 void *f(void *arg) {
     if(*(int *)arg)
-        printf("子进程所属线程ID为%ld\n",pthread_self());
-    else
         printf("父进程所属线程ID为%ld\n",pthread_self());
+    else
+        printf("子进程所属线程ID为%ld\n",pthread_self());
 
     pthread_exit(NULL);
 }
@@ -19,14 +19,12 @@ int main()
     int a;
     pid1 = fork();
     if(pid1 == 0) {
-        printf("子进程%d开始运行\n",getpid());
         printf("子进程主线程ID为%ld\n",pthread_self());
         a = 0;
         pthread_create(&tid1,NULL,f,(void *)&a);
         pthread_join(tid1,NULL);
     }
     else {
-        printf("父进程%d开始运行\n",getpid());
         printf("父进程主线程ID为%ld\n",pthread_self());
         a = 1;
         pthread_create(&tid2,NULL,f,(void *)&a);
