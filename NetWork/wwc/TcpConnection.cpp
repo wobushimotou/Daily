@@ -2,11 +2,16 @@
 #include "TcpConnection.h"
 void TcpConnection::handleRead()
 {
-    std::cout << "TcpConnection::handleRead()\n";
-    char buf[65535];
-    bzero(buf,65535);
-    size_t n = ::read(channel->fd(),buf,sizeof buf);
-    messageCallback(shared_from_this(),buf,n);
+    size_t n = inputBuffer.readFd(channel->fd());
+    if(n > 0) {
+        messageCallback(shared_from_this(),inputBuffer,n);
+    }
+    else if(n == 0) {
+        handleClose();
+    }
+    else {
+        handleError();
+    }
 }
 
 TcpConnection::TcpConnection(EventLoop *loop,std::string &name,int sockfd)
@@ -15,23 +20,42 @@ TcpConnection::TcpConnection(EventLoop *loop,std::string &name,int sockfd)
         socket(new Socket(sockfd)),
         channel(new Channel(loop,sockfd))
 {
-    std::cout << "TcpConnection()\n";
     channel->setReadCallback( std::bind(&TcpConnection::handleRead,this));
+    channel->setCloseCallback(std::bind(&TcpConnection::handleClose,this));
 }
 
 void TcpConnection::connectEstablished()
 {
-    std::cout << "TcpConnection::connectEstablished()\n";
     setState(kConnected);
     channel->enableReading();
     
-    std::cout << "TcpConnection::connectEstablished()->connectionCallback(this)\n";
     connectionCallback(shared_from_this());
-    std::cout << "1\n";
 }
 
 TcpConnection::~TcpConnection()
 {
 
+}
+
+
+void TcpConnection::handleClose()
+{
+    channel->disableAll();    
+    if(closeCallback)
+        closeCallback(shared_from_this());
+}
+
+void TcpConnection::handleError()
+{
+    
+}
+
+void TcpConnection::connectDestoryed()
+{
+    setState(kDisconnected);
+    channel->disableAll();
+    connectionCallback(shared_from_this());
+
+    loop->removeChannel(channel.get());
 }
 

@@ -2,6 +2,7 @@
 EventLoop::EventLoop()
     :threadId(syscall(SYS_gettid)),
     looping(false),
+    eventHanding(false),
     poll_(new epoll(this)),
     wakeupFd(createEventfd()),
     weakupChannel(new Channel(this,wakeupFd))
@@ -28,9 +29,11 @@ void EventLoop::loop()
     while(!quit_) {
         activeChanels.clear();
         poll_->poll(1000,&activeChanels);
+        eventHanding = true;
         for(auto p = activeChanels.begin();p != activeChanels.end();++p) {
             (*p)->handleEvent();
         }
+        eventHanding = false;
         doPendingFunctors();
     }
     LOG_DEBUG << "EventLoop stop looping\n";
@@ -107,3 +110,12 @@ int EventLoop::createEventfd() {
     }
     return evfd;
 }
+void EventLoop::removeChannel(Channel *channel)
+{
+    if(eventHanding)
+        assert(currentActiveChannel == channel || 
+           std::find(std::begin(activeChanels),std::end(activeChanels),channel) == activeChanels.end());
+
+    poll_->removeChannel(channel);
+}
+

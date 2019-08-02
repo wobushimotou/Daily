@@ -4,13 +4,12 @@
 #include "Acceptor.h"
 #include "TcpConnection.h"
 
-class TcpConnection;
 class TcpServer
 {
 public:
     typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
     typedef std::function<void (std::shared_ptr<TcpConnection>)> ConnectionCallback;
-    typedef std::function<void (std::shared_ptr<TcpConnection>,char *,size_t)> MessageCallback;
+    typedef std::function<void (std::shared_ptr<TcpConnection>,Buffer&,size_t)> MessageCallback;
 
     TcpServer(EventLoop *loop,int port,std::string namearg);
     ~TcpServer();
@@ -23,17 +22,19 @@ public:
     void setMessageCallback(const MessageCallback &cb) {
         messageCallback = cb;
     }
-
 private:
     
     void NewConnection(int sockfd,struct sockaddr_in addr);
     typedef std::map<std::string,TcpConnectionPtr> ConnectionMap;
+    void removeConnction(const TcpConnectionPtr &conn);
+    void removeConnctionInLoop(const TcpConnectionPtr &conn);
 
     EventLoop *loop;
     std::string name;
     std::unique_ptr<Acceptor> acceptor;
     ConnectionCallback connectionCallback;
     MessageCallback messageCallback;
+    TcpConnection::CloseCallback closeCallback;
     bool started;
     int nextConnId;
     ConnectionMap connections;

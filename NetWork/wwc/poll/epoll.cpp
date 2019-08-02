@@ -46,10 +46,8 @@ void epoll::fillActiveChannels(int numEvents,ChannelList *activeChannels)
 
 void epoll::updateChannel(Channel *channel)
 {
-    std::cout << "epoll updateChannel()\n";
     int index = channel->index();
     if(index < 0) {
-        std::cout << "添加新的事件分发器\n";
         //添加新的事件分发器
         index = events.size(); 
         channel->set_index(index);
@@ -57,7 +55,6 @@ void epoll::updateChannel(Channel *channel)
         update(EPOLL_CTL_ADD,channel);
    }
     else {
-        std::cout << "更新现有的时间分发器\n";
         //更新现有的时间分发器
         struct epoll_event event;
         event.events = channel->events();
@@ -76,18 +73,21 @@ void epoll::update(int operation,Channel *channel)
 {
     struct epoll_event event;
     event.events = channel->events();
-    if(channel->events() & POLLIN)
-        std::cout << "update() POLLIN\n";
-    else if(channel->events() & POLLOUT)
-        std::cout << "update() POLLOUT\n";
-    else 
-        std::cout << "update() ERROR\n";
 
     event.data.ptr = static_cast<void *>(channel);
 
     if(epoll_ctl(epollfd,operation,channel->fd(),&event) < 0) {
         LOG_DEBUG << "update channel error\n"; 
     }
+
+}
+
+void epoll::removeChannel(Channel *channel)
+{
+    int fd = channel->fd();
+    size_t n = channels.erase(fd);
+    assert(n == 1);
+    update(EPOLL_CTL_DEL,channel);
 
 }
 

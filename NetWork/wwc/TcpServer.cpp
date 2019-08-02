@@ -12,12 +12,10 @@ TcpServer::TcpServer(EventLoop *loop,int port,std::string namearg)
 {
     acceptor->setNewConnectionCallback(
         std::bind(&TcpServer::NewConnection,this,std::placeholders::_1,std::placeholders::_2));
-    std::cout << "TcpServer()\n";
 }
 
 void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
 {
-    std::cout << "TcpServer::NewConnection()\n";
     char buf[64];
     //为新创建的TcpConnection对象起名
     snprintf(buf,sizeof buf,"-%s#%d",inet_ntoa(addr.sin_addr),nextConnId);
@@ -28,10 +26,24 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
     connections[connName] = conn;
     conn->setConnectionCallback(connectionCallback);
     conn->setMessageCallback(messageCallback);
+    conn->setCloseCallback(std::bind(&TcpServer::removeConnction,this,std::placeholders::_1));
     conn->connectEstablished();
 }
 
 
+
+void TcpServer::removeConnction(const TcpConnectionPtr &conn)
+{
+    loop->runInLoop(std::bind(&TcpServer::removeConnctionInLoop,this,conn));
+}
+
+void TcpServer::removeConnctionInLoop(const TcpConnectionPtr &conn)
+{
+    size_t n = connections.erase(conn->name());
+    assert(n == 1);
+    EventLoop *ioLoop = conn->getLoop();
+    ioLoop->queueInLoop(std::bind(&TcpConnection::connectDestoryed,conn));
+}
 
 TcpServer::~TcpServer()
 {

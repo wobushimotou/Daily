@@ -1,4 +1,7 @@
 #pragma once
+#include <atomic>
+#include <functional>
+#include <algorithm>
 #include <sys/eventfd.h>
 #include <mutex>
 #include <poll.h>
@@ -6,6 +9,7 @@
 #include <pthread.h>
 #include <sys/syscall.h>
 #include <unistd.h>
+#include <vector>
 #include "./log/log.h"
 #include "./poll/epoll.h"
 #include <assert.h>
@@ -23,10 +27,11 @@ public:
 
     bool isInLoopThread() const { return threadId == syscall(SYS_gettid); }
     void updateChannel(Channel *channel);
+    void removeChannel(Channel *channel);
     void quit();
     void runInLoop(const Functor &cb);
-private:
     void queueInLoop(const Functor &cb);
+private:
     void handleRead();
     void doPendingFunctors();
     void wakeup();
@@ -40,6 +45,7 @@ private:
     bool looping;
     bool quit_;
     bool callingPendingFunctors;
+    bool eventHanding;
 
     log LOG_DEBUG;
     std::unique_ptr<epoll> poll_;

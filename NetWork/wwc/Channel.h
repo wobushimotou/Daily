@@ -14,6 +14,7 @@ public:
     void setReadCallback(const EventCallback &cb) { readCallback = cb; }
     void setWriteCallback(const EventCallback &cb) { writeCallback = cb; }
     void setErrorCallback(const EventCallback &cb) { errorCallback = cb; }
+    void setCloseCallback(const EventCallback &cb) { closeCallback = cb; }
 
     int fd() { return fd_; }
     int events() { return events_;}
@@ -21,6 +22,7 @@ public:
     bool isNoneEvnet() { return events_ == kNoneEvent; }
 
     void enableReading() { events_ |= kReadEvent; update(); }
+    void disableAll() { events_ |= kNoneEvent; update(); }
 
     int index() { return index_; }
     void set_index(int idx) { index_ = idx; }

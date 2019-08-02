@@ -10,7 +10,6 @@ Acceptor::Acceptor(EventLoop *loop,int port)
     acceptSocket.SetNonblock();
     acceptSocket.bindAddress(addr);
     acceptChannel.setReadCallback(std::bind(&Acceptor::handleRead,this));
-    std::cout << "Acceptor()\n";    
 }
 
 
@@ -23,7 +22,6 @@ void Acceptor::initAddr()
 
 void Acceptor::handleRead()
 {
-    std::cout << "Acceptor::hanleRead()\n";
     struct sockaddr_in sockaddr;
     int connfd = acceptSocket.acceptAddr(&sockaddr);
     if(connfd > 0) {
@@ -31,18 +29,15 @@ void Acceptor::handleRead()
             newConnectionCallback_(connfd,sockaddr);
         }
         else {
-            std::cout << "close\n";
             ::close(connfd);
         }
     }
     else {
-        std::cout << "in Acceptor handleRead() error" << std::endl;
     }
 }
 
 void Acceptor::listen()
 {
-    std::cout << "Acceptor::listen()\n";
     loop->isInLoopThread();
     listening_ = true;
     acceptSocket.listenAddr();

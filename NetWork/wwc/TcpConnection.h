@@ -4,13 +4,14 @@
 #include "EventLoop.h"
 #include "Socket.h"
 #include "Channel.h"
+#include "Buffer.h"
 class TcpConnection :   boost::noncopyable,
                         public std::enable_shared_from_this<TcpConnection>
 {
 public: 
     typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
     typedef std::function<void(std::shared_ptr<TcpConnection>)> ConnectionCallback;
-    typedef std::function<void(std::shared_ptr<TcpConnection>,char *,size_t)> MessageCallback;
+    typedef std::function<void(std::shared_ptr<TcpConnection>,Buffer&,size_t)> MessageCallback;
     typedef std::function<void (const TcpConnectionPtr&)> CloseCallback;
 
 
@@ -23,6 +24,7 @@ public:
     void setCloseCallback(const CloseCallback& cb) {
         closeCallback = cb;
     }
+    EventLoop *getLoop() { return loop; }
     void connectEstablished();
     void connectDestoryed();
     std::string name() { return name_; }
@@ -30,12 +32,12 @@ public:
     ~TcpConnection();
 
 private:
-       enum StateE{kConnecting,kConnected};
+       enum StateE{kConnecting,kConnected,kDisconnected};
 
     void setState(StateE s) { state = s; }
     void handleRead();
-    void hanleWrite();
-    void hanleClose();
+    void handleWrite();
+    void handleClose();
     void handleError();
     
     EventLoop *loop;
@@ -48,5 +50,6 @@ private:
     ConnectionCallback connectionCallback;
     MessageCallback messageCallback;
     CloseCallback closeCallback;
+    Buffer inputBuffer;
 };
 

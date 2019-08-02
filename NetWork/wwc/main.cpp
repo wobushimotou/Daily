@@ -11,14 +11,17 @@
 #include <arpa/inet.h>
 #include "Acceptor.h"
 #include "TcpServer.h"
+#include "Buffer.h"
 EventLoop loop;
 void onConnection(std::shared_ptr<TcpConnection> conn) {
     printf("onConnection():new connection\n");
 }
 
-void onMessage(std::shared_ptr<TcpConnection> conn,char *data,size_t n) {
-    
-    printf("onMessagea():received %zd bytes\ndata:%s",n,data);
+void onMessage(std::shared_ptr<TcpConnection> conn,Buffer &data,size_t n) {
+    std::string buff;
+    data.retrieveAll(buff);
+    std::cout << buff << std::endl;
+    buff.clear();
 }
 int main()
 {
