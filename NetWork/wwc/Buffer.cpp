@@ -23,6 +23,33 @@ size_t Buffer::readFd(int fd)
     return n;
 }
 
+size_t Buffer::retrieve(size_t len,std::string &buff)
+{
+        if(len < readableBytes()) {
+            readIndex += len;
+            if(buff.size() < len)
+                buff.resize(len);
+            
+            std::copy(peek(),peek()+len,buff.begin());
+            readIndex += len;
+            return len;
+        }
+        else {
+            return retrieveAll(buff);
+        }
+ 
+}
+
+size_t Buffer::retrieveAll(std::string &buff)
+{
+    size_t len = readableBytes(); 
+        if(buff.size() < len) 
+            buff.resize(len);
+        std::copy(peek(),peek()+len,buff.begin());
+        readIndex += len;
+        return len;
+}
+
 Buffer::~Buffer()
 {
 

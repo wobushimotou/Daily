@@ -1,6 +1,8 @@
 #pragma once
 #include <boost/noncopyable.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <functional>
+#include <algorithm>
 #include "EventLoop.h"
 #include "Socket.h"
 #include "Channel.h"
@@ -24,32 +26,43 @@ public:
     void setCloseCallback(const CloseCallback& cb) {
         closeCallback = cb;
     }
+    void send(void *message,int len);
+    void send(std::string message);
+    void send(Buffer *message);
     EventLoop *getLoop() { return loop; }
     void connectEstablished();
     void connectDestoryed();
     std::string name() { return name_; }
+    
+
     TcpConnection(EventLoop *loop,std::string &name,int sockfd);
     ~TcpConnection();
+    
+    std::unique_ptr<Socket> socket;
+
 
 private:
-       enum StateE{kConnecting,kConnected,kDisconnected};
+    enum StateE{kConnecting,kConnected,kDisconnected};
 
     void setState(StateE s) { state = s; }
     void handleRead();
     void handleWrite();
     void handleClose();
     void handleError();
+
+    void sendInLoop(std::string message);
+    void sendInLoop(void *message,int len);
     
     EventLoop *loop;
     std::string name_;
     StateE state;
 
-    std::unique_ptr<Socket> socket;
     std::unique_ptr<Channel> channel;
     
     ConnectionCallback connectionCallback;
     MessageCallback messageCallback;
     CloseCallback closeCallback;
     Buffer inputBuffer;
+    Buffer outputBuffer;
 };
 

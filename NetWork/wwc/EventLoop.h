@@ -1,20 +1,20 @@
 #pragma once
-#include <atomic>
-#include <functional>
 #include <algorithm>
 #include <sys/eventfd.h>
+#include <sys/syscall.h>
+#include <unistd.h>
+#include <assert.h>
+#include <vector>
 #include <mutex>
+#include <functional>
 #include <poll.h>
 #include <memory>
 #include <pthread.h>
-#include <sys/syscall.h>
-#include <unistd.h>
-#include <vector>
 #include "./log/log.h"
 #include "./poll/epoll.h"
-#include <assert.h>
 #include "Channel.h"
 class epoll;
+class Channel;
 class EventLoop
 {
 public:
@@ -47,7 +47,6 @@ private:
     bool callingPendingFunctors;
     bool eventHanding;
 
-    log LOG_DEBUG;
     std::unique_ptr<epoll> poll_;
 
     int wakeupFd;

@@ -1,5 +1,5 @@
 server:main.o EventLoop.o Channel.o log.o epoll.o Acceptor.o Socket.o TcpConnection.o TcpServer.o Buffer.o
-	g++ main.o EventLoop.o Channel.o log.o epoll.o Acceptor.o Socket.o TcpConnection.o TcpServer.o Buffer.o -o server
+	g++ main.o EventLoop.o Channel.o log.o epoll.o Acceptor.o Socket.o TcpConnection.o TcpServer.o Buffer.o -o server -g
 EventLoop.o:EventLoop.cpp EventLoop.h Channel.h ./log/log.h ./poll/epoll.h
 	g++ -c EventLoop.cpp
 Channel.o:Channel.cpp Channel.h EventLoop.h ./log/log.h

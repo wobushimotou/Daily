@@ -35,7 +35,6 @@ void epoll::fillActiveChannels(int numEvents,ChannelList *activeChannels)
         int fd = channel->fd();
         auto it = channels.find(fd);
         if(it == channels.end()) {
-            LOG_DEBUG << std::string("find fd in map<fd,Channel*> error\n");
             continue;
         }
         channel->set_revents(events[i].events);
@@ -46,24 +45,28 @@ void epoll::fillActiveChannels(int numEvents,ChannelList *activeChannels)
 
 void epoll::updateChannel(Channel *channel)
 {
+    std::cout << "epoll::updateChannel()\n";
     int index = channel->index();
     if(index < 0) {
+        std::cout << "epoll::updateChannel()->add\n";
         //添加新的事件分发器
         index = events.size(); 
         channel->set_index(index);
         channels[channel->fd()] = channel;
         update(EPOLL_CTL_ADD,channel);
-   }
+    }
     else {
+        std::cout << "epoll::updateChannel()->update\n";
         //更新现有的时间分发器
-        struct epoll_event event;
-        event.events = channel->events();
+        std::cout << channel->events() << std::endl;
         if(channel->isNoneEvnet()) {
+            std::cout << "epoll::updateChannel()->del\n";
             update(EPOLL_CTL_DEL,channel);
             channel->set_index(-1);
-
-        }else {
-            update(EPOLL_CTL_ADD,channel);
+        }
+        else {
+            std::cout << "epoll::updateChannel()->mod\n";
+            update(EPOLL_CTL_MOD,channel);
         }
 
     }
@@ -71,23 +74,24 @@ void epoll::updateChannel(Channel *channel)
 
 void epoll::update(int operation,Channel *channel)
 {
+    std::cout << "epoll::update()\n";
     struct epoll_event event;
     event.events = channel->events();
+    event.data.ptr = channel;
+    int fd = channel->fd();
 
-    event.data.ptr = static_cast<void *>(channel);
-
-    if(epoll_ctl(epollfd,operation,channel->fd(),&event) < 0) {
-        LOG_DEBUG << "update channel error\n"; 
+    if(epoll_ctl(epollfd,operation,fd,&event) < 0) {
+        std::cout << "epoll::update() error\n";
     }
 
 }
 
 void epoll::removeChannel(Channel *channel)
 {
+    std::cout << "epoll::removeChannel()\n";
     int fd = channel->fd();
     size_t n = channels.erase(fd);
     assert(n == 1);
     update(EPOLL_CTL_DEL,channel);
-
 }
 

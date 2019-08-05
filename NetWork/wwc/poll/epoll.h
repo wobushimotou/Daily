@@ -5,6 +5,9 @@
 #include "../log/log.h"
 #include "../EventLoop.h"
 #include "../Channel.h"
+class EventLoop;
+class Channel;
+
 /*
  *  IO多路复用之epoll的封装 
  * */
@@ -32,6 +35,5 @@ private:
     ChannelMap channels;
     EPollList events;
     int epollfd;
-    log LOG_DEBUG;
 };
 

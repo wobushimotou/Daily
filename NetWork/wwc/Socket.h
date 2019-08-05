@@ -5,7 +5,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <netinet/in.h>
+#include <net/if.h>
+#include <sys/ioctl.h>
 #include <string.h>
+#include "./log/log.h"
 class Socket
 {
 public:
@@ -17,6 +20,7 @@ public:
     void SetNonblock();
     void listenAddr(); 
     int acceptAddr(struct sockaddr_in *addr);
+    struct sockaddr_in GetLocalAddr();
 private:
     int sockfd;
 };

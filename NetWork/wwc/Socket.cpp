@@ -6,6 +6,7 @@ Socket::Socket()
 
 void Socket::bindAddress(struct sockaddr_in addr)
 {
+    std::cout << "Socket::bindAddress() port = " << ntohs(addr.sin_port) << std::endl;
     socklen_t addrlen = sizeof addr;
     if(bind(sockfd,(struct sockaddr *)&addr,addrlen) < 0) {
 
@@ -39,10 +40,22 @@ int Socket::acceptAddr(struct sockaddr_in *addr)
 
 Socket::~Socket()
 {
+    close(sockfd);
 }
 
 Socket::Socket(int fd)
 {
     sockfd = fd;
+}
+//获取本地网卡接口地址;
+struct sockaddr_in Socket::GetLocalAddr()
+{
+    int sawfd = socket(AF_INET,SOCK_RAW,0);
+    struct ifreq ifr;
+    bzero(&ifr,sizeof ifr);
+    memcpy(ifr.ifr_name,"wlp4s0",strlen("wlp4s0"));
+    ioctl(sawfd,SIOCGIFADDR,&ifr);
+    
+    return *(struct sockaddr_in *)&ifr.ifr_ifru.ifru_addr;
 }
 

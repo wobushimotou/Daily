@@ -2,6 +2,7 @@
 #include "TcpConnection.h"
 void TcpConnection::handleRead()
 {
+    std::cout << "TcpConnection::handleRead()\n";
     size_t n = inputBuffer.readFd(channel->fd());
     if(n > 0) {
         messageCallback(shared_from_this(),inputBuffer,n);
@@ -15,9 +16,9 @@ void TcpConnection::handleRead()
 }
 
 TcpConnection::TcpConnection(EventLoop *loop,std::string &name,int sockfd)
-    :   loop(loop),
+    :   socket(new Socket(sockfd)),
+        loop(loop),
         name_(name),
-        socket(new Socket(sockfd)),
         channel(new Channel(loop,sockfd))
 {
     channel->setReadCallback( std::bind(&TcpConnection::handleRead,this));
@@ -40,6 +41,7 @@ TcpConnection::~TcpConnection()
 
 void TcpConnection::handleClose()
 {
+    std::cout << "TcpConnection::handleClose()\n";
     channel->disableAll();    
     if(closeCallback)
         closeCallback(shared_from_this());
@@ -52,10 +54,28 @@ void TcpConnection::handleError()
 
 void TcpConnection::connectDestoryed()
 {
-    setState(kDisconnected);
-    channel->disableAll();
-    connectionCallback(shared_from_this());
+    channel->remove();
+    socket->~Socket();
+}
 
-    loop->removeChannel(channel.get());
+void TcpConnection::send(void *message,int len)
+{
+    send(std::string((char *)message));
+}
+
+void TcpConnection::send(std::string message)
+{
+    if(state == kConnected) {
+        if(loop->isInLoopThread())
+            sendInLoop(message);
+        else {
+        }
+    }
+
+}
+
+void TcpConnection::sendInLoop(std::string message)
+{
+
 }
 

@@ -22,7 +22,6 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
     ++nextConnId;
     std::string connName = buf+name;
     TcpConnectionPtr conn(new TcpConnection(loop,connName,sockfd));
-
     connections[connName] = conn;
     conn->setConnectionCallback(connectionCallback);
     conn->setMessageCallback(messageCallback);
@@ -52,6 +51,7 @@ TcpServer::~TcpServer()
 
 void TcpServer::start()
 {
+    std::cout << "TcpServer::start()\n";
     loop->runInLoop(std::bind(&Acceptor::listen,acceptor.get()));
 }
 

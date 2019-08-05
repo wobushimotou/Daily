@@ -7,20 +7,17 @@ EventLoop::EventLoop()
     wakeupFd(createEventfd()),
     weakupChannel(new Channel(this,wakeupFd))
 {
-    LOG_DEBUG << "EventLoop Created\n";
 }
 
 
 EventLoop::~EventLoop()
 {
     if(looping)
-        LOG_DEBUG << "running,closing error\n";
+        ;
 }
 void EventLoop::loop()
 {
     if(!isInLoopThread()) {
-        LOG_DEBUG << "not in LoopThread Exit\n";
-        LOG_DEBUG.~log();
         exit(0);
     }
 
@@ -30,19 +27,21 @@ void EventLoop::loop()
         activeChanels.clear();
         poll_->poll(1000,&activeChanels);
         eventHanding = true;
+
         for(auto p = activeChanels.begin();p != activeChanels.end();++p) {
             (*p)->handleEvent();
         }
+
         eventHanding = false;
         doPendingFunctors();
     }
-    LOG_DEBUG << "EventLoop stop looping\n";
     looping = false;
 }
 
 
 void EventLoop::updateChannel(Channel *channel)
 {
+    std::cout << "EventLoop::updateChannel()\n";
     poll_->updateChannel(channel);
 }
 
@@ -91,7 +90,6 @@ void EventLoop::wakeup()
     char ch;
     size_t n = ::write(wakeupFd,&ch,1);
     if(n != sizeof ch) {
-        LOG_DEBUG << "EventLoop::wakeup() writes error";
     }
 }
 
@@ -99,14 +97,12 @@ void EventLoop::handleRead() {
     char ch;
     size_t n = ::read(wakeupFd,&ch,1);
     if(n != sizeof ch) {
-        LOG_DEBUG << "EventLoop::wakeup() read error";
     }
 }
 
 int EventLoop::createEventfd() {
     int evfd = ::eventfd(0,EFD_NONBLOCK | EFD_CLOEXEC);
     if(evfd < 0) {
-        LOG_DEBUG << "create eventfd error\n";
     }
     return evfd;
 }

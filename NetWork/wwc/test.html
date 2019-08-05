@@ -1,0 +1,112 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style>
+.top{
+    width: 100%;
+    height: 10%;
+    float:right;
+    background-image: url("./1.jpg");
+}
+.center{
+    width:80%;
+    height:10%;
+    float:right;
+    background-color:antiquewhite;
+}
+.right{
+    width:80%;
+    height:40%;
+    float:right;
+    background-color:white;
+}
+.low{
+    width:85%;
+    height:20%;
+    float:right;
+}
+.left{
+    width:20%;
+    height:42%;
+    float:left;
+    background-color:cadetblue;
+}
+.left li{
+    height: 30px;
+}
+.low a{
+    width:8%;
+    float:left;
+    line-height:110px;
+    text-align:center;
+}
+        </style>
+
+        <div class="top"></div>
+        
+        <div class="left">
+            <li><a href="">录入学生成绩</a><br></li>
+            <li><a href="">查询学生成绩</a><br></li>
+            <li><a href="">修改学生信息</a><br></li>
+            <li><a href="">导出学生信息</a><br></li>
+            <li><a href="">......</a><br></li>
+            <li><a href="">......</a><br></li>
+        </div>
+
+        <div class="center">
+            查询条件:学院:
+            <select>
+                <option value=""></option>
+                <option value="计算机学院">计算机学院</option>
+                <option value="电子工程学院">电子工程学院</option>
+                <option value="通信工程学院">通信工程学院</option>
+                <option value="经济学院">经济学院</option>
+            </select>
+            班级:<input type="text">
+            姓名:<input type="text">
+            学号:<input type="text">
+            <input type="submit" value="查询">
+        </div>
+        <div class="right">
+            <h1 align="center">学生信息</h1>
+            <table cellspacing="0" width="100%" border="1px" height="200px">
+                <tr>
+                    <td>学院</td>
+                    <td>班级</td>
+                    <td>姓名</td>
+                    <td>学号</td>
+                <tr>
+                    <td>计算机学院</td>
+                    <td>软件1000</td>
+                    <td>张三</td>
+                    <td>001</td>
+                <tr>
+                    <td>计算机学院</td>
+                    <td>软件2000</td>
+                    <td>李四</td>
+                    <td>002</td>
+                <tr>
+                    <td>计算机学院</td>
+                    <td>软件3000</td>
+                    <td>王五</td>
+                    <td>003</td>
+                </tr>
+            </table>
+            <div class="low">
+                <a href="">前一页</a>
+                <a href="">1</a>
+                <a href="">2</a>
+                <a href="">3</a>
+                <a href="">4</a>
+                <a href="">5</a>
+                <a href="">6</a>
+                <a href="">7</a>
+                <a href="">8</a>
+                <a href="">后一页</a>
+            </div>
+        </div>
+
+
+    </head>
+</html>

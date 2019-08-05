@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <string>
 #include <iostream>
+#include "./log/log.h"
 
 class Buffer
 {
@@ -25,29 +26,10 @@ public:
     char *begin() { return &*buffer_.begin(); }
     char *beginWriten() { return begin()+writeIndex; }
     char *peek() { return begin() + readIndex; }
-    size_t retrieve(size_t len,std::string &buff) {
-        if(len < readableBytes()) {
-            readIndex += len;
-            if(buff.size() < len)
-                buff.resize(len);
-            
-            std::copy(peek(),peek()+len,buff.begin());
-            readIndex += len;
-            return len;
-        }
-        else {
-            return retrieveAll(buff);
-        }
-    }
-    size_t retrieveAll(std::string &buff) {
-        size_t len = readableBytes(); 
-        if(buff.size() < len) 
-            buff.resize(len);
-        std::copy(peek(),peek()+len,buff.begin());
-        readIndex += len;
-        return len;
-    }
 
+    size_t retrieve(size_t len,std::string &buff);
+
+    size_t retrieveAll(std::string &buff);
     ~Buffer();
 
 private:

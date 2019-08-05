@@ -1,8 +1,8 @@
 #pragma once
 #include "./log/log.h"
 #include <functional>
+#include "EventLoop.h"
 class EventLoop;
-
 class Channel
 {
 public:
@@ -22,12 +22,13 @@ public:
     bool isNoneEvnet() { return events_ == kNoneEvent; }
 
     void enableReading() { events_ |= kReadEvent; update(); }
-    void disableAll() { events_ |= kNoneEvent; update(); }
+    void disableAll() { events_ = kNoneEvent; update(); }
 
     int index() { return index_; }
     void set_index(int idx) { index_ = idx; }
 
     EventLoop *ownLoop() { return loop_; }
+    void remove();
 private:
     void update();
 
@@ -40,10 +41,10 @@ private:
     int events_;
     int revents_;
     int index_;     //存储在epoll::events数组中的位置
-    log LOG_DEBUG;
 
     EventCallback readCallback;
     EventCallback writeCallback;
     EventCallback errorCallback;
     EventCallback closeCallback;
+    log LOG_DEBUG;
 };

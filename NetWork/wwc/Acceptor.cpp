@@ -6,6 +6,7 @@ Acceptor::Acceptor(EventLoop *loop,int port)
     port(port),
     listening_(false)
 {
+    std::cout << "Acceptor::Acceptor() port = " << port << std::endl;
     initAddr();
     acceptSocket.SetNonblock();
     acceptSocket.bindAddress(addr);
@@ -15,9 +16,15 @@ Acceptor::Acceptor(EventLoop *loop,int port)
 
 void Acceptor::initAddr()
 {
-    addr.sin_addr.s_addr = htons(INADDR_ANY);
+    std::cout << "Acceptor::initAddr() port = " << port << std::endl;
+
+    /* addr.sin_addr.s_addr = htons(INADDR_ANY); */
+    /* addr.sin_family = AF_INET; */
+    /* addr.sin_port = htons(this->port); */
+    
+    addr = acceptSocket.GetLocalAddr();
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
+    addr.sin_port = htons(this->port);
 }
 
 void Acceptor::handleRead()
@@ -38,6 +45,7 @@ void Acceptor::handleRead()
 
 void Acceptor::listen()
 {
+    std::cout << "Acceptor::listen()\n";
     loop->isInLoopThread();
     listening_ = true;
     acceptSocket.listenAddr();
@@ -47,6 +55,6 @@ void Acceptor::listen()
 
 Acceptor::~Acceptor()
 {
-   acceptSocket.~Socket(); 
+    acceptSocket.~Socket(); 
 }
 
