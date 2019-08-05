@@ -59,3 +59,8 @@ struct sockaddr_in Socket::GetLocalAddr()
     return *(struct sockaddr_in *)&ifr.ifr_ifru.ifru_addr;
 }
 
+void Socket::shutdown()
+{
+    ::shutdown(sockfd,SHUT_WR);
+}
+

@@ -23,7 +23,7 @@ size_t Buffer::readFd(int fd)
     return n;
 }
 
-size_t Buffer::retrieve(size_t len,std::string &buff)
+size_t Buffer::retrieveAsString(size_t len,std::string &buff)
 {
         if(len < readableBytes()) {
             readIndex += len;
@@ -35,12 +35,12 @@ size_t Buffer::retrieve(size_t len,std::string &buff)
             return len;
         }
         else {
-            return retrieveAll(buff);
+            return retrieveAllAsString(buff);
         }
  
 }
 
-size_t Buffer::retrieveAll(std::string &buff)
+size_t Buffer::retrieveAllAsString(std::string &buff)
 {
     size_t len = readableBytes(); 
         if(buff.size() < len) 
@@ -48,6 +48,30 @@ size_t Buffer::retrieveAll(std::string &buff)
         std::copy(peek(),peek()+len,buff.begin());
         readIndex += len;
         return len;
+}
+
+void Buffer::retrieve(size_t len)
+{
+    if(len < readableBytes()) {
+        readIndex += len;
+    }
+    else 
+        retrieveAll();
+}
+void Buffer::retrieveAll() {
+    readIndex = kCheapPrepend;
+    writeIndex = kCheapPrepend;
+}
+
+void Buffer::append(std::string msg)
+{
+    std::copy(msg.begin(),msg.end(),beginWriten());
+    writeIndex += msg.size();
+}
+
+void Buffer::append(const char *data,int len)
+{
+    append(std::string(data));
 }
 
 Buffer::~Buffer()

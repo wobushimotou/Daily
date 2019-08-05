@@ -1,13 +1,18 @@
 #include <iostream>
-#include <map>
+#include <functional>
+
 using namespace std;
+
+
+void f(int a) {
+
+}
 int main()
 {
-    map<int,string> imap;
-    imap[0] = "wh";
-    imap[1] = "gl";
-    size_t n = imap.erase(1);
-    cout << n << endl;
+    int b;
+    auto fptr = std::bind(f,std::placeholders::_1);
+    fptr(1);
+
     return 0;
 }
 

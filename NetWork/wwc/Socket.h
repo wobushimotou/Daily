@@ -21,6 +21,7 @@ public:
     void listenAddr(); 
     int acceptAddr(struct sockaddr_in *addr);
     struct sockaddr_in GetLocalAddr();
+    void shutdown();
 private:
     int sockfd;
 };

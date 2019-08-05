@@ -1,6 +1,5 @@
 #pragma once
 #include <boost/noncopyable.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include <functional>
 #include <algorithm>
 #include "EventLoop.h"
@@ -52,6 +51,8 @@ private:
 
     void sendInLoop(std::string message);
     void sendInLoop(void *message,int len);
+    void shutdownInLoop();
+    void shutdown();
     
     EventLoop *loop;
     std::string name_;

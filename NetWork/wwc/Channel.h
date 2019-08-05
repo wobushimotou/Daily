@@ -11,6 +11,7 @@ public:
     ~Channel() {}
 
     void handleEvent();
+
     void setReadCallback(const EventCallback &cb) { readCallback = cb; }
     void setWriteCallback(const EventCallback &cb) { writeCallback = cb; }
     void setErrorCallback(const EventCallback &cb) { errorCallback = cb; }
@@ -22,13 +23,16 @@ public:
     bool isNoneEvnet() { return events_ == kNoneEvent; }
 
     void enableReading() { events_ |= kReadEvent; update(); }
+    void enableWriting() { events_ |= kWriteEvent; update(); }
     void disableAll() { events_ = kNoneEvent; update(); }
+    bool isWriting() const { return events_ & kWriteEvent; }
 
     int index() { return index_; }
     void set_index(int idx) { index_ = idx; }
 
     EventLoop *ownLoop() { return loop_; }
     void remove();
+    void shutdown();
 private:
     void update();
 

@@ -27,9 +27,13 @@ public:
     char *beginWriten() { return begin()+writeIndex; }
     char *peek() { return begin() + readIndex; }
 
-    size_t retrieve(size_t len,std::string &buff);
+    size_t retrieveAsString(size_t len,std::string &buff);
+    size_t retrieveAllAsString(std::string &buff);
+    void retrieve(size_t len);
+    void retrieveAll();
 
-    size_t retrieveAll(std::string &buff);
+    void append(std::string msg);
+    void append(const char *data,int len);
     ~Buffer();
 
 private:
