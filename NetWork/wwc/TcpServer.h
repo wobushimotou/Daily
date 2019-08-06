@@ -3,7 +3,7 @@
 #include "EventLoop.h"
 #include "Acceptor.h"
 #include "TcpConnection.h"
-
+#include "EventLoopThreadPool.h"
 class TcpServer
 {
 public:
@@ -25,6 +25,9 @@ public:
     void setwriteCompleteCallback(const TcpConnection::writeCompleteCallback &cb) {
         writeCompleteCallback_ = cb;
     }
+    void setThreadNum(int threadNum) {
+        threadpool->setThreadNum(threadNum);
+    }
 private:
     
     void NewConnection(int sockfd,struct sockaddr_in addr);
@@ -43,6 +46,7 @@ private:
     bool started;
     int nextConnId;
     ConnectionMap connections;
+    std::unique_ptr<EventLoopThreadPool> threadpool;
 
 };
 

@@ -21,7 +21,8 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
     snprintf(buf,sizeof buf,"-%s#%d",inet_ntoa(addr.sin_addr),nextConnId);
     ++nextConnId;
     std::string connName = buf+name;
-    TcpConnectionPtr conn(new TcpConnection(loop,connName,sockfd));
+    EventLoop *ioLoop = threadpool->getNextLoop();
+    TcpConnectionPtr conn(new TcpConnection(ioLoop,connName,sockfd));
     connections[connName] = conn;
     conn->setConnectionCallback(connectionCallback);
     conn->setMessageCallback(messageCallback);
