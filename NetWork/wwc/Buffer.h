@@ -34,6 +34,7 @@ public:
 
     void append(std::string msg);
     void append(const char *data,int len);
+    Buffer *getPointer() { return this; }
     ~Buffer();
 
 private:

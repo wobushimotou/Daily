@@ -26,6 +26,7 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
     conn->setConnectionCallback(connectionCallback);
     conn->setMessageCallback(messageCallback);
     conn->setCloseCallback(std::bind(&TcpServer::removeConnction,this,std::placeholders::_1));
+    conn->setwriteCompleteCallback(writeCompleteCallback_);
     conn->connectEstablished();
 }
 

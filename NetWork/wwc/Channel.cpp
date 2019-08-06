@@ -28,26 +28,26 @@ void Channel::handleEvent()
     }
 
     if(revents_ & POLLHUP) {
-        std::cout << "closeCallback\n";
+        std::cout << "Channel::closeCallback\n";
         if(closeCallback)
             closeCallback();
     }
 
     if(revents_ & POLLERR) {
-        std::cout << "errorCallback\n";
+        std::cout << "Channel::errorCallback\n";
         if(errorCallback) 
             errorCallback();
     }
     
     if(revents_ & POLLIN) {
-        std::cout << "readCallback\n";
+        std::cout << "Channel::readCallback\n";
         if(readCallback) {
             readCallback();
         }
     }
     
     if(revents_ & POLLOUT) {
-        std::cout << "writeCallback\n";
+        std::cout << "Channel::writeCallback\n";
         if(writeCallback)
             writeCallback();
     }

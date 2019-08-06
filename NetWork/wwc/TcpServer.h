@@ -9,7 +9,7 @@ class TcpServer
 public:
     typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
     typedef std::function<void (std::shared_ptr<TcpConnection>)> ConnectionCallback;
-    typedef std::function<void (std::shared_ptr<TcpConnection>,Buffer&,size_t)> MessageCallback;
+    typedef std::function<void (const TcpConnectionPtr&,Buffer*,size_t)> MessageCallback;
 
     TcpServer(EventLoop *loop,int port,std::string namearg);
     ~TcpServer();
@@ -21,6 +21,9 @@ public:
     }
     void setMessageCallback(const MessageCallback &cb) {
         messageCallback = cb;
+    }
+    void setwriteCompleteCallback(const TcpConnection::writeCompleteCallback &cb) {
+        writeCompleteCallback_ = cb;
     }
 private:
     
@@ -35,6 +38,8 @@ private:
     ConnectionCallback connectionCallback;
     MessageCallback messageCallback;
     TcpConnection::CloseCallback closeCallback;
+    TcpConnection::writeCompleteCallback writeCompleteCallback_;
+    
     bool started;
     int nextConnId;
     ConnectionMap connections;

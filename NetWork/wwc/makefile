@@ -1,5 +1,5 @@
-server:main.o EventLoop.o Channel.o log.o epoll.o Acceptor.o Socket.o TcpConnection.o TcpServer.o Buffer.o
-	g++ main.o EventLoop.o Channel.o log.o epoll.o Acceptor.o Socket.o TcpConnection.o TcpServer.o Buffer.o -o server -g
+server:main.o EventLoop.o Channel.o log.o epoll.o Acceptor.o Socket.o TcpConnection.o TcpServer.o Buffer.o HttpServer.o
+	g++ main.o EventLoop.o Channel.o log.o epoll.o Acceptor.o Socket.o TcpConnection.o TcpServer.o Buffer.o HttpServer.o -o server -g
 EventLoop.o:EventLoop.cpp EventLoop.h Channel.h ./log/log.h ./poll/epoll.h
 	g++ -c EventLoop.cpp
 Channel.o:Channel.cpp Channel.h EventLoop.h ./log/log.h
@@ -17,6 +17,8 @@ TcpServer.o:TcpServer.cpp TcpServer.h EventLoop.h Acceptor.h TcpConnection.h  Bu
 TcpConnection.o:TcpConnection.cpp TcpConnection.h EventLoop.h Socket.h Channel.h Buffer.h
 	g++ -c TcpConnection.cpp
 Buffer.o:Buffer.cpp Buffer.h 
-	g++ -c Buffer.cpp;
+	g++ -c Buffer.cpp
+HttpServer.o:HttpServer.cpp HttpServer.h EventLoop.h TcpServer.h
+	g++ -c HttpServer.cpp
 clean:
 	rm *.o

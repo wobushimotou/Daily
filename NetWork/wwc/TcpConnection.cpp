@@ -5,7 +5,7 @@ void TcpConnection::handleRead()
     std::cout << "TcpConnection::handleRead()\n";
     size_t n = inputBuffer.readFd(channel->fd());
     if(n > 0) {
-        messageCallback(shared_from_this(),inputBuffer,n);
+        messageCallback(shared_from_this(),&inputBuffer,n);
     }
     else if(n == 0) {
         handleClose();
@@ -21,7 +21,15 @@ void TcpConnection::handleWrite()
         size_t n = ::write(channel->fd(),outputBuffer.peek(),outputBuffer.readableBytes());
 
         if(n > 0) {
-            outputBuffer             
+            outputBuffer.retrieve(n);
+            if(outputBuffer.readableBytes() == 0) {
+                channel->disableAll();
+                if(writeCompleteCallback_) {
+                    loop->queueInLoop(std::bind(&TcpConnection::writeCompleteCallback_,shared_from_this()));
+                }
+                if(state == kDisconnected)
+                    shutdownInLoop();
+            }
         }
     }
 }

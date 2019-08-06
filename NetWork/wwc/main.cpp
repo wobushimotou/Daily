@@ -1,6 +1,7 @@
 #include "EventLoop.h"
 #include "TcpServer.h"
 #include "Buffer.h"
+#include "HttpServer.h"
 #include <signal.h>
 #include <fstream>
 void signal_handle(int signal_num) {
@@ -16,18 +17,16 @@ void onConnection1(std::shared_ptr<TcpConnection> conn) {
 }
 
 void Construct(string &s,string &head);
-void onMessage1(std::shared_ptr<TcpConnection> conn,Buffer &data,size_t n) {
+void onMessage1(std::shared_ptr<TcpConnection> conn,Buffer *data,size_t n) {
     std::string buff;
-    data.retrieveAll(buff);
+    data->retrieveAllAsString(buff);
     std::cout << buff << std::endl;
     buff.clear();
     string head;
 
     Construct(buff,head);
-    int ret = ::write(conn->socket->fd(),head.c_str(),head.size());
-    std::cout << "send head:" << ret << std::endl;
-    ret = ::write(conn->socket->fd(),buff.c_str(),buff.size());
-    std::cout << "send info:" << ret << std::endl;
+    conn->send(head);
+    conn->send(buff);   
     buff.clear();
 }
 
@@ -46,6 +45,7 @@ void Construct(string &s,string &head) {
            "Content-Type: text/html;charset=utf-8\r\n"+ \
             "Content-Length: "+to_string(i) + "\r\n"+ \
             "Connection: keep-alive\r\n" + \
+            "Cache-Control:max-age=-1\r\n" + \
             "Server: nginx/1.8.0\r\n"+"\r\n";
     std::cout << head << std::endl;
 
@@ -53,11 +53,14 @@ void Construct(string &s,string &head) {
 }
 int main()
 {
-    printf("start\n");
     TcpServer server(&loop,11111,"wh");
     server.setConnectionCallback(onConnection1);
     server.setMessageCallback(onMessage1);
     server.start();
+
+    HttpServer server2(&loop,9999,"wang");
+    server2.start();
+    
 
     loop.loop();
     return 0;
