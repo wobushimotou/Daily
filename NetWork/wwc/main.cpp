@@ -56,6 +56,7 @@ int main()
     TcpServer server(&loop,11111,"wh");
     server.setConnectionCallback(onConnection1);
     server.setMessageCallback(onMessage1);
+    server.setThreadNum(2);
     server.start();
 
     HttpServer server2(&loop,9999,"wang");

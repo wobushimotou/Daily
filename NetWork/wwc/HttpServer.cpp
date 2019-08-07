@@ -52,6 +52,7 @@ void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,s
             "Connection: keep-alive\r\n" + \
             "Cache-Control:max-age=-1\r\n" + \
             "Server: nginx/1.8.0\r\n"+"\r\n";
+        std::cout << "3"<< std::endl;
 
         conn->send(Requesthead);
         conn->send(data);

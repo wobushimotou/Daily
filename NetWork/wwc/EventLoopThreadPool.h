@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <thread>
 #include <mutex>
 #include <condition_variable>
 #include "EventLoop.h"
@@ -10,6 +11,7 @@ public:
     ~EventLoopThreadPool();
     void setThreadNum(int numThreads);
     void start();
+    static void run(EventLoopThreadPool*,int);
     EventLoop *getNextLoop();
 
 private:
@@ -17,8 +19,9 @@ private:
     std::mutex Mutex;
     std::condition_variable Cond;
     bool start_;
-    int next_;
     int numThreads_;
-    std::vector<EventLoop*> loops;
+    std::vector<std::thread> threads;
+    std::vector<EventLoop *> loops;
+    int next_;
 };
 

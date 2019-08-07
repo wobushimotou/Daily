@@ -6,6 +6,8 @@ Socket::Socket()
 
 void Socket::bindAddress(struct sockaddr_in addr)
 {
+    int flag = 1;
+    setsockopt(sockfd,SOL_SOCKET,SO_REUSEPORT,&flag,sizeof flag); 
     std::cout << "Socket::bindAddress() port = " << ntohs(addr.sin_port) << std::endl;
     socklen_t addrlen = sizeof addr;
     if(bind(sockfd,(struct sockaddr *)&addr,addrlen) < 0) {

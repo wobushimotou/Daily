@@ -29,6 +29,7 @@ void Acceptor::initAddr()
 
 void Acceptor::handleRead()
 {
+    std::cout << "Acceptor::handleRead()\n";
     struct sockaddr_in sockaddr;
     int connfd = acceptSocket.acceptAddr(&sockaddr);
     if(connfd > 0) {
