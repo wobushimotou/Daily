@@ -7,16 +7,15 @@ EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop)
     loops(1),
     next_(0)
 {
-    printf("EventLoopThreadPool::this = %p\n",this);
 }
 void EventLoopThreadPool::run(EventLoopThreadPool *t,int i) {
-    printf("EventLoopThreadPool::run() %p\n",t);
     std::unique_lock<std::mutex> lock(t->Mutex);
     t->Cond.wait(lock);
     EventLoop *loop = new EventLoop();; 
-    t->loops[i] = loop;
-    t->next_ = i;
+    t->loops[i-1] = loop;
+    t->next_ = i-1;
     lock.unlock();
+    loop->loop();
 }
 void EventLoopThreadPool::setThreadNum(int numThreads)
 {
@@ -43,7 +42,7 @@ EventLoop *EventLoopThreadPool::getNextLoop() {
         Cond.notify_one();
     }
     lock.unlock();
-    sleep(1);
+    usleep(1);
     lock.lock();
 
     int i;
@@ -51,8 +50,9 @@ EventLoop *EventLoopThreadPool::getNextLoop() {
     if(numThreads_ == 0) {
         i = 0;
     }
-    else 
-        i = ++next_%numThreads_;
+    else {
+        i = next_%numThreads_;
+    }
 
     lock.unlock();
     return loops[i];

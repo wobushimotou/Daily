@@ -15,39 +15,33 @@ Channel::Channel(EventLoop *loop,int fd)
 
 void Channel::update()
 {
-    std::cout << "Channel::update()\n";
     loop_->updateChannel(this);    
 }
 
 
 void Channel::handleEvent()
 { 
-    std::cout << "Channel::handleEvent()\n";
     if(revents_ & POLLNVAL) {
         LOG_DEBUG << "Channel::handle_event() POLLNVAL\n";
     }
 
     if(revents_ & POLLHUP) {
-        std::cout << "Channel::closeCallback\n";
         if(closeCallback)
             closeCallback();
     }
 
     if(revents_ & POLLERR) {
-        std::cout << "Channel::errorCallback\n";
         if(errorCallback) 
             errorCallback();
     }
     
     if(revents_ & POLLIN) {
-        std::cout << "Channel::readCallback\n";
         if(readCallback) {
             readCallback();
         }
     }
     
     if(revents_ & POLLOUT) {
-        std::cout << "Channel::writeCallback\n";
         if(writeCallback)
             writeCallback();
     }

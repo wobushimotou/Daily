@@ -20,7 +20,6 @@ void Construct(string &s,string &head);
 void onMessage1(std::shared_ptr<TcpConnection> conn,Buffer *data,size_t n) {
     std::string buff;
     data->retrieveAllAsString(buff);
-    std::cout << buff << std::endl;
     buff.clear();
     string head;
 
@@ -29,6 +28,13 @@ void onMessage1(std::shared_ptr<TcpConnection> conn,Buffer *data,size_t n) {
     conn->send(buff);   
     buff.clear();
 }
+
+void onMessage2(std::shared_ptr<TcpConnection> conn,Buffer *data,size_t n) {
+    std::string buff;
+    data->retrieveAllAsString(buff);
+    conn->send(buff);
+}
+
 
 void Construct(string &s,string &head) {
     //构造响应头
@@ -47,8 +53,6 @@ void Construct(string &s,string &head) {
             "Connection: keep-alive\r\n" + \
             "Cache-Control:max-age=-1\r\n" + \
             "Server: nginx/1.8.0\r\n"+"\r\n";
-    std::cout << head << std::endl;
-
 
 }
 int main()
@@ -56,7 +60,7 @@ int main()
     TcpServer server(&loop,11111,"wh");
     server.setConnectionCallback(onConnection1);
     server.setMessageCallback(onMessage1);
-    server.setThreadNum(2);
+    server.setThreadNum(10);
     server.start();
 
     HttpServer server2(&loop,9999,"wang");

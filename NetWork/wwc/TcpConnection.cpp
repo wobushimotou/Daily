@@ -2,7 +2,6 @@
 #include "TcpConnection.h"
 void TcpConnection::handleRead()
 {
-    std::cout << "TcpConnection::handleRead()\n";
     size_t n = inputBuffer.readFd(channel->fd());
     if(n > 0) {
         messageCallback(shared_from_this(),&inputBuffer,n);
@@ -48,7 +47,6 @@ void TcpConnection::connectEstablished()
 {
     setState(kConnected);
     channel->enableReading();
-    
     connectionCallback(shared_from_this());
 }
 
@@ -60,7 +58,6 @@ TcpConnection::~TcpConnection()
 
 void TcpConnection::handleClose()
 {
-    std::cout << "TcpConnection::handleClose()\n";
     channel->disableAll();    
     if(closeCallback)
         closeCallback(shared_from_this());
@@ -89,7 +86,6 @@ void TcpConnection::sendInLoop(std::string message)
         nworte = ::write(socket->fd(),message.data(),message.size());
         if(nworte >= 0) {
             if(nworte < message.size()) {
-                std::cout << "write more \n";
             }
         }
         else {
