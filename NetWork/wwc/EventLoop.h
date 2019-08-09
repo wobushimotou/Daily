@@ -10,7 +10,6 @@
 #include <poll.h>
 #include <memory>
 #include <pthread.h>
-#include "./log/log.h"
 #include "./poll/epoll.h"
 #include "Channel.h"
 class epoll;

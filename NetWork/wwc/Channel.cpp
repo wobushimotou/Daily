@@ -22,7 +22,6 @@ void Channel::update()
 void Channel::handleEvent()
 { 
     if(revents_ & POLLNVAL) {
-        LOG_DEBUG << "Channel::handle_event() POLLNVAL\n";
     }
 
     if(revents_ & POLLHUP) {

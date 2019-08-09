@@ -53,7 +53,6 @@ void Construct(string &s,string &head) {
             "Connection: keep-alive\r\n" + \
             "Cache-Control:max-age=-1\r\n" + \
             "Server: nginx/1.8.0\r\n"+"\r\n";
-
 }
 int main()
 {

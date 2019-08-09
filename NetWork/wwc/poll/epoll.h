@@ -2,7 +2,6 @@
 #include <sys/epoll.h>
 #include <vector>
 #include <map>
-#include "../log/log.h"
 #include "../EventLoop.h"
 #include "../Channel.h"
 class EventLoop;

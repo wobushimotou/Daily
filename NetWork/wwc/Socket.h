@@ -8,7 +8,6 @@
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <string.h>
-#include "./log/log.h"
 class Socket
 {
 public:

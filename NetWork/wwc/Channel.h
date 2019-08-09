@@ -1,5 +1,4 @@
 #pragma once
-#include "./log/log.h"
 #include <functional>
 #include "EventLoop.h"
 class EventLoop;
@@ -52,5 +51,4 @@ private:
     EventCallback writeCallback;
     EventCallback errorCallback;
     EventCallback closeCallback;
-    log LOG_DEBUG;
 };

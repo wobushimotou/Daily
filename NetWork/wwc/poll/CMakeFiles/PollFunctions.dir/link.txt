@@ -1,0 +1,2 @@
+/usr/bin/ar qc libPollFunctions.a  CMakeFiles/PollFunctions.dir/epoll.cpp.o
+/usr/bin/ranlib libPollFunctions.a

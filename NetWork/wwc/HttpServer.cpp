@@ -32,7 +32,6 @@ void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,s
         if(filename.size() == 0) {
             filename = "test.html";
         }
-        std::cout << filename << std::endl;
 
         std::fstream file(filename);
         std::string data;
