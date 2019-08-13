@@ -1,0 +1,6 @@
+/home/wh/Daily/NetWork/wwc/CMakeFiles/rebuild_cache.dir
+/home/wh/Daily/NetWork/wwc/CMakeFiles/Server.dir
+/home/wh/Daily/NetWork/wwc/CMakeFiles/edit_cache.dir
+/home/wh/Daily/NetWork/wwc/poll/CMakeFiles/rebuild_cache.dir
+/home/wh/Daily/NetWork/wwc/poll/CMakeFiles/PollFunctions.dir
+/home/wh/Daily/NetWork/wwc/poll/CMakeFiles/edit_cache.dir

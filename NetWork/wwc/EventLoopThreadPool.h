@@ -23,5 +23,6 @@ private:
     std::vector<std::thread> threads;
     std::vector<EventLoop *> loops;
     int next_;
+    int distributions;
 };
 
