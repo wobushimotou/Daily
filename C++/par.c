@@ -11,8 +11,12 @@ struct A
 int main()
 {
 
-    int8_t a = 127;
-    printf("%d",a);
+    int8_t i = 0;
+    for(i = 0;i>= 0;++i)
+        i++;
+        ;
+
+    printf("%d\n",i);
     return 0;
 }
 
