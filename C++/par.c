@@ -10,13 +10,9 @@ struct A
 };
 int main()
 {
-    int fd = open("1.txt",O_CREAT | O_APPEND ,S_IRUSR|S_IWUSR);
-    getchar();
-    struct A data = {1,2};
-    
-    write(fd,&data,sizeof(data));
-    close(fd);
 
+    int8_t a = 127;
+    printf("%d",a);
     return 0;
 }
 
