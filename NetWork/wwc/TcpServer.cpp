@@ -44,7 +44,6 @@ void TcpServer::removeConnction(const TcpConnectionPtr &conn)
 void TcpServer::removeConnctionInLoop(const TcpConnectionPtr &conn)
 {
     size_t n = connections.erase(conn->name());
-    assert(n == 1);
     EventLoop *ioLoop = conn->getLoop();
     ioLoop->queueInLoop(std::bind(&TcpConnection::connectDestoryed,conn));
 }

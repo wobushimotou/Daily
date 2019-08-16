@@ -41,7 +41,7 @@ void EventLoopThreadPool::start()
 EventLoop *EventLoopThreadPool::getNextLoop() {
 
     std::unique_lock<std::mutex> lock(Mutex);
-    if(numThreads_ >= 1) {
+    if(numThreads_ >= 1 && distributions) {
         Cond.notify_one();
     }
     lock.unlock();
@@ -49,7 +49,6 @@ EventLoop *EventLoopThreadPool::getNextLoop() {
     lock.lock();
 
     int i;
-
     if(numThreads_ == 0) {
         i = 0;
     }
@@ -57,7 +56,7 @@ EventLoop *EventLoopThreadPool::getNextLoop() {
         if(distributions)
             i = next_%numThreads_;
         else 
-            i = ++next_;
+            i = ++next_%numThreads_;
     }
 
     lock.unlock();

@@ -25,7 +25,7 @@ void EventLoop::loop()
     quit_ = false;
     while(!quit_) {
         activeChanels.clear();
-        poll_->poll(1000,&activeChanels);
+        poll_->poll(10,&activeChanels);
         eventHanding = true;
 
         for(auto p = activeChanels.begin();p != activeChanels.end();++p) {

@@ -1,0 +1,17 @@
+Interface: wlp4s0, datalink type: EN10MB (Ethernet)
+Starting arp-scan 1.9 with 256 hosts (http://www.nta-monitor.com/tools/arp-scan/)
+192.168.3.1	90:94:97:10:fa:bd	(Unknown)
+192.168.3.5	30:d1:6b:fd:97:0b	(Unknown)
+192.168.3.11	50:5b:c2:cf:3b:13	(Unknown)
+192.168.3.61	74:e5:f9:77:26:44	(Unknown)
+192.168.3.39	a4:93:3f:41:4e:02	(Unknown)
+192.168.3.56	dc:85:de:bb:58:3b	Azurewave Technologies., inc.
+192.168.3.86	b0:fc:36:2b:e4:c5	(Unknown)
+192.168.3.96	0c:96:e6:9e:f3:0f	(Unknown)
+192.168.3.126	98:01:a7:b0:a0:0d	(Unknown)
+192.168.3.138	2c:57:31:19:8c:ac	(Unknown)
+192.168.3.122	f8:34:41:33:11:89	(Unknown)
+192.168.3.135	4c:49:e3:5d:12:ce	(Unknown)
+
+12 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.9: 256 hosts scanned in 2.453 seconds (104.36 hosts/sec). 12 responded

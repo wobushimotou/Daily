@@ -8,6 +8,7 @@ HttpServer::HttpServer(EventLoop *loop,int port,std::string name)
     server.setConnectionCallback(std::bind(&HttpServer::onConnection,this,_1));
     TcpServer::MessageCallback f = std::bind(&HttpServer::onMessage,this,_1,_2,_3);
     server.setMessageCallback(f);
+    server.setThreadNum(10);
 }
 
 void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
@@ -51,10 +52,9 @@ void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,s
             "Connection: keep-alive\r\n" + \
             "Cache-Control:max-age=-1\r\n" + \
             "Server: nginx/1.8.0\r\n"+"\r\n";
-        std::cout << "3"<< std::endl;
-
         conn->send(Requesthead);
         conn->send(data);
+
     }
     
 

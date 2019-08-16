@@ -56,13 +56,8 @@ void Construct(string &s,string &head) {
 }
 int main()
 {
-    TcpServer server(&loop,11111,"wh");
-    server.setConnectionCallback(onConnection1);
-    server.setMessageCallback(onMessage1);
-    server.setThreadNum(10);
-    server.start();
-
     HttpServer server2(&loop,9999,"wang");
+    
     server2.start();
     
 
