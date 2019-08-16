@@ -71,7 +71,7 @@ void TcpConnection::handleError()
 void TcpConnection::connectDestoryed()
 {
     channel->remove();
-    socket->~Socket();
+    socket->shutdown();
 }
 
 void TcpConnection::send(void *message,int len)

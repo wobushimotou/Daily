@@ -19,7 +19,7 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
 {
     char buf[64];
     //为新创建的TcpConnection对象起名
-    snprintf(buf,sizeof buf,"-%s#%d",inet_ntoa(addr.sin_addr),nextConnId);
+    snprintf(buf,sizeof buf,"-%s#:%d",inet_ntoa(addr.sin_addr),nextConnId);
     ++nextConnId;
     std::string connName = buf+name;
 

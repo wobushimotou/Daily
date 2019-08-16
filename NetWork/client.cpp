@@ -18,23 +18,22 @@ int main()
 
     struct sockaddr_in servaddr;
     servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr("192.168.3.122");
-    servaddr.sin_port = htons(8000);
+    servaddr.sin_addr.s_addr = inet_addr("192.168.3.244");
+    servaddr.sin_port = htons(6379);
 
     int size = 0;
     socklen_t len = sizeof(size);    
     while(1) {
         int connfd = socket(AF_INET,SOCK_STREAM,0);
         if(connect(connfd,(const struct sockaddr *)&servaddr,sizeof(servaddr)) < 0) {
-            cout << "连接失败" << " ";
         }
-        else
-            cout << "连接成功" << " ";
-
    }
     int connfd;
-    char buf[100000];
-    int n = send(connfd,buf,100000,0);
+        while(1) {
+            char buf[100000];
+            int n = send(connfd,buf,100000,0);
+            printf("%d\n",n);
+        }
  
 
     //setsockopt(fd,SOL_SOCKET,SO_LINGER)

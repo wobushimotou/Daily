@@ -13,7 +13,7 @@ int epoll::poll(int timeoutMs,ChannelList *activeChannels)
     int numEvents = epoll_wait(epollfd,&*events.begin(),events.size(),timeoutMs);
 
     if(numEvents < 0) {
-        return numEvents;
+        return -1;
     }
     else if(numEvents == 0) {
         //超时,不处理
@@ -51,6 +51,7 @@ void epoll::updateChannel(Channel *channel)
         index = events.size(); 
         channel->set_index(index);
         channels[channel->fd()] = channel;
+        printf("增加新的文件描述符:%d\n",channel->fd());
         update(EPOLL_CTL_ADD,channel);
     }
     else {
@@ -74,8 +75,31 @@ void epoll::update(int operation,Channel *channel)
     int fd = channel->fd();
 
     if(epoll_ctl(epollfd,operation,fd,&event) < 0) {
-    }
+        if(operation == EPOLL_CTL_DEL) {
+            switch(errno) {
+                case EBADE:
+                    printf("不是有效文件描述符:%d\n",fd);
+                    break;
+                case EINVAL:
+                    printf("无效的文件描述符:%d\n",fd);
+                    break;
+                case ENOENT:
+                    printf("文件描述符:%d不在epfd中\n",fd);
+                    break;
+                case ENOMEM:
+                    printf("内存不足\n");
+                    break;
+                case EEXIST:
+                    printf("文件描述符:%d已存在",fd);
+                    break;
+                case EPERM:
+                    printf("文件描述符:%d不支持epoll",fd);
+                    break;
+            }
 
+        }
+
+    }
 }
 
 void epoll::removeChannel(Channel *channel)

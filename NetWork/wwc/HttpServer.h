@@ -16,5 +16,6 @@ private:
 
     std::string onGet(std::string buff);
     TcpServer server;
+    int clientnum;
 };
 

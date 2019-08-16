@@ -8,7 +8,7 @@ HttpServer::HttpServer(EventLoop *loop,int port,std::string name)
     server.setConnectionCallback(std::bind(&HttpServer::onConnection,this,_1));
     TcpServer::MessageCallback f = std::bind(&HttpServer::onMessage,this,_1,_2,_3);
     server.setMessageCallback(f);
-    server.setThreadNum(10);
+    clientnum = 0;
 }
 
 void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
@@ -22,7 +22,8 @@ void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
 
 void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,size_t size)
 {
-    std::cout << "HttpServer::onMessage()" << std::endl;
+    std::cout << "HttpServer::onMessage()## " << clientnum << std::endl;
+    clientnum++;
     std::string head;
     buf->retrieveAllAsString(head);
     int b = 0;

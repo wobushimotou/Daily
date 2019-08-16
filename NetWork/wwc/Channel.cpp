@@ -34,7 +34,7 @@ void Channel::handleEvent()
             errorCallback();
     }
     
-    if(revents_ & POLLIN) {
+    if(revents_ & POLLIN && !(revents_ & POLLHUP)) {
         if(readCallback) {
             readCallback();
         }

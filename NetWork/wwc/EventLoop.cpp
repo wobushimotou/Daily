@@ -18,7 +18,6 @@ EventLoop::~EventLoop()
 void EventLoop::loop()
 {
     if(!isInLoopThread()) {
-        exit(0);
     }
 
     looping = true;
@@ -35,6 +34,7 @@ void EventLoop::loop()
         eventHanding = false;
         doPendingFunctors();
     }
+    printf("quit\n");
     looping = false;
 }
 
@@ -107,9 +107,10 @@ int EventLoop::createEventfd() {
 }
 void EventLoop::removeChannel(Channel *channel)
 {
-    if(eventHanding)
+    if(eventHanding) {
         assert(currentActiveChannel == channel || 
            std::find(std::begin(activeChanels),std::end(activeChanels),channel) == activeChanels.end());
+    }
 
     poll_->removeChannel(channel);
 }

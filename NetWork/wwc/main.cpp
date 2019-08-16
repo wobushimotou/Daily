@@ -6,7 +6,6 @@
 #include <fstream>
 void signal_handle(int signal_num) {
     printf("非正常退出\n");
-    exit(0);
 }
 
 using namespace std;
@@ -59,8 +58,6 @@ int main()
     HttpServer server2(&loop,9999,"wang");
     
     server2.start();
-    
-
     loop.loop();
     return 0;
 }
