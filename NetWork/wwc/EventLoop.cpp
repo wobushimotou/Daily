@@ -28,7 +28,8 @@ void EventLoop::loop()
         eventHanding = true;
 
         for(auto p = activeChanels.begin();p != activeChanels.end();++p) {
-            (*p)->handleEvent();
+            currentActiveChannel = *p;
+            currentActiveChannel->handleEvent();
         }
 
         eventHanding = false;

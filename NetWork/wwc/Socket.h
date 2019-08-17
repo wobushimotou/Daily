@@ -11,16 +11,17 @@
 class Socket
 {
 public:
-    Socket();
-    Socket(int fd);
+    Socket(int flag);
     ~Socket();
     int fd() const { return sockfd; }
     void bindAddress(struct sockaddr_in addr);
     void SetNonblock();
     void listenAddr(); 
-    int acceptAddr(struct sockaddr_in *addr);
+    int acceptAddr(struct sockaddr_in *addr,int sock);
     struct sockaddr_in GetLocalAddr();
     void shutdown();
+    void GetFd();
+    int sock;
 private:
     int sockfd;
 };

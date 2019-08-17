@@ -1,5 +1,11 @@
 #include "Socket.h"
-Socket::Socket()
+Socket::Socket(int flag)
+{
+    if(flag)
+        GetFd();
+}
+
+void Socket::GetFd()
 {
     sockfd = socket(AF_INET,SOCK_STREAM,0);    
 }
@@ -29,25 +35,26 @@ void Socket::listenAddr()
     }
 }
 
-int Socket::acceptAddr(struct sockaddr_in *addr)
+int Socket::acceptAddr(struct sockaddr_in *addr,int sock)
 {
     socklen_t len = sizeof addr;
     bzero(&addr,sizeof addr);        
     int connfd = ::accept(sockfd,(sockaddr *)addr,&len);
-    if(connfd >= 0)
+
+    if(connfd > 0)
         return connfd;
-    return -1;
+    else {
+        close(sock);
+        connfd = ::accept(sockfd,(sockaddr *)addr,&len);
+    }
 }
 
 Socket::~Socket()
 {
     close(sockfd);
+    close(sock);
 }
 
-Socket::Socket(int fd)
-{
-    sockfd = fd;
-}
 //获取本地网卡接口地址;
 struct sockaddr_in Socket::GetLocalAddr()
 {

@@ -27,5 +27,6 @@ private:
     struct sockaddr_in addr;
     NewConnectionCallback newConnectionCallback_;
     bool listening_;
+    int sock;
 };
 

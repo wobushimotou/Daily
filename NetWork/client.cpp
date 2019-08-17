@@ -18,23 +18,30 @@ int main()
 
     struct sockaddr_in servaddr;
     servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr("192.168.3.244");
-    servaddr.sin_port = htons(6379);
+    servaddr.sin_addr.s_addr = inet_addr("192.168.3.142");
+    servaddr.sin_port = htons(8058);
 
     int size = 0;
     socklen_t len = sizeof(size);    
-    while(1) {
-        int connfd = socket(AF_INET,SOCK_STREAM,0);
-        if(connect(connfd,(const struct sockaddr *)&servaddr,sizeof(servaddr)) < 0) {
-        }
-   }
-    int connfd;
+    fork();
+    for(int i = 0;i < 1000;++i) {
+        fork();
         while(1) {
-            char buf[100000];
-            int n = send(connfd,buf,100000,0);
-            printf("%d\n",n);
+            int connfd = socket(AF_INET,SOCK_STREAM,0);
+            if(connect(connfd,(const struct sockaddr *)&servaddr,sizeof(servaddr)) < 0) {
+            }
+            else {
+                while(1) {
+                    char buf[100000];
+                    int n = send(connfd,buf,100000,0);
+                    printf("%d\n",n);
+                }
+
+            }
         }
- 
+    }
+    int connfd;
+
 
     //setsockopt(fd,SOL_SOCKET,SO_LINGER)
    

@@ -1,7 +1,7 @@
 #include "Acceptor.h"
 Acceptor::Acceptor(EventLoop *loop,int port)
     :loop(loop),
-    acceptSocket(),
+    acceptSocket(1),
     acceptChannel(loop,acceptSocket.fd()),
     port(port),
     listening_(false)
@@ -9,7 +9,9 @@ Acceptor::Acceptor(EventLoop *loop,int port)
     initAddr();
     acceptSocket.SetNonblock();
     acceptSocket.bindAddress(addr);
+
     acceptChannel.setReadCallback(std::bind(&Acceptor::handleRead,this));
+    sock = open("dev/null",O_RDWR);
 }
 
 
@@ -28,7 +30,8 @@ void Acceptor::initAddr()
 void Acceptor::handleRead()
 {
     struct sockaddr_in sockaddr;
-    int connfd = acceptSocket.acceptAddr(&sockaddr);
+    int connfd = acceptSocket.acceptAddr(&sockaddr,sock);
+    sock = open("/dev/null",O_RDWR);
     if(connfd > 0) {
         if(newConnectionCallback_) {
             newConnectionCallback_(connfd,sockaddr);

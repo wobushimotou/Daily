@@ -39,6 +39,7 @@ TcpConnection::TcpConnection(EventLoop *loop,std::string &name,int sockfd)
         name_(name),
         channel(new Channel(loop,sockfd))
 {
+        
     channel->setReadCallback( std::bind(&TcpConnection::handleRead,this));
     channel->setCloseCallback(std::bind(&TcpConnection::handleClose,this));
 }

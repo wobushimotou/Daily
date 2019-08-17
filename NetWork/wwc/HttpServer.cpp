@@ -34,31 +34,19 @@ void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,s
         if(filename.size() == 0) {
             filename = "test.html";
         }
-
-        std::fstream file(filename);
-        std::string data;
-        int i = 0;
-        char ch;
-        while(file.read(&ch,1)) {
-            data.push_back(ch);
-            ++i;
-        }
-        data += "\r\n\r\n";
-        
-        file.close();
-
+            
+        int i = ReadFile(filename);
         std::string Requesthead = std::string("HTTP/1.1 200 OK\r\n")+ \
-           "Content-Type: text/html;charset=utf-8\r\n"+ \
-            "Content-Length: "+std::to_string(i) + "\r\n"+ \
-            "Connection: keep-alive\r\n" + \
-            "Cache-Control:max-age=-1\r\n" + \
-            "Server: nginx/1.8.0\r\n"+"\r\n";
+                                  "Content-Type: text/html;charset=utf-8\r\n"+ \
+                                  "Content-Length: "+std::to_string(i) + "\r\n"+ \
+                                  "Connection: keep-alive\r\n" + \
+                                  "Cache-Control:max-age=-1\r\n" + \
+                                  "Server: nginx/1.8.0\r\n"+"\r\n";
         conn->send(Requesthead);
-        conn->send(data);
-
+        conn->send(data[filename]);
     }
+    conn->connectDestoryed();
     
-
 }
 
 void HttpServer::start() 
@@ -74,3 +62,20 @@ std::string HttpServer::onGet(std::string buff) {
     int i = buff.substr(begin,end-begin).find_last_of("/");
     return buff.substr(begin,end-begin).substr(i+1,end-begin-i);
 }
+
+int HttpServer::ReadFile(std::string filename)
+{
+    if(data[filename].size() > 0)
+        return data[filename].size();
+    std::fstream file(filename);
+    int i = 0;
+    char ch;
+    while(file.read(&ch,1)) {
+        data[filename].push_back(ch);
+        ++i;
+    }
+    data[filename] += "\r\n\r\n";
+    file.close();
+    return i;
+}
+

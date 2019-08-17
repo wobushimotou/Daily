@@ -21,20 +21,22 @@ void Channel::update()
 
 void Channel::handleEvent()
 { 
-    if(revents_ & POLLNVAL) {
-    }
-
-    if(revents_ & POLLHUP) {
+    
+    if(revents_ & POLLHUP && !(revents_ & POLLIN)) {
         if(closeCallback)
             closeCallback();
     }
 
-    if(revents_ & POLLERR) {
+    if(revents_ & POLLNVAL) {
+    }
+
+
+    if(revents_ & (POLLERR | POLLNVAL)) {
         if(errorCallback) 
             errorCallback();
     }
     
-    if(revents_ & POLLIN && !(revents_ & POLLHUP)) {
+    if(revents_ & (POLLIN | POLLPRI | POLLRDHUP)) {
         if(readCallback) {
             readCallback();
         }
