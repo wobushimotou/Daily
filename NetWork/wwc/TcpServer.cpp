@@ -17,6 +17,8 @@ TcpServer::TcpServer(EventLoop *loop,int port,std::string namearg)
 
 void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
 {
+    
+    printf("TcpServer::NewConnection() fd:%d\n",sockfd);
     char buf[64];
     //为新创建的TcpConnection对象起名
     snprintf(buf,sizeof buf,"-%s#:%d",inet_ntoa(addr.sin_addr),nextConnId);
@@ -25,6 +27,7 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
 
     EventLoop *ioLoop = threadpool->getNextLoop();
     /* EventLoop *ioLoop = loop; */
+    
     TcpConnectionPtr conn(new TcpConnection(ioLoop,connName,sockfd));
     connections[connName] = conn;
     conn->setConnectionCallback(connectionCallback);
@@ -44,6 +47,7 @@ void TcpServer::removeConnction(const TcpConnectionPtr &conn)
 void TcpServer::removeConnctionInLoop(const TcpConnectionPtr &conn)
 {
     size_t n = connections.erase(conn->name());
+    assert(n == 1);
     EventLoop *ioLoop = conn->getLoop();
     ioLoop->queueInLoop(std::bind(&TcpConnection::connectDestoryed,conn));
 }

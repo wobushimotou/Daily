@@ -259,6 +259,8 @@ string.h
 /home/wh/Daily/NetWork/wwc/TcpConnection.cpp
 iostream
 -
+signal.h
+-
 TcpConnection.h
 /home/wh/Daily/NetWork/wwc/TcpConnection.h
 

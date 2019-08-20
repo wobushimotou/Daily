@@ -1,9 +1,17 @@
 #include <iostream>
+#include <signal.h>
 #include "TcpConnection.h"
+void handleSIGPIPE(int Signal) {
+    if(Signal == SIGPIPE) {
+        printf("客户端已关闭\n"); 
+    }
+}
 void TcpConnection::handleRead()
 {
+    printf("TcpConnection::handleRead\n");
     size_t n = inputBuffer.readFd(channel->fd());
-    if(n > 0) {
+    printf("n:%zd\n",n);
+    if(n > 0) {    
         messageCallback(shared_from_this(),&inputBuffer,n);
     }
     else if(n == 0) {
@@ -42,6 +50,7 @@ TcpConnection::TcpConnection(EventLoop *loop,std::string &name,int sockfd)
         
     channel->setReadCallback( std::bind(&TcpConnection::handleRead,this));
     channel->setCloseCallback(std::bind(&TcpConnection::handleClose,this));
+    signal(SIGPIPE,handleSIGPIPE);
 }
 
 void TcpConnection::connectEstablished()
@@ -62,6 +71,7 @@ void TcpConnection::handleClose()
     channel->disableAll();    
     if(closeCallback)
         closeCallback(shared_from_this());
+    
 }
 
 void TcpConnection::handleError()
@@ -71,6 +81,7 @@ void TcpConnection::handleError()
 
 void TcpConnection::connectDestoryed()
 {
+    printf("TcpConnection::connectDestoryed()\n");
     channel->remove();
     socket->shutdown();
 }
@@ -84,7 +95,8 @@ void TcpConnection::sendInLoop(std::string message)
 {
     size_t nworte = 0;
     if(!channel->isWriting() && outputBuffer.readableBytes() == 0) {
-        nworte = ::write(socket->fd(),message.data(),message.size());
+        nworte = ::send(socket->fd(),message.data(),message.size(),MSG_WAITALL);
+
         if(nworte >= 0) {
             if(nworte < message.size()) {
             }

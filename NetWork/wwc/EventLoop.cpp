@@ -29,13 +29,13 @@ void EventLoop::loop()
 
         for(auto p = activeChanels.begin();p != activeChanels.end();++p) {
             currentActiveChannel = *p;
+            printf("EventLoop::loop() Channel->fd:%d\n",currentActiveChannel->fd());
             currentActiveChannel->handleEvent();
         }
 
         eventHanding = false;
         doPendingFunctors();
     }
-    printf("quit\n");
     looping = false;
 }
 
@@ -109,10 +109,12 @@ int EventLoop::createEventfd() {
 void EventLoop::removeChannel(Channel *channel)
 {
     if(eventHanding) {
+        printf("EventLoop::removeChannel() is eventHanding\n");
         assert(currentActiveChannel == channel || 
            std::find(std::begin(activeChanels),std::end(activeChanels),channel) == activeChanels.end());
     }
 
+    printf("EventLoop::removeChannel()\n");
     poll_->removeChannel(channel);
 }
 

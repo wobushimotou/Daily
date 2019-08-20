@@ -1,14 +1,14 @@
 #include "Socket.h"
-Socket::Socket(int flag)
-{
-    if(flag)
-        GetFd();
-}
-
-void Socket::GetFd()
+Socket::Socket()
 {
     sockfd = socket(AF_INET,SOCK_STREAM,0);    
 }
+
+Socket::Socket(int fd)
+{
+    sockfd = fd;
+}
+
 
 void Socket::bindAddress(struct sockaddr_in addr)
 {
@@ -35,7 +35,7 @@ void Socket::listenAddr()
     }
 }
 
-int Socket::acceptAddr(struct sockaddr_in *addr,int sock)
+int Socket::acceptAddr(struct sockaddr_in *addr)
 {
     socklen_t len = sizeof addr;
     bzero(&addr,sizeof addr);        
@@ -43,16 +43,12 @@ int Socket::acceptAddr(struct sockaddr_in *addr,int sock)
 
     if(connfd > 0)
         return connfd;
-    else {
-        close(sock);
-        connfd = ::accept(sockfd,(sockaddr *)addr,&len);
-    }
+    return -1;
 }
 
 Socket::~Socket()
 {
     close(sockfd);
-    close(sock);
 }
 
 //获取本地网卡接口地址;

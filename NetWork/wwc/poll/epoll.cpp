@@ -84,6 +84,11 @@ void epoll::update(int operation,Channel *channel)
             break;
         case ENOENT:
             printf("文件描述符:%d不在epfd中\n",fd);
+            if(close(fd) == 0) {
+                printf("关闭成功\n");
+            }
+            else
+                printf("关闭错误\n");
             break;
         case ENOMEM:
             printf("内存不足\n");

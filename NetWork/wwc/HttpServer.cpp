@@ -8,7 +8,6 @@ HttpServer::HttpServer(EventLoop *loop,int port,std::string name)
     server.setConnectionCallback(std::bind(&HttpServer::onConnection,this,_1));
     TcpServer::MessageCallback f = std::bind(&HttpServer::onMessage,this,_1,_2,_3);
     server.setMessageCallback(f);
-    clientnum = 0;
 }
 
 void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
@@ -17,15 +16,14 @@ void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
     if(conn->connected()) {
         std::cout << "new client conneded:" << conn->socket->fd() << std::endl;;
     }
-
 }
 
 void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,size_t size)
 {
-    std::cout << "HttpServer::onMessage()## " << clientnum << std::endl;
-    clientnum++;
+    std::cout << "HttpServer::onMessage()##" << std::endl;
     std::string head;
     buf->retrieveAllAsString(head);
+    printf("data = %s\n",head.c_str());
     int b = 0;
     int e = head.find(" ",0);
 
@@ -42,11 +40,11 @@ void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,s
                                   "Connection: keep-alive\r\n" + \
                                   "Cache-Control:max-age=-1\r\n" + \
                                   "Server: nginx/1.8.0\r\n"+"\r\n";
+
         conn->send(Requesthead);
         conn->send(data[filename]);
     }
-    conn->connectDestoryed();
-    
+
 }
 
 void HttpServer::start() 
