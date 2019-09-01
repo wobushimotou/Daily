@@ -48,7 +48,7 @@ int Socket::acceptAddr(struct sockaddr_in *addr)
 
 Socket::~Socket()
 {
-    close(sockfd);
+    shutdown();
 }
 
 //获取本地网卡接口地址;
@@ -67,4 +67,3 @@ void Socket::shutdown()
 {
     ::shutdown(sockfd,SHUT_WR);
 }
-
