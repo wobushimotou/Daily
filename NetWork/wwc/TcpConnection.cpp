@@ -10,7 +10,6 @@ void TcpConnection::handleRead()
 {
     printf("TcpConnection::handleRead\n");
     size_t n = inputBuffer.readFd(channel->fd());
-    printf("n:%zd\n",n);
     if(n > 0) {    
         messageCallback(shared_from_this(),&inputBuffer,n);
     }
@@ -62,13 +61,16 @@ void TcpConnection::connectEstablished()
 
 TcpConnection::~TcpConnection()
 {
-
+    printf("TcpConnection::~TcpConnection()\n");
+    if(state != kDisconnected)
+        connectDestoryed();
 }
 
 
 void TcpConnection::handleClose()
 {
     channel->disableAll();    
+    setState(kDisconnected);
     if(closeCallback)
         closeCallback(shared_from_this());
     

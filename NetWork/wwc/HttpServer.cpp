@@ -23,7 +23,6 @@ void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,s
     std::cout << "HttpServer::onMessage()##" << std::endl;
     std::string head;
     buf->retrieveAllAsString(head);
-    printf("data = %s\n",head.c_str());
     int b = 0;
     int e = head.find(" ",0);
 
@@ -44,7 +43,7 @@ void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,s
         conn->send(Requesthead);
         conn->send(data[filename]);
     }
-
+    
 }
 
 void HttpServer::start() 
