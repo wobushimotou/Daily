@@ -10,6 +10,7 @@ void TcpConnection::handleRead()
 {
     printf("TcpConnection::handleRead\n");
     size_t n = inputBuffer.readFd(channel->fd());
+    printf("n = %zd\n",n);
     if(n > 0) {    
         messageCallback(shared_from_this(),&inputBuffer,n);
     }

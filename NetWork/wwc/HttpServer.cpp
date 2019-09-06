@@ -43,6 +43,7 @@ void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,s
         conn->send(Requesthead);
         conn->send(data[filename]);
     }
+    conn->connectDestoryed();
     
 }
 

@@ -39,8 +39,8 @@ void Channel::handleEvent()
     }
     
     if(revents_ & (POLLIN | POLLPRI | POLLRDHUP)) {
-        printf("readCallback\n");
         if(readCallback) {
+            printf("readCallback\n");
             readCallback();
         }
     }
