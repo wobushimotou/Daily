@@ -3,9 +3,9 @@
 EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop)
     : baseLoop_(baseLoop),
     start_(false),
-    numThreads_(0),
+    numThreads_(5),
     loops(1),
-    next_(0),
+    next_(1),
     distributions(0)
 {
 }
@@ -25,7 +25,6 @@ void EventLoopThreadPool::setThreadNum(int numThreads)
     distributions = numThreads;
     loops.resize(numThreads_+1);
 }
-
 
 void EventLoopThreadPool::start()
 {

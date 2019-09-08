@@ -65,5 +65,5 @@ struct sockaddr_in Socket::GetLocalAddr()
 
 void Socket::shutdown()
 {
-    ::shutdown(sockfd,SHUT_WR);
+    ::close(sockfd);
 }
