@@ -51,7 +51,7 @@ void epoll::updateChannel(Channel *channel)
         index = events.size(); 
         channel->set_index(index);
         channels[channel->fd()] = channel;
-        printf("增加新的文件描述符:%d\n",channel->fd());
+        printf("添加新的channel:%d:: %p\n",channel->fd(),channel);
         update(EPOLL_CTL_ADD,channel);
     }
     else {
@@ -69,6 +69,7 @@ void epoll::updateChannel(Channel *channel)
 
 void epoll::update(int operation,Channel *channel)
 {
+    printf("epoll::update\n");
     struct epoll_event event;
     event.events = channel->events();
     event.data.ptr = channel;
@@ -109,10 +110,10 @@ void epoll::update(int operation,Channel *channel)
 
 void epoll::removeChannel(Channel *channel)
 {
+    printf("epoll::removeChannel\n");
     int fd = channel->fd();
     size_t n = channels.erase(fd);
-    printf("fd = %d,n = %zd\n",fd,n);
-    assert(n == 1);
+    /* assert(n == 1); */
     update(EPOLL_CTL_DEL,channel);
 }
 

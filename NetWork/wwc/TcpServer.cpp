@@ -26,14 +26,17 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
     std::string connName = buf+name;
 
     EventLoop *ioLoop = threadpool->getNextLoop();
-    /* EventLoop *ioLoop = loop; */
-    
+
+    std::cout << "loop" << loop << std::endl;
+    std::cout << "ioLoop" << ioLoop << std::endl;
+   /* EventLoop *ioLoop = loop; */
     TcpConnectionPtr conn(new TcpConnection(ioLoop,connName,sockfd));
     connections[connName] = conn;
     conn->setConnectionCallback(connectionCallback);
     conn->setMessageCallback(messageCallback);
     conn->setCloseCallback(std::bind(&TcpServer::removeConnction,this,std::placeholders::_1));
     conn->setwriteCompleteCallback(writeCompleteCallback_);
+
     ioLoop->runInLoop(std::bind(&TcpConnection::connectEstablished,conn));
 }
 
