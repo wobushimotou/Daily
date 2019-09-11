@@ -1,6 +1,7 @@
 #include "epoll.h"
 epoll::epoll(EventLoop *loop) 
-    : ownerLoop(loop),epollfd(epoll_create(1)){
+    : ownerLoop(loop),epollfd(epoll_create(1))
+{
     events.resize(16);
 }
 
@@ -51,7 +52,6 @@ void epoll::updateChannel(Channel *channel)
         index = events.size(); 
         channel->set_index(index);
         channels[channel->fd()] = channel;
-        printf("添加新的channel:%d:: %p\n",channel->fd(),channel);
         update(EPOLL_CTL_ADD,channel);
     }
     else {
@@ -69,7 +69,6 @@ void epoll::updateChannel(Channel *channel)
 
 void epoll::update(int operation,Channel *channel)
 {
-    printf("epoll::update\n");
     struct epoll_event event;
     event.events = channel->events();
     event.data.ptr = channel;
@@ -110,7 +109,6 @@ void epoll::update(int operation,Channel *channel)
 
 void epoll::removeChannel(Channel *channel)
 {
-    printf("epoll::removeChannel\n");
     int fd = channel->fd();
     size_t n = channels.erase(fd);
     /* assert(n == 1); */

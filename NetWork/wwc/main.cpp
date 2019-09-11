@@ -56,7 +56,6 @@ void Construct(string &s,string &head) {
 int main()
 {
     HttpServer server2(&loop,9999,"wang");
-    
     server2.start();
     loop.loop();
     return 0;

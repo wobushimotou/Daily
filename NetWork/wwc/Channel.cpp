@@ -21,9 +21,7 @@ void Channel::update()
 
 void Channel::handleEvent()
 { 
-    printf("Channel:handleEvent() fd:%d\n",fd_);
     if(revents_ & POLLHUP && !(revents_ & POLLIN)) {
-        printf("closeCallback\n");
         if(closeCallback)
             closeCallback();
     }
@@ -33,20 +31,16 @@ void Channel::handleEvent()
 
 
     if(revents_ & (POLLERR | POLLNVAL)) {
-        printf("errorCallback\n");
         if(errorCallback) 
             errorCallback();
     }
     
     if(revents_ & (POLLIN | POLLPRI | POLLRDHUP)) {
         if(readCallback) {
-            printf("readCallback\n");
-            readCallback();
         }
     }
     
     if(revents_ & POLLOUT) {
-        printf("writeCallback\n");
         if(writeCallback)
             writeCallback();
     }

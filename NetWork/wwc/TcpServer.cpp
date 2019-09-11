@@ -28,7 +28,6 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
     EventLoop *ioLoop = threadpool->getNextLoop();
 
     std::cout << "loop" << loop << std::endl;
-    std::cout << "ioLoop" << ioLoop << std::endl;
    /* EventLoop *ioLoop = loop; */
     TcpConnectionPtr conn(new TcpConnection(ioLoop,connName,sockfd));
     connections[connName] = conn;

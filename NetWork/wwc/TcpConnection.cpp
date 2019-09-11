@@ -8,9 +8,7 @@ void handleSIGPIPE(int Signal) {
 }
 void TcpConnection::handleRead()
 {
-    printf("TcpConnection::handleRead\n");
     size_t n = inputBuffer.readFd(channel->fd());
-    printf("n = %zd\n",n);
     if(n > 0) {    
         messageCallback(shared_from_this(),&inputBuffer,n);
     }
@@ -62,7 +60,6 @@ void TcpConnection::connectEstablished()
 
 TcpConnection::~TcpConnection()
 {
-    printf("TcpConnection::~TcpConnection()\n");
     if(state != kDisconnected)
         connectDestoryed();
 }
@@ -84,7 +81,6 @@ void TcpConnection::handleError()
 
 void TcpConnection::connectDestoryed()
 {
-    printf("TcpConnection::connectDestoryed()\n");
     channel->remove();
     socket->shutdown();
 }
@@ -99,7 +95,6 @@ void TcpConnection::sendInLoop(std::string message)
     size_t nworte = 0;
     if(!channel->isWriting() && outputBuffer.readableBytes() == 0) {
         nworte = ::send(socket->fd(),message.data(),message.size(),MSG_WAITALL);
-
         if(nworte >= 0) {
             if(nworte < message.size()) {
             }

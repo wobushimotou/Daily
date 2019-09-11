@@ -12,7 +12,6 @@ HttpServer::HttpServer(EventLoop *loop,int port,std::string name)
 
 void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
 {
-    std::cout << "HttpServer::onConnection()" << std::endl;
     if(conn->connected()) {
         std::cout << "new client conneded:" << conn->socket->fd() << std::endl;;
     }
@@ -20,7 +19,6 @@ void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
 
 void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,size_t size)
 {
-    std::cout << "HttpServer::onMessage()##" << std::endl;
     std::string head;
     buf->retrieveAllAsString(head);
     int b = 0;
@@ -43,8 +41,8 @@ void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,s
         conn->send(Requesthead);
         conn->send(data[filename]);
     }
+    /* conn->connectDestoryed(); */
     conn->connectDestoryed();
-    
 }
 
 void HttpServer::start() 

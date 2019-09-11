@@ -24,12 +24,10 @@ void EventLoop::loop()
     quit_ = false;
     while(!quit_) {
         activeChanels.clear();
-        poll_->poll(10,&activeChanels);
+        poll_->poll(1000,&activeChanels);
         eventHanding = true;
-
         for(auto p = activeChanels.begin();p != activeChanels.end();++p) {
             currentActiveChannel = *p;
-            printf("EventLoop::loop() Channel->fd:%d\n",currentActiveChannel->fd());
             currentActiveChannel->handleEvent();
         }
 
@@ -79,6 +77,11 @@ void EventLoop::doPendingFunctors()
     functors.swap(pendingFunctions);
     Mutex.unlock();
 
+    if(functors.size() > 0) {
+        printf("EventLoop::doPendingFunctors()  %p\n",this);
+        printf("任务数量为%zd个\n",functors.size());
+    }
+
     for(size_t i = 0;i < functors.size();++i)
         functors[i]();
 
@@ -109,12 +112,10 @@ int EventLoop::createEventfd() {
 void EventLoop::removeChannel(Channel *channel)
 {
     if(eventHanding) {
-        printf("EventLoop::removeChannel() is eventHanding\n");
         assert(currentActiveChannel == channel || 
            std::find(std::begin(activeChanels),std::end(activeChanels),channel) == activeChanels.end());
     }
 
-    printf("EventLoop::removeChannel()\n");
     poll_->removeChannel(channel);
 }
 
