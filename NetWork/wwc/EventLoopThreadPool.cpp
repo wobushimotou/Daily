@@ -3,7 +3,7 @@
 EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop)
     : baseLoop_(baseLoop),
     start_(false),
-    numThreads_(1),
+    numThreads_(0),
     loops(numThreads_),
     next_(0),
     distributions(numThreads_)
