@@ -11,6 +11,9 @@ public:
     bool IsLetter(char ch);
     bool IsSign(char ch);
     bool IsKey(string s);
+    bool IsSpace(char ch) {
+        return ch == ' ';
+    }
 
     int get_num(string s);
     int to_num(string s);
@@ -20,7 +23,7 @@ public:
 
 class Scan{
 public:
-    Scan(string s) : filename(s) {  } 
+    Scan(string s) : filename(s) { jd = new Judge(); } 
     void Scanner();
     void Display();
 private:
@@ -34,11 +37,19 @@ void Scan::PreTreatMent() {
     //预处理
     fstream file(filename);
     fstream file_i(filename.substr(0,filename.find(".",0))+".i",ios::out);
-    
     char ch;
-    //滤掉换行以及注释
+    char last;
+    //滤掉换行以及注释,减少空格
     while(file.read(&ch,1)) {
-        if(ch == '/') {
+        if(ch == '"') {
+            file_i << ch;
+            while(file.read(&ch,1)) {
+                file_i << ch;
+                if(ch == '"')
+                    break;
+            }
+        }
+        else if(ch == '/') {
             file >> ch;
             if(ch == '*') {
                 while(file >> ch) {
@@ -53,7 +64,18 @@ void Scan::PreTreatMent() {
         }
         else if(ch == '\n')
             continue;
+        else if(ch == ' ') {
+            while(file.read(&ch,1)) {
+                if(ch != ' ')
+                    break;
+            }
+            if(!jd->IsSign(last)) {
+                file_i << " ";
+            }
+        }
+        
         file_i << ch;
+        last = ch;
     } 
     file.close();
     file_i.close();
@@ -84,7 +106,6 @@ Judge::Judge() {
             letter.push_back(i);
     }
 
-    cout << letter << endl;
     while(file_key.getline(temp,100)) {
         s = temp; 
         int n = get_num(s);
