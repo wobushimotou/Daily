@@ -1,9 +1,15 @@
 #include <iostream>
+#include <iomanip>
 #include <algorithm>
 #include <fstream>
 #include <map>
+#include <vector>
+#include <dirent.h>
+#include <string.h>
 
 using namespace std;
+
+
 class Judge{
 public:
     Judge();
@@ -23,32 +29,124 @@ public:
 
 class Scan{
 public:
-    Scan(string s) : filename(s) { jd = new Judge(); } 
+    Scan(string s) : filename(s) { 
+        jd = new Judge();
+        typecode = ++(--jd->signs.end())->second;
+    } 
     void Scanner();
     void Display();
 private:
+    bool IsDirectory(string ,string);
+    bool IsIdentifier(string word);
+    bool IsConstant(string word);
+    typedef map<string,int> TypeCode;
     void PreTreatMent();
-    map<string,int> values;
+    void Analysis();
+    vector<pair<string,int>> values;
+    TypeCode Identifier;
+    TypeCode Constant;
+    vector<string> Grand;
+    string filepath = "/usr/java/jdk-10.0.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin";
     string filename;
     Judge *jd;
+    int typecode;
 };
+
+//返回文件名为name的文件是否存在于Path目录下
+bool Scan::IsDirectory(string name,string Path) {
+    //递归的进行查询
+    string file;
+    DIR *dir;
+    struct dirent *dp;
+    dir = opendir(Path.c_str());
+    while((dp = readdir(dir)) != NULL) {
+        if(!strcmp(dp->d_name,name.c_str())) {
+            return true;
+        }
+    } 
+    return false;
+}
+bool Scan::IsIdentifier(string word) {
+    auto p = Identifier.find(word);
+    return !(p == Identifier.end());
+}
+
+bool Scan::IsConstant(string word) {
+    auto p = Constant.find(word);
+    return !(p == Constant.end());
+}
 
 void Scan::PreTreatMent() {
     //预处理
     fstream file(filename);
     fstream file_i(filename.substr(0,filename.find(".",0))+".i",ios::out);
+    
     char ch;
     char last;
     //滤掉换行以及注释,减少空格
     while(file.read(&ch,1)) {
-        if(ch == '"') {
+        //处理宏命令
+        if(ch == '#') {
+            string word;
+            while(file.read(&ch,1)) {
+                if(jd->IsSign(ch) || jd->IsSpace(ch))
+                    break;
+                word.push_back(ch);
+            }
+            if(word == "include") {
+                word = "";
+                //获取文件名
+                while(file.read(&ch,1)) {
+                    if(ch == '>' || ch == '\"')
+                        break;
+                    if(jd->IsLetter(ch))
+                        word.push_back(ch);
+                }
+
+                string Path;
+                //获取文件的搜索目录
+                if(word[word.size()] == 'h')
+                    Path = filepath;
+
+                if(ch == '>')
+                    Path += ";.";
+                else
+                    Path += ".;";
+
+                for(int i = 0;i != count(Path.begin(),Path.end(),';');++i) {
+                    auto it = Path.find(":",0);
+                    //在每个搜索目录下查询文件是否存在
+                    if(IsDirectory(word,Path.substr(0,it))) {
+                        //打开文件，将文件中的内容输入到.i文件中
+                        fstream grandfile(Path+"/"+word); 
+                        string data;
+                        char c;
+                        while(grandfile.read(&c,1)) {
+                            data.push_back(c);
+                        }
+                        grandfile.close();
+                        file_i << data;
+                        break;
+                    }
+                    Path = Path.substr(it+1,Path.size());
+                }
+
+            }
+            else if(word == "define") {
+
+            }
+        }
+        //保持双引号内的内容不变
+        else if(ch == '"') {
             file_i << ch;
             while(file.read(&ch,1)) {
                 file_i << ch;
                 if(ch == '"')
                     break;
             }
+            continue;
         }
+        //过滤注释包括//与/*---*/
         else if(ch == '/') {
             file >> ch;
             if(ch == '*') {
@@ -59,31 +157,141 @@ void Scan::PreTreatMent() {
                             break;
                     }
                 }
+                continue;
+            }
+            if(ch == '/' || last == '/') {
+                while(file.read(&ch,1))
+                    if(ch == '\n')
+                        break;
             }
             continue;
         }
         else if(ch == '\n')
             continue;
+        //过滤空格，多个空格根据情况减少为一个或零个
         else if(ch == ' ') {
             while(file.read(&ch,1)) {
                 if(ch != ' ')
                     break;
             }
-            if(!jd->IsSign(last)) {
+            if(!jd->IsSign(last) && !jd->IsSign(ch)) {
                 file_i << " ";
+            }
+            if(ch == '/') {
+                last = '/';
+                continue;
             }
         }
         
         file_i << ch;
         last = ch;
     } 
+
     file.close();
-    file_i.close();
 }
 
+void Scan::Analysis() {
+    fstream file_i(filename.substr(0,filename.find(".",0))+".i");
+    char ch;
+    string word;
+    while(file_i.read(&ch,1)) {
+        word.push_back(ch);
+        if(jd->IsLetter(ch)) {
+            while(file_i.read(&ch,1)) {
+                if(jd->IsSign(ch) || jd->IsSpace(ch)) {
+                   //判断是否为关键字
+                    if(jd->IsKey(word)) {
+                        auto p = make_pair(word,jd->keys[word]);
+                        values.push_back(p);
+                    }
+                    else {
+                        //判断标识符表中是否存在
+                        if(!IsIdentifier(word))
+                            //保存到标识符表中
+                            Identifier[word] = typecode++;
+                        auto p = make_pair(word,Identifier[word]); 
+                        values.push_back(p);
+                    }
+                    //将分隔符保存起来
+                    if(jd->IsSign(ch)) {
+                        string temp(1,ch);
+                        int num = jd->signs[ch];
+                        auto p = make_pair(temp,num);
+                        values.push_back(p);
+                    }
+
+                    break;
+                }
+                else {
+                    word.push_back(ch);
+                }
+            }
+            word = "";
+        }
+        else if(jd->IsDigit(ch)) {
+            while(file_i.read(&ch,1)) {
+                if(jd->IsSign(ch) || jd->IsSpace(ch)) {
+                    //将常量保存到表中
+                    if(!IsConstant(word))
+                        Constant[word] = typecode++;
+                    auto p = make_pair(word,Constant[word]);
+                    values.push_back(p);
+
+                    //将分隔符保存起来
+                    if(jd->IsSign(ch)) {
+                        string temp(1,ch);
+                        int num = jd->signs[ch];
+                        auto p = make_pair(temp,num);
+                        values.push_back(p);
+                    }
+                    break;
+                }    
+                else {
+                    word.push_back(ch);
+                }
+            }
+        }
+        else if(jd->IsSign(ch)) {
+            //保存分隔符
+            auto p = make_pair(string(1,ch),jd->signs[ch]);
+            values.push_back(p);
+            word = "";
+            if(ch == '"') {
+                while(file_i.read(&ch,1)) {
+                    if(ch == '"')
+                        break;
+                    word.push_back(ch);
+                }       
+                //将""内的内容加入常量表
+                if(!IsConstant(word))
+                    Constant[word] = typecode++;
+                auto p = make_pair(word,Constant[word]);
+                values.push_back(p);
+                auto q = make_pair("\"",jd->signs['"']);
+                values.push_back(q);
+            }
+
+        }
+        else if(jd->IsSpace(ch))
+            continue;
+        
+    }
+}
+
+void Scan::Display() {
+    cout << setw(20) << setfill(' ') << "sign" << " " << setw(20) << setfill(' ') << "typecode" << endl;
+    for(auto p = values.begin();p != values.end();++p) {
+        cout << setw(20) << setfill(' ') << p->first << " " << setw(20) << setfill(' ') << p->second << endl;
+    } 
+}
 void Scan::Scanner() {
     //预处理
     PreTreatMent();
+    //开始词法分析
+    Analysis();
+    
+    //显示最终结果
+    Display();
 }
 
 Judge::Judge() {
@@ -114,6 +322,7 @@ Judge::Judge() {
             keys[s.substr(0,it)] = n;
         }
     }
+    
 }
 
 int Judge::get_num(string s) {
