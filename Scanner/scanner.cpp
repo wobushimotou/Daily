@@ -40,6 +40,7 @@ private:
     bool IsIdentifier(string word);
     bool IsConstant(string word);
     typedef map<string,int> TypeCode;
+    void Replace();
     void PreTreatMent();
     void Analysis();
     vector<pair<string,int>> values;
@@ -76,22 +77,20 @@ bool Scan::IsConstant(string word) {
     return !(p == Constant.end());
 }
 
-void Scan::PreTreatMent() {
-    //预处理
+void Scan::Replace() {
+
     fstream file(filename);
-    fstream file_i(filename.substr(0,filename.find(".",0))+".i",ios::out);
-    
+    fstream file_I(filename.substr(0,filename.find(".",0))+".I",ios::out);
     char ch;
-    char last;
-    //滤掉换行以及注释,减少空格
+    //处理所有的预处理命令
     while(file.read(&ch,1)) {
-        //处理宏命令
         if(ch == '#') {
             string word;
             while(file.read(&ch,1)) {
-                if(jd->IsSign(ch) || jd->IsSpace(ch))
+                if(jd->IsSign(ch) && !jd->IsSpace(ch))
                     break;
-                word.push_back(ch);
+                if(jd->IsLetter(ch))
+                    word.push_back(ch);
             }
             if(word == "include") {
                 word = "";
@@ -99,7 +98,7 @@ void Scan::PreTreatMent() {
                 while(file.read(&ch,1)) {
                     if(ch == '>' || ch == '\"')
                         break;
-                    if(jd->IsLetter(ch))
+                    if(jd->IsDigit(ch) || jd->IsLetter(ch) || ch == '.')
                         word.push_back(ch);
                 }
 
@@ -109,23 +108,25 @@ void Scan::PreTreatMent() {
                     Path = filepath;
 
                 if(ch == '>')
-                    Path += ";.";
+                    Path += ":.";
                 else
-                    Path += ".;";
+                    Path += ".:";
 
-                for(int i = 0;i != count(Path.begin(),Path.end(),';');++i) {
+                for(int i = 0;i != count(Path.begin(),Path.end(),':');++i) {
                     auto it = Path.find(":",0);
+                    string catalog = Path.substr(0,it);
                     //在每个搜索目录下查询文件是否存在
-                    if(IsDirectory(word,Path.substr(0,it))) {
+                    if(IsDirectory(word,catalog)) {
                         //打开文件，将文件中的内容输入到.i文件中
-                        fstream grandfile(Path+"/"+word); 
+                        string Include = catalog+"/"+word;
+                        fstream grandfile(Include); 
                         string data;
                         char c;
                         while(grandfile.read(&c,1)) {
                             data.push_back(c);
                         }
                         grandfile.close();
-                        file_i << data;
+                        file_I << data;
                         break;
                     }
                     Path = Path.substr(it+1,Path.size());
@@ -135,11 +136,32 @@ void Scan::PreTreatMent() {
             else if(word == "define") {
 
             }
+            continue;
         }
+        file_I << ch;
+    } 
+    
+    file.close();
+    file_I.close();
+}
+
+void Scan::PreTreatMent() {
+    //预处理
+    Replace();
+
+    fstream file_i(filename.substr(0,filename.find(".",0))+".i",ios::out);
+    fstream file_I(filename.substr(0,filename.find(".",0))+".I");
+
+    char ch;
+    char last;
+    
+
+    //滤掉换行以及注释,减少空格
+    while(file_I.read(&ch,1)) {
         //保持双引号内的内容不变
-        else if(ch == '"') {
+        if(ch == '"') {
             file_i << ch;
-            while(file.read(&ch,1)) {
+            while(file_I.read(&ch,1)) {
                 file_i << ch;
                 if(ch == '"')
                     break;
@@ -147,12 +169,12 @@ void Scan::PreTreatMent() {
             continue;
         }
         //过滤注释包括//与/*---*/
-        else if(ch == '/') {
-            file >> ch;
+        if(ch == '/') {
+            file_I >> ch;
             if(ch == '*') {
-                while(file >> ch) {
+                while(file_I >> ch) {
                     if(ch == '*') {
-                        file >> ch;
+                        file_I >> ch;
                         if(ch == '/')
                             break;
                     }
@@ -160,7 +182,7 @@ void Scan::PreTreatMent() {
                 continue;
             }
             if(ch == '/' || last == '/') {
-                while(file.read(&ch,1))
+                while(file_I.read(&ch,1))
                     if(ch == '\n')
                         break;
             }
@@ -170,7 +192,7 @@ void Scan::PreTreatMent() {
             continue;
         //过滤空格，多个空格根据情况减少为一个或零个
         else if(ch == ' ') {
-            while(file.read(&ch,1)) {
+            while(file_I.read(&ch,1)) {
                 if(ch != ' ')
                     break;
             }
@@ -187,7 +209,8 @@ void Scan::PreTreatMent() {
         last = ch;
     } 
 
-    file.close();
+    file_I.close();
+    file_i.close();
 }
 
 void Scan::Analysis() {
@@ -290,8 +313,6 @@ void Scan::Scanner() {
     //开始词法分析
     Analysis();
     
-    //显示最终结果
-    Display();
 }
 
 Judge::Judge() {

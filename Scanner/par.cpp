@@ -13,7 +13,7 @@ int main()
     Scan sc("test.c");
     sc.Scanner();
     sc.Display();
-    return 0;
+   return 0;
 }
 
 
