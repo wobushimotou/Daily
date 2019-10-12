@@ -3,7 +3,7 @@
 EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop)
     : baseLoop_(baseLoop),
     start_(false),
-    numThreads_(0),
+    numThreads_(1),
     loops(numThreads_),
     next_(0),
     distributions(numThreads_)
@@ -34,7 +34,7 @@ void EventLoopThreadPool::start()
 
 EventLoop *EventLoopThreadPool::getNextLoop() {
 
-   EventLoop *loop = baseLoop_;
+    EventLoop *loop = baseLoop_;
 
     if(!loops.empty()) {
         loop = loops[next_];

@@ -37,6 +37,7 @@ void Channel::handleEvent()
     
     if(revents_ & (POLLIN | POLLPRI | POLLRDHUP)) {
         if(readCallback) {
+            readCallback();
         }
     }
     

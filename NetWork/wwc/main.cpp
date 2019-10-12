@@ -57,7 +57,9 @@ int main()
 {
     HttpServer server2(&loop,9999,"wang");
     server2.start();
+    printf("loop threadid = %ld\n",syscall(SYS_gettid));
+    printf("%d\n",loop.threadId);
     loop.loop();
-    return 0;
+   return 0;
 }
 

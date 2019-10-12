@@ -30,6 +30,7 @@ public:
     void quit();
     void runInLoop(const Functor &cb);
     void queueInLoop(const Functor &cb);
+    pid_t threadId;
 private:
     void handleRead();
     void doPendingFunctors();
@@ -40,7 +41,6 @@ private:
     ChannelList activeChanels;
     Channel *currentActiveChannel;
 
-    pid_t threadId;
     bool looping;
     bool quit_;
     bool callingPendingFunctors;

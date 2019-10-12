@@ -20,12 +20,15 @@ void EventLoop::loop()
     if(!isInLoopThread()) {
     }
 
+    if(threadId != syscall(SYS_gettid))
+        threadId = syscall(SYS_gettid);
     looping = true;
     quit_ = false;
     while(!quit_) {
         activeChanels.clear();
         poll_->poll(1000,&activeChanels);
         eventHanding = true;
+
         for(auto p = activeChanels.begin();p != activeChanels.end();++p) {
             currentActiveChannel = *p;
             currentActiveChannel->handleEvent();
@@ -82,8 +85,9 @@ void EventLoop::doPendingFunctors()
         printf("任务数量为%zd个\n",functors.size());
     }
 
-    for(size_t i = 0;i < functors.size();++i)
+    for(size_t i = 0;i < functors.size();++i) {
         functors[i]();
+    }
 
     callingPendingFunctors = false;
 }

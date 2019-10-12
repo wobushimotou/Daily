@@ -93,6 +93,8 @@ void TcpConnection::send(void *message,int len)
 
 void TcpConnection::sendInLoop(std::string message)
 {
+    printf("TcpConnection::sendInLoop %p\n",loop);
+    
     size_t nworte = 0;
     if(!channel->isWriting() && outputBuffer.readableBytes() == 0) {
         nworte = ::send(socket->fd(),message.data(),message.size(),MSG_WAITALL);
@@ -101,6 +103,7 @@ void TcpConnection::sendInLoop(std::string message)
             }
         }
         else {
+            perror("error nworte < 0\n");
             nworte = 0;
         }
     }
@@ -115,8 +118,9 @@ void TcpConnection::sendInLoop(std::string message)
 void TcpConnection::send(std::string message)
 {
     if(state == kConnected) {
-        if(loop->isInLoopThread())
+        if(loop->isInLoopThread()) {
             sendInLoop(message);
+        }
         else {
             loop->runInLoop(std::bind(static_cast<void(TcpConnection::*)(std::string)>(&TcpConnection::sendInLoop),this,message));
         }

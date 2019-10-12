@@ -19,6 +19,7 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
 {
     
     printf("TcpServer::NewConnection() fd:%d\n",sockfd);
+    printf("loop = %p\n",this);
     char buf[64];
     //为新创建的TcpConnection对象起名
     snprintf(buf,sizeof buf,"-%s#:%d",inet_ntoa(addr.sin_addr),nextConnId);
@@ -27,7 +28,6 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
 
     EventLoop *ioLoop = threadpool->getNextLoop();
 
-    std::cout << "loop" << loop << std::endl;
    /* EventLoop *ioLoop = loop; */
     TcpConnectionPtr conn(new TcpConnection(ioLoop,connName,sockfd));
     connections[connName] = conn;
