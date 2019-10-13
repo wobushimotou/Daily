@@ -11,7 +11,8 @@ epoll::~epoll() {
 
 int epoll::poll(int timeoutMs,ChannelList *activeChannels)
 {
-    int numEvents = epoll_wait(epollfd,&*events.begin(),events.size(),timeoutMs);
+
+    int numEvents = epoll_wait(epollfd,&*events.begin(),events.size(),10);
 
     if(numEvents < 0) {
         return -1;
