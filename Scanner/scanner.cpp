@@ -306,6 +306,20 @@ void Scan::Display() {
     for(auto p = values.begin();p != values.end();++p) {
         cout << setw(20) << setfill(' ') << p->first << " " << setw(20) << setfill(' ') << p->second << endl;
     } 
+    
+
+    cout << "标识符表" << endl;
+    for(auto p = Identifier.begin();p != Identifier.end();++p) {
+        cout << setw(20) << setfill(' ') << p->first << " " << setw(20) << setfill(' ') << p->second << endl;
+    } 
+
+    cout << "常量表" << endl;
+    for(auto p = Constant.begin();p != Constant.end();++p) {
+        cout << setw(20) << setfill(' ') << p->first << " " << setw(20) << setfill(' ') << p->second << endl;
+    } 
+  
+
+
 }
 void Scan::Scanner() {
     //预处理
