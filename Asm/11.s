@@ -16,8 +16,7 @@ fun:
 	movl	$10, (%rax)
 	movq	-16(%rbp), %rax
 	movl	$20, (%rax)
-	movq	-8(%rbp), %rax
-	movl	(%rax), %eax
+	nop
 	popq	%rbp
 	.cfi_def_cfa 7, 8
 	ret

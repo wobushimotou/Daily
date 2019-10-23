@@ -1,9 +1,12 @@
 #include <stdio.h>
+int fun(int *x,int *y) {
+    *x = 10;
+    *y = 20;
+    return *x;
+}
 
 int main()
 {
-    printf("Hello world\n");
-
     return 0;
 }
 
