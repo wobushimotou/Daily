@@ -6,10 +6,7 @@ int main()
     bd.Init();
     bd.Display();
     cout << endl;
-    int *t = (int*)bd.Apply(4);
-    bd.Display();
-    cout << endl;
-    bd.Release(t,sizeof(int));
+    int *tt = (int *)bd.Apply(18);
     bd.Display();
     return 0;
 }

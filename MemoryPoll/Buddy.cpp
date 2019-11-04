@@ -81,7 +81,7 @@ void *Buddy::Apply(int size) {
                     int surplus = pow(2,p-mm.begin()) - size;            
                     //将剩余空间分解插入到空闲链表上
                     if(surplus > 0) {
-                        Alloc(q+pow(2,i),surplus); 
+                        Alloc(q+size,surplus); 
                     }
                     return (void *)(area.get()+q);
                 }

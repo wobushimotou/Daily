@@ -2,13 +2,15 @@
 #include <memory>
 #include <vector>
 using namespace std;
+struct A{
+    int a;
+    long b;
+};
 int main()
 {
-    unique_ptr<char[]> area(new char[10]);
-    void *p = (void *)(area.get()+5);
-    
-    long t = (char *)p - (char *)(area.get());
-    cout << t << endl;
+    allocator<A> alloc;
+    A *data = alloc.allocate(1);
+    alloc.construct(data,A());
     return 0;
 }
 
