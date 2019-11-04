@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/mm.dir/Buddy.cpp.o CMakeFiles/mm.dir/main.cpp.o  -o mm 

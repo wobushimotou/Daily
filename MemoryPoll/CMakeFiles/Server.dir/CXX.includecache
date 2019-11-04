@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/wh/Daily/MemoryPoll/Buddy.cpp
+Buddy.h
+/home/wh/Daily/MemoryPoll/Buddy.h
+
+/home/wh/Daily/MemoryPoll/Buddy.h
+deque
+-
+vector
+-
+memory
+-
+iostream
+-
+
+/home/wh/Daily/MemoryPoll/main.cpp
+iostream
+-
+Buddy.h
+/home/wh/Daily/MemoryPoll/Buddy.h
+

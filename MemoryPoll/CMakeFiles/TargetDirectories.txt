@@ -1,0 +1,3 @@
+/home/wh/Daily/MemoryPoll/CMakeFiles/rebuild_cache.dir
+/home/wh/Daily/MemoryPoll/CMakeFiles/main.dir
+/home/wh/Daily/MemoryPoll/CMakeFiles/edit_cache.dir
