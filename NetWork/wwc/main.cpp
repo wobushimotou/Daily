@@ -12,7 +12,6 @@ using namespace std;
 EventLoop loop;
 
 void onConnection1(std::shared_ptr<TcpConnection> conn) {
-    printf("onConnection():new connection\n");
 }
 
 void Construct(string &s,string &head);
@@ -57,8 +56,6 @@ int main()
 {
     HttpServer server2(&loop,9999,"wang");
     server2.start();
-    printf("loop threadid = %ld\n",syscall(SYS_gettid));
-    printf("%d\n",loop.threadId);
     loop.loop();
     return 0;
 }

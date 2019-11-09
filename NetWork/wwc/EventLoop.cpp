@@ -80,10 +80,6 @@ void EventLoop::doPendingFunctors()
     functors.swap(pendingFunctions);
     Mutex.unlock();
 
-    if(functors.size() > 0) {
-        printf("EventLoop::doPendingFunctors()  %p\n",this);
-        printf("任务数量为%zd个\n",functors.size());
-    }
 
     for(size_t i = 0;i < functors.size();++i) {
         functors[i]();

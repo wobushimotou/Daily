@@ -79,27 +79,19 @@ void epoll::update(int operation,Channel *channel)
         if(operation == EPOLL_CTL_DEL) {
             switch(errno) {
             case EBADE:
-                printf("不是有效文件描述符:%d\n",fd);
                 break;
             case EINVAL:
-                printf("无效的文件描述符:%d\n",fd);
                 break;
             case ENOENT:
-                printf("文件描述符:%d不在epfd中\n",fd);
                 if(close(fd) == 0) {
-                    printf("关闭成功\n");
                 }
                 else
-                    printf("关闭错误\n");
                 break;
             case ENOMEM:
-                printf("内存不足\n");
                 break;
             case EEXIST:
-                printf("文件描述符:%d已存在",fd);
                 break;
             case EPERM:
-                printf("文件描述符:%d不支持epoll",fd);
                 break;
             }
 

@@ -27,10 +27,8 @@ void Acceptor::initAddr()
 
 void Acceptor::handleRead()
 {
-    std::cout << "Acceptor::handleRead()" << std::endl;
     struct sockaddr_in sockaddr;
     int connfd = acceptSocket.acceptAddr(&sockaddr);
-    std::cout << connfd << std::endl;
     if(connfd > 0) {
         if(newConnectionCallback_) {
             newConnectionCallback_(connfd,sockaddr);

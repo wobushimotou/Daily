@@ -13,7 +13,6 @@ HttpServer::HttpServer(EventLoop *loop,int port,std::string name)
 void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
 {
     if(conn->connected()) {
-        std::cout << "new client conneded:" << conn->socket->fd() << std::endl;;
     }
 }
 
@@ -22,7 +21,6 @@ void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,s
 
     std::string head;
     buf->retrieveAllAsString(head);
-    std::cout << head << std::endl;
     int b = 0;
     int e = head.find(" ",0);
 

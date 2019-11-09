@@ -3,13 +3,11 @@
 #include "TcpConnection.h"
 void handleSIGPIPE(int Signal) {
     if(Signal == SIGPIPE) {
-        printf("客户端已关闭\n"); 
     }
 }
 void TcpConnection::handleRead()
 {
     size_t n = inputBuffer.readFd(channel->fd());
-    printf("n = %zd\n",n);
     if(n > 0) {    
         messageCallback(shared_from_this(),&inputBuffer,n);
     }
@@ -93,7 +91,6 @@ void TcpConnection::send(void *message,int len)
 
 void TcpConnection::sendInLoop(std::string message)
 {
-    printf("TcpConnection::sendInLoop %p\n",loop);
     
     size_t nworte = 0;
     if(!channel->isWriting() && outputBuffer.readableBytes() == 0) {
