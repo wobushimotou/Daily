@@ -31,7 +31,8 @@ void EventLoop::loop()
 
         for(auto p = activeChanels.begin();p != activeChanels.end();++p) {
             currentActiveChannel = *p;
-            currentActiveChannel->handleEvent();
+            if(currentActiveChannel)
+                currentActiveChannel->handleEvent();
         }
 
         eventHanding = false;
@@ -79,7 +80,6 @@ void EventLoop::doPendingFunctors()
     Mutex.lock();
     functors.swap(pendingFunctions);
     Mutex.unlock();
-
 
     for(size_t i = 0;i < functors.size();++i) {
         functors[i]();

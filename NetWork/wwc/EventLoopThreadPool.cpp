@@ -10,7 +10,6 @@ EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop)
 {
 }
 void EventLoopThreadPool::run(EventLoopThreadPool *t,int i) {
-
     t->loops[i]->loop();
 }
 
@@ -25,10 +24,10 @@ void EventLoopThreadPool::start()
 {
     start_ = true;
     for(int i = 0;i < numThreads_;++i) {
-        threads.emplace_back(run,this,i);
-        threads[i].detach(); 
         EventLoop *ioLoop = new EventLoop();
         loops[i] = ioLoop;
+        threads.emplace_back(run,this,i);
+        threads[i].detach(); 
     }
 }
 
