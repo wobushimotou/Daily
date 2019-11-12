@@ -3,7 +3,7 @@
 EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop)
     : baseLoop_(baseLoop),
     start_(false),
-    numThreads_(3),
+    numThreads_(10),
     loops(numThreads_),
     next_(0),
     distributions(numThreads_)
@@ -24,25 +24,37 @@ void EventLoopThreadPool::start()
 {
     start_ = true;
     for(int i = 0;i < numThreads_;++i) {
-        EventLoop *ioLoop = new EventLoop();
-        loops[i] = ioLoop;
+
+        loops[i] = std::make_shared<EventLoop>();
         threads.emplace_back(run,this,i);
-        threads[i].detach(); 
+        /* threads[i].detach(); */ 
     }
 }
 
-EventLoop *EventLoopThreadPool::getNextLoop() {
+std::shared_ptr<EventLoop> EventLoopThreadPool::getNextLoop() {
 
-    EventLoop *loop = baseLoop_;
-
+    auto p = baseLoop_;
+    int n = 0;
     if(!loops.empty()) {
-        loop = loops[next_];
-        ++next_;
+        n = next_++;
         if(static_cast<size_t>(next_) >= loops.size()) {
             next_ = 0;
         }
+        p = loops[n];
     }
-    return loop;
+    
+
+    /* int flag = 1; */
+    /* for(int i = 0;i != numThreads_;++i) */
+    /*     if(loops[i].get() == loop) { */
+    /*         printf("i = %d\n",i); */
+    /*         flag = 0; */
+    /*     } */
+    /* if(flag) */
+    /*     printf("loop alone\n"); */
+
+    
+    return p;
 }
 
 EventLoopThreadPool::~EventLoopThreadPool()
@@ -52,4 +64,3 @@ EventLoopThreadPool::~EventLoopThreadPool()
    for(std::thread &e:threads)
        e.join();
 }
-

@@ -12,8 +12,7 @@ EventLoop::EventLoop()
 
 EventLoop::~EventLoop()
 {
-    if(looping)
-        ;
+    ::close(wakeupFd);
 }
 void EventLoop::loop()
 {
@@ -67,9 +66,11 @@ void EventLoop::queueInLoop(const Functor &cb)
     Mutex.lock();
     pendingFunctions.push_back(cb);
     Mutex.unlock();
+
     if(!isInLoopThread() || callingPendingFunctors) {
         wakeup();
     }
+
 }
 
 void EventLoop::doPendingFunctors()

@@ -38,6 +38,7 @@ private:
     EventLoop *loop;
     std::string name;
     std::unique_ptr<Acceptor> acceptor;
+
     ConnectionCallback connectionCallback;
     MessageCallback messageCallback;
     TcpConnection::CloseCallback closeCallback;
@@ -47,6 +48,5 @@ private:
     int nextConnId;
     ConnectionMap connections;
     std::unique_ptr<EventLoopThreadPool> threadpool;
-
 };
 

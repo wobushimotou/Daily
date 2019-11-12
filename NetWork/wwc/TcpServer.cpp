@@ -24,10 +24,8 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
     ++nextConnId;
     std::string connName = buf+name;
 
-    EventLoop *ioLoop = threadpool->getNextLoop();
-
-   /* EventLoop *ioLoop = loop; */
-    TcpConnectionPtr conn(new TcpConnection(ioLoop,connName,sockfd));
+    auto ioLoop = threadpool->getNextLoop();
+    TcpConnectionPtr conn(new TcpConnection(ioLoop.get(),connName,sockfd));
     connections[connName] = conn;
     conn->setConnectionCallback(connectionCallback);
     conn->setMessageCallback(messageCallback);
