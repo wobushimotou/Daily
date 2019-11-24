@@ -3,14 +3,41 @@
 EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop)
     : baseLoop_(baseLoop),
     start_(false),
-    numThreads_(10),
+    numThreads_(5),
     loops(numThreads_),
     next_(0),
     distributions(numThreads_)
 {
 }
-void EventLoopThreadPool::run(EventLoopThreadPool *t,int i) {
-    t->loops[i]->loop();
+void EventLoopThreadPool::threadFun() {
+    std::shared_ptr<EventLoop> loop = std::make_shared<EventLoop>();
+    {
+        Mutex.lock();
+        loop_ = loop;
+        Cond.notify_one();
+        Mutex.unlock();
+    }
+
+    loop->loop();
+
+    Mutex.lock();
+    loop_ = NULL;
+    Mutex.unlock();
+}
+
+std::shared_ptr<EventLoop> EventLoopThreadPool::startLoop() {
+
+    std::unique_lock<std::mutex> lck(Mutex,std::defer_lock);
+    std::shared_ptr<EventLoop> loop = NULL;
+    {
+        Mutex.lock();
+        while(loop_ == NULL)
+            Cond.wait(lck);
+        loop = loop_;
+        Mutex.unlock();
+    }
+
+    return loop;
 }
 
 void EventLoopThreadPool::setThreadNum(int numThreads)
@@ -24,10 +51,9 @@ void EventLoopThreadPool::start()
 {
     start_ = true;
     for(int i = 0;i < numThreads_;++i) {
-
-        loops[i] = std::make_shared<EventLoop>();
-        threads.emplace_back(run,this,i);
-        /* threads[i].detach(); */ 
+        threads.emplace_back(std::bind(&EventLoopThreadPool::threadFun,this)); 
+        loops[i] = startLoop();
+        printf("%d %p\n",i,loops[i].get());
     }
 }
 
@@ -42,17 +68,6 @@ std::shared_ptr<EventLoop> EventLoopThreadPool::getNextLoop() {
         }
         p = loops[n];
     }
-    
-
-    /* int flag = 1; */
-    /* for(int i = 0;i != numThreads_;++i) */
-    /*     if(loops[i].get() == loop) { */
-    /*         printf("i = %d\n",i); */
-    /*         flag = 0; */
-    /*     } */
-    /* if(flag) */
-    /*     printf("loop alone\n"); */
-
     
     return p;
 }

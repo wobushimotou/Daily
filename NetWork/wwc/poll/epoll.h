@@ -14,7 +14,7 @@ class epoll
 {
 public:
 
-    typedef std::vector<Channel *> ChannelList;
+    typedef std::vector<Channel*> ChannelList;
     epoll(EventLoop *loop);
     ~epoll();
 

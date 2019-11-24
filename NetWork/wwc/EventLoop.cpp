@@ -12,6 +12,7 @@ EventLoop::EventLoop()
 
 EventLoop::~EventLoop()
 {
+    printf("~EventLoop\n");
     ::close(wakeupFd);
 }
 void EventLoop::loop()
