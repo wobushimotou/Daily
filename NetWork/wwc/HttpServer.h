@@ -6,7 +6,7 @@
 class HttpServer
 {
 public:
-    HttpServer(EventLoop *loop,int port,std::string name);
+    HttpServer(std::shared_ptr<EventLoop> loop,int port,std::string name);
     void start();
 
 private:

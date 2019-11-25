@@ -7,7 +7,7 @@
 class EventLoopThreadPool
 {
 public:
-    EventLoopThreadPool(EventLoop *baseLoop);
+    EventLoopThreadPool(std::shared_ptr<EventLoop> baseLoop);
     ~EventLoopThreadPool();
     void setThreadNum(int numThreads);
     void start();

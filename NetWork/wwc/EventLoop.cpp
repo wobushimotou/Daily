@@ -5,14 +5,14 @@ EventLoop::EventLoop()
     eventHanding(false),
     poll_(new epoll(this)),
     wakeupFd(createEventfd()),
-    weakupChannel(new Channel(this,wakeupFd))
+    weakupChannel(new Channel(shared_from_this(),wakeupFd))
 {
-}
 
+}
 
 EventLoop::~EventLoop()
 {
-    printf("~EventLoop\n");
+    printf("~EventLoop()\n");
     ::close(wakeupFd);
 }
 void EventLoop::loop()
@@ -24,6 +24,7 @@ void EventLoop::loop()
         threadId = syscall(SYS_gettid);
     looping = true;
     quit_ = false;
+
     while(!quit_) {
         activeChanels.clear();
         poll_->poll(10,&activeChanels);
@@ -38,6 +39,7 @@ void EventLoop::loop()
         eventHanding = false;
         doPendingFunctors();
     }
+
     looping = false;
 }
 

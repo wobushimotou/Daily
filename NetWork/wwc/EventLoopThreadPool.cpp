@@ -1,9 +1,9 @@
 #include <iostream>
 #include "EventLoopThreadPool.h"
-EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop)
+EventLoopThreadPool::EventLoopThreadPool(std::shared_ptr<EventLoop> baseLoop)
     : baseLoop_(baseLoop),
     start_(false),
-    numThreads_(5),
+    numThreads_(2),
     loops(numThreads_),
     next_(0),
     distributions(numThreads_)
@@ -31,8 +31,8 @@ std::shared_ptr<EventLoop> EventLoopThreadPool::startLoop() {
     std::shared_ptr<EventLoop> loop = NULL;
     {
         Mutex.lock();
-        while(loop_ == NULL)
-            Cond.wait(lck);
+        /* while(loop_ == NULL) */
+        Cond.wait(lck);
         loop = loop_;
         Mutex.unlock();
     }
@@ -53,7 +53,7 @@ void EventLoopThreadPool::start()
     for(int i = 0;i < numThreads_;++i) {
         threads.emplace_back(std::bind(&EventLoopThreadPool::threadFun,this)); 
         loops[i] = startLoop();
-        printf("%d %p\n",i,loops[i].get());
+        loops[i]->runInLoop(std::bind(&EventLoop::Test,loops[i].get()));
     }
 }
 
@@ -74,6 +74,7 @@ std::shared_ptr<EventLoop> EventLoopThreadPool::getNextLoop() {
 
 EventLoopThreadPool::~EventLoopThreadPool()
 {
+    printf("~EventLoopThreadPool()\n");
    Cond.notify_all();
 
    for(std::thread &e:threads)

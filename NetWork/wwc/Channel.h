@@ -6,8 +6,9 @@ class Channel
 {
 public:
     typedef std::function<void()> EventCallback;
-    Channel(EventLoop *loop,int fd);
-    ~Channel() {}
+    Channel(std::shared_ptr<EventLoop> loop,int fd);
+    
+    ~Channel() {printf("~Channel()\n");}
 
     void handleEvent();
 
@@ -31,7 +32,7 @@ public:
     int index() { return index_; }
     void set_index(int idx) { index_ = idx; }
 
-    EventLoop *ownLoop() { return loop_; }
+    std::shared_ptr<EventLoop> ownLoop() { return loop_; }
     void remove();
     void shutdown();
 private:
@@ -41,7 +42,7 @@ private:
     static const int kReadEvent;
     static const int kWriteEvent;
 
-    EventLoop *loop_;
+    std::shared_ptr<EventLoop> loop_;
     int fd_;
     int events_;
     int revents_;

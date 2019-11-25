@@ -3,10 +3,11 @@ epoll::epoll(EventLoop *loop)
     : ownerLoop(loop),epollfd(epoll_create(1))
 {
     events.resize(16);
+    printf("epoll\n");
 }
 
 epoll::~epoll() {
-
+    printf("~epoll()\n");
 }
 
 int epoll::poll(int timeoutMs,ChannelList *activeChannels)

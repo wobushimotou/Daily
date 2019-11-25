@@ -14,7 +14,7 @@
 #include "Channel.h"
 class epoll;
 class Channel;
-class EventLoop
+class EventLoop : public std::enable_shared_from_this<EventLoop>
 {
 public:
     typedef std::vector<Channel *>ChannelList;
@@ -31,14 +31,18 @@ public:
     void runInLoop(const Functor &cb);
     void queueInLoop(const Functor &cb);
     pid_t threadId;
+    void Test() {
+        printf("poll_ %p\n",poll_.get());
+        printf("weakupChannel_ %p\n",weakupChannel.get());
+    }
+ 
 private:
     void handleRead();
     void doPendingFunctors();
     void wakeup();
     int createEventfd();
 
-
-    ChannelList activeChanels;
+   ChannelList activeChanels;
     Channel *currentActiveChannel;
 
     bool looping;

@@ -4,7 +4,7 @@ const int Channel::kNoneEvent = 0;
 const int Channel::kReadEvent = POLLIN | POLLPRI;
 const int Channel::kWriteEvent = POLLOUT;
 
-Channel::Channel(EventLoop *loop,int fd)
+Channel::Channel(std::shared_ptr<EventLoop> loop,int fd)
    :loop_(loop),
     fd_(fd),
     events_(0),

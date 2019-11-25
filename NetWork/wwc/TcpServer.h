@@ -11,7 +11,7 @@ public:
     typedef std::function<void (std::shared_ptr<TcpConnection>)> ConnectionCallback;
     typedef std::function<void (const TcpConnectionPtr&,Buffer*,size_t)> MessageCallback;
 
-    TcpServer(EventLoop *loop,int port,std::string namearg);
+    TcpServer(std::shared_ptr<EventLoop> loop,int port,std::string namearg);
     ~TcpServer();
 
     void start();
@@ -35,7 +35,7 @@ private:
     void removeConnction(const TcpConnectionPtr &conn);
     void removeConnctionInLoop(const TcpConnectionPtr &conn);
 
-    EventLoop *loop;
+    std::shared_ptr<EventLoop> loop;
     std::string name;
     std::unique_ptr<Acceptor> acceptor;
 

@@ -9,7 +9,7 @@ class Acceptor
 {
 public:
     typedef std::function<void (int sockfd,struct sockaddr_in addr)> NewConnectionCallback;
-    Acceptor(EventLoop *loop,int port);
+    Acceptor(std::shared_ptr<EventLoop> loop,int port);
     ~Acceptor();
 
     void setNewConnectionCallback(const NewConnectionCallback& cb) { newConnectionCallback_ = cb; }
@@ -20,7 +20,7 @@ private:
     void handleRead();
     void initAddr();
 
-    EventLoop *loop;
+    std::shared_ptr<EventLoop> loop;
     Socket acceptSocket;
     Channel acceptChannel;
     int port;

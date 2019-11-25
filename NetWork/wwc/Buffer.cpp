@@ -76,6 +76,6 @@ void Buffer::append(const char *data,int len)
 
 Buffer::~Buffer()
 {
-
+    printf("~Buffer()\n");
 }
 

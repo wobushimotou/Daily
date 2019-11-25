@@ -13,7 +13,6 @@ void signal_handle2(int sig_num) {
     exit(0);
 }
 using namespace std;
-EventLoop loop;
 
 void onConnection1(std::shared_ptr<TcpConnection> conn) {
 }
@@ -58,9 +57,12 @@ void Construct(string &s,string &head) {
 }
 int main()
 {
-    HttpServer server2(&loop,9999,"wang");
+    printf("2\n");
+    std::shared_ptr<EventLoop> loop(new EventLoop());
+    printf("1\n");
+    HttpServer server2(loop,9999,"wang");
     server2.start();
-    loop.loop();
+    loop->loop();
     return 0;
 }
 

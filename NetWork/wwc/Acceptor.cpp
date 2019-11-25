@@ -1,5 +1,5 @@
 #include "Acceptor.h"
-Acceptor::Acceptor(EventLoop *loop,int port)
+Acceptor::Acceptor(std::shared_ptr<EventLoop> loop,int port)
     :loop(loop),
     acceptSocket(),
     acceptChannel(loop,acceptSocket.fd()),
@@ -51,6 +51,7 @@ void Acceptor::listen()
 
 Acceptor::~Acceptor()
 {
+    printf("~Acceptor()\n");
     acceptSocket.~Socket(); 
 }
 

@@ -36,13 +36,13 @@ public:
     void send(void *message,int len);
     void send(std::string message);
     void send(Buffer *message);
-    EventLoop *getLoop() { return loop; }
+    std::shared_ptr<EventLoop> getLoop() { return loop; }
     void connectEstablished();
     void connectDestoryed();
     std::string name() { return name_; }
     
 
-    TcpConnection(EventLoop *loop,std::string &name,int sockfd);
+    TcpConnection(std::shared_ptr<EventLoop> loop,std::string &name,int sockfd);
     ~TcpConnection();
     
     std::unique_ptr<Socket> socket;
@@ -62,7 +62,7 @@ private:
     void shutdownInLoop();
     void shutdown();
     
-    EventLoop *loop;
+    std::shared_ptr<EventLoop> loop;
     std::string name_;
     StateE state;
     void *context_;

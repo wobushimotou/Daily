@@ -12,6 +12,7 @@ void TcpConnection::handleRead()
         messageCallback(shared_from_this(),&inputBuffer,n);
     }
     else if(n == 0) {
+        printf("handleRead close%p\n",loop.get());
         handleClose();
     }
     else {
@@ -38,7 +39,7 @@ void TcpConnection::handleWrite()
     }
 }
 
-TcpConnection::TcpConnection(EventLoop *loop,std::string &name,int sockfd)
+TcpConnection::TcpConnection(std::shared_ptr<EventLoop> loop,std::string &name,int sockfd)
     :   socket(new Socket(sockfd)),
         loop(loop),
         name_(name),
@@ -58,6 +59,7 @@ void TcpConnection::connectEstablished()
 
 TcpConnection::~TcpConnection()
 {
+    printf("~TcpConnection()\n");
     if(state != kDisconnected)
         connectDestoryed();
 }

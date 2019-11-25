@@ -1,7 +1,7 @@
 #include <iostream>
 #include "TcpServer.h"
 
-TcpServer::TcpServer(EventLoop *loop,int port,std::string namearg)
+TcpServer::TcpServer(std::shared_ptr<EventLoop> loop,int port,std::string namearg)
     :loop(loop),
     name(namearg),
     acceptor(new Acceptor(loop,port)),
@@ -21,11 +21,13 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
     char buf[64];
     //为新创建的TcpConnection对象起名
     snprintf(buf,sizeof buf,"-%s#:%d",inet_ntoa(addr.sin_addr),nextConnId);
+
     ++nextConnId;
     std::string connName = buf+name;
 
     auto ioLoop = threadpool->getNextLoop();
-    TcpConnectionPtr conn(new TcpConnection(ioLoop.get(),connName,sockfd));
+    TcpConnectionPtr conn = std::make_shared<TcpConnection>(ioLoop,connName,sockfd);
+
     connections[connName] = conn;
     conn->setConnectionCallback(connectionCallback);
     conn->setMessageCallback(messageCallback);
@@ -33,6 +35,7 @@ void TcpServer::NewConnection(int sockfd,struct sockaddr_in addr)
     conn->setwriteCompleteCallback(writeCompleteCallback_);
 
     ioLoop->runInLoop(std::bind(&TcpConnection::connectEstablished,conn));
+
 }
 
 
@@ -46,13 +49,13 @@ void TcpServer::removeConnctionInLoop(const TcpConnectionPtr &conn)
 {
     size_t n = connections.erase(conn->name());
     assert(n == 1);
-    EventLoop *ioLoop = conn->getLoop();
+    std::shared_ptr<EventLoop> ioLoop = conn->getLoop();
     ioLoop->queueInLoop(std::bind(&TcpConnection::connectDestoryed,conn));
 }
 
 TcpServer::~TcpServer()
 {
-
+    printf("~TcpServer()\n");
 }
 
 void TcpServer::start()

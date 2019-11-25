@@ -2,7 +2,7 @@
 #include "HttpServer.h"
 using namespace std::placeholders;
 
-HttpServer::HttpServer(EventLoop *loop,int port,std::string name)
+HttpServer::HttpServer(std::shared_ptr<EventLoop> loop,int port,std::string name)
     :server(loop,port,name)
 {
     server.setConnectionCallback(std::bind(&HttpServer::onConnection,this,_1));
