@@ -53,7 +53,6 @@ void EventLoopThreadPool::start()
     for(int i = 0;i < numThreads_;++i) {
         threads.emplace_back(std::bind(&EventLoopThreadPool::threadFun,this)); 
         loops[i] = startLoop();
-        loops[i]->runInLoop(std::bind(&EventLoop::Test,loops[i].get()));
     }
 }
 

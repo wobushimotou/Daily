@@ -18,18 +18,16 @@ void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
 
 void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,size_t size)
 {
-
+    printf("HttpServer::onMessage\n");
     std::string head;
     buf->retrieveAllAsString(head);
     int b = 0;
     int e = head.find(" ",0);
-
     if(head.substr(b,e-b) == "GET") {
         std::string filename = this->onGet(head);
         if(filename.size() == 0) {
             filename = "test.html";
         }
-            
         int i = ReadFile(filename);
         std::string Requesthead = std::string("HTTP/1.1 200 OK\r\n")+ \
                                   "Content-Type: text/html;charset=utf-8\r\n"+ \
@@ -65,10 +63,13 @@ int HttpServer::ReadFile(std::string filename)
     std::fstream file(filename);
     int i = 0;
     char ch;
+    std::string temp;
     while(file.read(&ch,1)) {
-        data[filename].push_back(ch);
+        /* data[filename].push_back(ch); */
+        temp.push_back(ch);
         ++i;
     }
+    data[filename] = temp;
     data[filename] += "\r\n\r\n";
     file.close();
     return i;

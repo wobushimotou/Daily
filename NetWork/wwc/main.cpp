@@ -19,6 +19,7 @@ void onConnection1(std::shared_ptr<TcpConnection> conn) {
 
 void Construct(string &s,string &head);
 void onMessage1(std::shared_ptr<TcpConnection> conn,Buffer *data,size_t n) {
+    printf("onMessage\n");
     std::string buff;
     data->retrieveAllAsString(buff);
     buff.clear();
@@ -57,9 +58,7 @@ void Construct(string &s,string &head) {
 }
 int main()
 {
-    printf("2\n");
     std::shared_ptr<EventLoop> loop(new EventLoop());
-    printf("1\n");
     HttpServer server2(loop,9999,"wang");
     server2.start();
     loop->loop();

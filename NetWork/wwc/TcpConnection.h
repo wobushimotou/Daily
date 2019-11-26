@@ -48,6 +48,7 @@ public:
     std::unique_ptr<Socket> socket;
 
 
+    std::unique_ptr<Channel> channel;
 private:
     enum StateE{kConnecting,kConnected,kDisconnected};
 
@@ -63,12 +64,10 @@ private:
     void shutdown();
     
     std::shared_ptr<EventLoop> loop;
-    std::string name_;
     StateE state;
     void *context_;
-
-    std::unique_ptr<Channel> channel;
     
+    std::string name_;
     ConnectionCallback connectionCallback;
     MessageCallback messageCallback;
     CloseCallback closeCallback;

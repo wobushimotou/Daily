@@ -31,18 +31,14 @@ public:
     void runInLoop(const Functor &cb);
     void queueInLoop(const Functor &cb);
     pid_t threadId;
-    void Test() {
-        printf("poll_ %p\n",poll_.get());
-        printf("weakupChannel_ %p\n",weakupChannel.get());
-    }
- 
+
 private:
     void handleRead();
     void doPendingFunctors();
     void wakeup();
     int createEventfd();
 
-   ChannelList activeChanels;
+    ChannelList activeChanels;
     Channel *currentActiveChannel;
 
     bool looping;
@@ -50,10 +46,10 @@ private:
     bool callingPendingFunctors;
     bool eventHanding;
 
-    std::unique_ptr<epoll> poll_;
+    std::shared_ptr<epoll> poll_;
 
     int wakeupFd;
-    std::unique_ptr<Channel> weakupChannel;
+    std::shared_ptr<Channel> weakupChannel;
     std::mutex Mutex;
     std::vector<Functor > pendingFunctions;
 };

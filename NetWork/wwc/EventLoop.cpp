@@ -4,10 +4,8 @@ EventLoop::EventLoop()
     looping(false),
     eventHanding(false),
     poll_(new epoll(this)),
-    wakeupFd(createEventfd()),
-    weakupChannel(new Channel(shared_from_this(),wakeupFd))
+    wakeupFd(createEventfd())
 {
-
 }
 
 EventLoop::~EventLoop()
@@ -94,6 +92,9 @@ void EventLoop::doPendingFunctors()
 
 void EventLoop::wakeup()
 {
+    std::shared_ptr<Channel> temp = std::make_shared<Channel>(shared_from_this(),wakeupFd);    
+    weakupChannel.swap(temp);
+
     char ch;
     size_t n = ::write(wakeupFd,&ch,1);
     if(n != sizeof ch) {

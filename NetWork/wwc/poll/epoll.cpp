@@ -3,11 +3,9 @@ epoll::epoll(EventLoop *loop)
     : ownerLoop(loop),epollfd(epoll_create(1))
 {
     events.resize(16);
-    printf("epoll\n");
 }
 
 epoll::~epoll() {
-    printf("~epoll()\n");
 }
 
 int epoll::poll(int timeoutMs,ChannelList *activeChannels)
@@ -103,7 +101,9 @@ void epoll::update(int operation,Channel *channel)
 
 void epoll::removeChannel(Channel *channel)
 {
+    printf("epoll::removeChannel\n");
     int fd = channel->fd();
+    printf("removeChannel fd = %d , this thread = %ld\n",fd,syscall(SYS_gettid));
     size_t n = channels.erase(fd);
     /* assert(n == 1); */
     update(EPOLL_CTL_DEL,channel);
