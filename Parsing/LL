@@ -1,0 +1,7 @@
+$ + * ( ) i
+E T e t F 
+E->Te
+e->+Te | $
+T->Ft
+t->*Ft | $
+F->(E) | i
