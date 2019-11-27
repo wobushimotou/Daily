@@ -20,6 +20,34 @@ char Parsing::GetNextSign()
     return sign;
 }
 
+void Parsing::LeftRecursion()
+{
+    fstream file_new(filename+"_new",ios::in);
+    fstream file_fin(filename+"_fin",ios::out);
+    string ss;
+    vector<string> vec;
+
+    while(getline(file_new,ss)) {
+        //含有直接左递归
+        if(ss[0] == ss[3]) {    
+            string tt;
+            int t = ss.find_first_of("|");
+            string x = ss.substr(4,t-4);
+            string y = ss.substr(t+1,ss.size());
+            char A = GetNextSign();
+            ss = ss.substr(0,3);
+            ss += y+A;
+            tt += A;
+            tt += "->"+x+A+"|@";
+
+            file_fin << ss << "\n";
+            file_fin << tt << "\n";
+        } 
+        else 
+            file_fin << ss << "\n";
+    }
+}
+
 void Parsing::LeftFactor()
 {
     fstream file_old(filename,ios::in);
@@ -27,11 +55,11 @@ void Parsing::LeftFactor()
     
     string ss;
     vector<string> vec;
-    vector<string> vv;
-    vector<string> data;
-    data.push_back("");
     while(getline(file_old,ss)) {
         //判断有多少个产生式
+        
+        vector<string> vv;
+        vector<string> data;
         int n = count(ss.begin(),ss.end(),'|');
         if(n) {
             //保存左部信息
@@ -49,25 +77,27 @@ void Parsing::LeftFactor()
             map<char,int> im;   //存储每个产生式中最左符号出现的次数
             map<char,string> ii;    //存储每个新的产生式
 
-            for(auto &e:vec)
-                im[e[0]]++;
+            for(auto p = vec.begin()+1;p != vec.end();++p)
+                im[p->at(0)]++;
+            
             
             char c;
-            for(auto &e:vec) {
-                if(im[e[0]] > 1) {
+            for(auto p = vec.begin()+1;p != vec.end();++p) {
+                if(im[p->at(0)] > 1) {
                     //产生新的产生式
-                    if(ii[e[0]].size() == 0) {
+                    if(ii[p->at(0)].size() == 0) {
                         c = GetNextSign();
-                        ii[e[0]].push_back(c);
-                        ii[e[0]] += "->";
+                        ii[p->at(0)].push_back(c);
+                        ii[p->at(0)] += "->";
                     }
-                    ii[e[0]] += e.substr(1,e.size())+"|";
+                    ii[p->at(0)] += p->substr(1,p->size())+"|";
 
                     //消除左公共因子
-                    e = e[0]; 
-                    e.push_back(c);
+                    *p = p->at(0); 
+                    p->push_back(c);
                 }
             }
+
             for(auto &e:ii)
                 if(e.second.size() > 0)
                     e.second = e.second.substr(0,e.second.size()-1);
@@ -78,12 +108,12 @@ void Parsing::LeftFactor()
             //将新的内容写入文件
             string content;
 
-            for(auto &e:vec) {
-                if(e[e.size()-1] == '>' || (e == vec.back()))
-                    content += e;
+                 for(auto p = vec.begin();p != vec.end();++p)
+                if(p->at(p->size()-1) == '>' || (p == vec.end()-1))
+                    content += *p;
                 else
-                    content += e+"|";
-            }
+                    content += *p+"|";
+
 
             //消除新产生式重复
             for(auto p = ii.begin();p != ii.end();++p)
@@ -101,22 +131,28 @@ void Parsing::LeftFactor()
                         *q = "";
                     }
 
+
             file_new << content << "\n";
 
-            for(size_t m = 0;m != vv.size()-1;++m)
+            for(size_t m = 0;m != vv.size();++m)
                 if(vv[m].size() ) {
+                    vv[m] = vv[m].substr(0,vv[m].size());
+
                     if(find(data.begin(),data.end(),vv[m]) != data.end())
                         continue;
-                    vv[m] = vv[m].substr(0,vv[m].size());
+ 
                     file_new << vv[m]<< "\n";
                     data.push_back(vv[m]);
                 }
                 else {
-                    vv.erase(vv.begin()+m);
+                    if(m != vv.size()-1)
+                        vv.erase(vv.begin()+m);
                 }
 
             if((vv.end()-1)->size() == 0)
                 vv.erase(vv.end()-1);
+            
+            
             vec.resize(0);
 
         }   

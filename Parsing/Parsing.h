@@ -13,7 +13,8 @@ class Parsing
 {
 public:
     Parsing(const string &file):filename(file) {}
-    void LeftFactor();  //消除左公因子
+    void LeftFactor();  //提取左公因子
+    void LeftRecursion();   //消除直接左递归
     char GetNextSign(); //从文法中得到下一个可用符号
     ~Parsing() {}
 

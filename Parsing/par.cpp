@@ -3,22 +3,18 @@
 using namespace  std;
 int main()
 {
-    vector<string> vv;
-    vv.push_back("123");
-    vv.push_back("456");
-    vv.push_back("789");
-    vv.push_back("");
-
-    for(size_t m = 0;m != vv.size()-1;++m)
-        if(vv[m].size()) {
-            vv[m] = vv[m].substr(0,vv[m].size()-1);
-        }
-        else {
-            vv.erase(vv.begin()+m);
-        }
-
-    if(!(vv.end()-1)->size())
-        vv.erase(vv.end()-1);
-    for(auto &e:vv)
-        cout <<e << endl;
+    string ss = "P->Pa|b";
+    string tt;
+    int t = ss.find_first_of("|");
+    string x = ss.substr(4,t-4);
+    string y = ss.substr(t+1,ss.size());
+    char A = 'p';
+    ss = ss.substr(0,3);
+    ss += y+A;
+    tt += A;
+    tt += "->"+x+A+"|@";
+    cout << x << endl;
+    cout << y << endl;
+    cout << ss << endl;
+    cout << tt << endl;
 }
