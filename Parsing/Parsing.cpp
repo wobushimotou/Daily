@@ -1,4 +1,46 @@
 #include "Parsing.h"
+
+void Parsing::Replace(string &source,string target)
+{
+    int n = count(target.begin(),target.end(),'|');
+    int m = count(source.begin(),source.end(),target[0]);
+    char ch = target[0];
+    //分解target
+    vector<string> vv;
+    target = target.substr(3,target.size());
+
+    for(int i = 0;i != n+1;++i) {
+        int pos = target.find_first_of("|",0);
+        vv.push_back(target.substr(0,pos));
+        target = target.substr(pos+1,target.size());
+        cout << vv[i] << endl;
+    }
+    //寻找在source中出现的第一个可替换符号
+    size_t t;
+    for(int i = 0;i != m;++i) {
+        t = source.find_first_of(ch,0);
+        int t_next= source.find_first_of("|",t);
+        string ss = source.substr(t,t_next);
+        auto temp = ss;
+        //ss为待替换产生式
+        if(t != string::npos) {
+            for(int i = 0;i != n+1;++i) {
+                ss = vv[i]+ss.substr(1,ss.size());         
+                source += "|" + ss;
+                ss = temp;
+            }
+            //删除ss自身
+            int pos = source.find(temp);
+            cout << pos << endl;
+            source.erase(pos,temp.size());
+
+        }    
+    }
+
+
+
+}
+
 char Parsing::GetNextSign()
 {
     if(signs.size()) {
@@ -20,7 +62,57 @@ char Parsing::GetNextSign()
     return sign;
 }
 
+
+void Parsing::ExtractSign()
+{
+    fstream file(filename);
+    string ss;
+    //提取所有非终结符号
+    while(getline(file,ss)) {
+        nonendSigns.push_back(ss[0]);
+    }
+    
+    file.seekg(0,ios::beg);
+    char ch;
+    while(file >> ch) {
+        if(find(nonendSigns.begin(),nonendSigns.end(),ch) == nonendSigns.end() )
+            if(ch != '|' && ch != '-' && ch != '>')
+                endSigns.push_back(ch);
+    }
+}
+
 void Parsing::LeftRecursion()
+{
+    //读取文法的所有产生式
+    vector<string> data;
+    fstream file_new(filename+"_new");
+    string ss;
+
+    while(getline(file_new,ss))
+        data.push_back(ss);
+
+    //遍历非终结符号集合
+    for(size_t i = 0;i != nonendSigns.size();++i) {
+        char ch = nonendSigns[i];
+        //寻找ch的产生式中有没有其他非终结符
+        for(auto &e:data)
+            if(e[0] == ch) {
+                char cc = e[3]; 
+                //是非终结符
+                if(!IsendSign(cc)) {
+                    //比较序号
+                    if(ch > cc) {
+                        //将cc在左部的产生式替换进产生式e中
+                        for(auto &f:data)
+                            if(f[0] == cc) {
+                            }
+                    }   
+                } 
+            }
+    } 
+}
+
+void Parsing::DirectLeftRecursion()
 {
     fstream file_new(filename+"_new",ios::in);
     fstream file_fin(filename+"_fin",ios::out);
@@ -48,7 +140,7 @@ void Parsing::LeftRecursion()
     }
 }
 
-void Parsing::LeftFactor()
+void Parsing::ExtractLeftFactor()
 {
     fstream file_old(filename,ios::in);
     fstream file_new(filename+"_new",ios::out);
