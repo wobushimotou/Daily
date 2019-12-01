@@ -13,14 +13,14 @@ void Parsing::Replace(string &source,string target)
         int pos = target.find_first_of("|",0);
         vv.push_back(target.substr(0,pos));
         target = target.substr(pos+1,target.size());
-        cout << vv[i] << endl;
     }
+
     //寻找在source中出现的第一个可替换符号
     size_t t;
     for(int i = 0;i != m;++i) {
         t = source.find_first_of(ch,0);
         int t_next= source.find_first_of("|",t);
-        string ss = source.substr(t,t_next);
+        string ss = source.substr(t,t_next-t);
         auto temp = ss;
         //ss为待替换产生式
         if(t != string::npos) {
@@ -31,12 +31,9 @@ void Parsing::Replace(string &source,string target)
             }
             //删除ss自身
             int pos = source.find(temp);
-            cout << pos << endl;
-            source.erase(pos,temp.size());
-
+            source.erase(pos,temp.size()+1);
         }    
     }
-
 
 
 }
@@ -86,7 +83,10 @@ void Parsing::LeftRecursion()
     //读取文法的所有产生式
     vector<string> data;
     fstream file_new(filename+"_new");
+    fstream file_fin(filename+"_fin",ios::out);
     string ss;
+
+    ExtractSign();
 
     while(getline(file_new,ss))
         data.push_back(ss);
@@ -94,28 +94,36 @@ void Parsing::LeftRecursion()
     //遍历非终结符号集合
     for(size_t i = 0;i != nonendSigns.size();++i) {
         char ch = nonendSigns[i];
-        //寻找ch的产生式中有没有其他非终结符
-        for(auto &e:data)
-            if(e[0] == ch) {
-                char cc = e[3]; 
-                //是非终结符
-                if(!IsendSign(cc)) {
-                    //比较序号
-                    if(ch > cc) {
-                        //将cc在左部的产生式替换进产生式e中
-                        for(auto &f:data)
-                            if(f[0] == cc) {
-                            }
-                    }   
-                } 
-            }
-    } 
+        for(size_t j = 0;j <= i;++j) {
+            //寻找ch的产生式中有没有其他非终结符
+            for(auto &e:data)
+                if(e[0] == ch) {
+                    char cc = e[3]; 
+                    //非终结符
+                    if(!IsendSign(cc)) {
+                        //比较序号
+                        if(Index(ch) > Index(cc)) {
+                            //将cc在左部的产生式替换进产生式e中
+                            for(auto &f:data)
+                                if(f[0] == cc) {
+                                    Replace(e,f);
+                                }
+                        }   
+                    } 
+                }
+        } 
+    }
+
+    for(auto &e:data)
+        file_fin << e << endl;
 }
+
+
 
 void Parsing::DirectLeftRecursion()
 {
-    fstream file_new(filename+"_new",ios::in);
-    fstream file_fin(filename+"_fin",ios::out);
+    fstream file_new(filename+"_fin",ios::in);
+    fstream file_fin(filename+"_fin2",ios::out);
     string ss;
     vector<string> vec;
 
@@ -138,6 +146,7 @@ void Parsing::DirectLeftRecursion()
         else 
             file_fin << ss << "\n";
     }
+
 }
 
 void Parsing::ExtractLeftFactor()
@@ -193,8 +202,9 @@ void Parsing::ExtractLeftFactor()
             for(auto &e:ii)
                 if(e.second.size() > 0)
                     e.second = e.second.substr(0,e.second.size()-1);
+
             //合并产生式
-            sort(vec.begin(),vec.end());
+            sort(vec.begin()+1,vec.end());
             vec.erase(unique(vec.begin(),vec.end()),vec.end());
 
             //将新的内容写入文件
@@ -225,8 +235,10 @@ void Parsing::ExtractLeftFactor()
 
 
             file_new << content << "\n";
+            cout << vv.size() << endl;
 
-            for(size_t m = 0;m != vv.size();++m)
+
+            for(size_t m = 0;m != vv.size();++m) {
                 if(vv[m].size() ) {
                     vv[m] = vv[m].substr(0,vv[m].size());
 
@@ -240,8 +252,9 @@ void Parsing::ExtractLeftFactor()
                     if(m != vv.size()-1)
                         vv.erase(vv.begin()+m);
                 }
+            }
 
-            if((vv.end()-1)->size() == 0)
+            if(vv.size() && ((vv.end()-1)->size() == 0))
                 vv.erase(vv.end()-1);
             
             

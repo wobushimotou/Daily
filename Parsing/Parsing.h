@@ -24,6 +24,17 @@ public:
     }
 
     void Replace(string &,string);
+    int Index(char ch) {
+        vector<char> &p = nonendSigns;
+        if(IsendSign(ch))
+            p = endSigns;
+        return find(p.begin(),p.end(),ch) - p.begin();
+    }
+
+    /* string &FindStrIndex(vector<string&> vv,int index,char ch) { */
+    /*     return find(vv.begin(),vv.end(),[ch,index](string& a){ return a[index] == ch; }); */ 
+    /* } */
+
     ~Parsing() {}
 private:
     string filename;

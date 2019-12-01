@@ -1,20 +1,17 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace  std;
+class A{
+public:
+    A() = default;
+};
 int main()
 {
-    string ss = "P->Pa|b";
-    string tt;
-    int t = ss.find_first_of("|");
-    string x = ss.substr(4,t-4);
-    string y = ss.substr(t+1,ss.size());
-    char A = 'p';
-    ss = ss.substr(0,3);
-    ss += y+A;
-    tt += A;
-    tt += "->"+x+A+"|@";
-    cout << x << endl;
-    cout << y << endl;
-    cout << ss << endl;
-    cout << tt << endl;
+    size_t m = 0;
+    size_t n = 0;
+    if(m == n)
+        cout << "true" << endl;
+    else
+        cout << "false" << endl;
 }
