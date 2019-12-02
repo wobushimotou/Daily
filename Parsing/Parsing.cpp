@@ -91,28 +91,31 @@ void Parsing::LeftRecursion()
     while(getline(file_new,ss))
         data.push_back(ss);
 
-    //遍历非终结符号集合
-    for(size_t i = 0;i != nonendSigns.size();++i) {
-        char ch = nonendSigns[i];
-        for(size_t j = 0;j <= i;++j) {
-            //寻找ch的产生式中有没有其他非终结符
-            for(auto &e:data)
-                if(e[0] == ch) {
-                    char cc = e[3]; 
-                    //非终结符
-                    if(!IsendSign(cc)) {
-                        //比较序号
-                        if(Index(ch) > Index(cc)) {
-                            //将cc在左部的产生式替换进产生式e中
-                            for(auto &f:data)
-                                if(f[0] == cc) {
-                                    Replace(e,f);
-                                }
-                        }   
-                    } 
+    for(size_t i = 0;i != data.size();++i) {
+        //消除直接左递归
+        size_t t = 0;
+        t = InnonendSign(data[i],t+1);
+        while(t != string::npos) {
+            char cc = data[i][t];
+            char flag = data[i][t-1];
+            if(flag == '|' || flag == '>') {
+                if(data[i][0] == cc) {
+                    data.push_back(DirectLeftRecursion(data[i],t));
                 }
-        } 
+
+                if(Index(data[i][0]) > Index(cc)) {
+                    //可以进行替换
+                    for(auto &f:data)
+                        if(f[0] == cc) {
+                            Replace(data[i],f);
+                            f = "";
+                        }
+                }
+            }
+            t = InnonendSign(data[i],t+1);
+        }
     }
+
 
     for(auto &e:data)
         file_fin << e << endl;
@@ -120,33 +123,29 @@ void Parsing::LeftRecursion()
 
 
 
-void Parsing::DirectLeftRecursion()
+string Parsing::DirectLeftRecursion(string &ss,int pos)
 {
-    fstream file_new(filename+"_fin",ios::in);
-    fstream file_fin(filename+"_fin2",ios::out);
-    string ss;
     vector<string> vec;
+    string tt;
 
-    while(getline(file_new,ss)) {
-        //含有直接左递归
-        if(ss[0] == ss[3]) {    
-            string tt;
-            int t = ss.find_first_of("|");
-            string x = ss.substr(4,t-4);
-            string y = ss.substr(t+1,ss.size());
-            char A = GetNextSign();
-            ss = ss.substr(0,3);
-            ss += y+A;
-            tt += A;
-            tt += "->"+x+A+"|@";
-
-            file_fin << ss << "\n";
-            file_fin << tt << "\n";
-        } 
-        else 
-            file_fin << ss << "\n";
+    //含有直接左递归
+    if(pos != 3) {
+        string Last  = ss.substr(pos,ss.size());
+        string Front = ss.substr(3,pos-1-3);
+        ss = ss.substr(0,3);
+        ss += Last + "|" + Front;
+        cout << ss << endl;
     }
 
+    int t = ss.find_first_of("|");
+    string x = ss.substr(4,t-4);
+    string y = ss.substr(t+1,ss.size());
+    char A = GetNextSign();
+    ss = ss.substr(0,3);
+    ss += y+A;
+    tt += A;
+    tt += "->"+x+A+"|@";
+    return tt;
 }
 
 void Parsing::ExtractLeftFactor()

@@ -8,10 +8,20 @@ public:
 };
 int main()
 {
-    size_t m = 0;
+    string ss;
+    vector<char> vv = {'1','2','3','4'};
+    copy(vv.begin(),vv.end(),back_inserter(ss));
+
+    
+    string sd = "wang1heng2";
+
     size_t n = 0;
-    if(m == n)
-        cout << "true" << endl;
-    else
-        cout << "false" << endl;
+    do{
+        n = sd.find_first_of(ss,0);
+        sd[n] = 'w';
+        cout << n << endl;
+        
+    }while(n != string::npos);
+
+    return 0;
 }
