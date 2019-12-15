@@ -3,7 +3,7 @@
 EventLoopThreadPool::EventLoopThreadPool(std::shared_ptr<EventLoop> baseLoop)
     : baseLoop_(baseLoop),
     start_(false),
-    numThreads_(2),
+    numThreads_(1),
     loops(numThreads_),
     next_(0),
     distributions(numThreads_)
@@ -18,8 +18,11 @@ void EventLoopThreadPool::threadFun() {
         Mutex.unlock();
     }
 
-    loop->loop();
+    /* HttpServer server(loop,9999,"wang"); */ 
+    /* server.start(); */
 
+    loop->loop();
+    
     Mutex.lock();
     loop_ = NULL;
     Mutex.unlock();
@@ -71,11 +74,9 @@ std::shared_ptr<EventLoop> EventLoopThreadPool::getNextLoop() {
     return p;
 }
 
-EventLoopThreadPool::~EventLoopThreadPool()
-{
-    printf("~EventLoopThreadPool()\n");
-   Cond.notify_all();
+EventLoopThreadPool::~EventLoopThreadPool() {
+    Cond.notify_all();
 
-   for(std::thread &e:threads)
-       e.join();
+    for(std::thread &e:threads)
+        e.join();
 }

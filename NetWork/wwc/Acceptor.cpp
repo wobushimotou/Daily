@@ -51,7 +51,6 @@ void Acceptor::listen()
 
 Acceptor::~Acceptor()
 {
-    printf("~Acceptor()\n");
     acceptSocket.~Socket(); 
 }
 

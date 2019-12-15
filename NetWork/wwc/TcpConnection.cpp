@@ -7,12 +7,9 @@ void handleSIGPIPE(int Signal) {
 }
 void TcpConnection::handleRead()
 {
-    printf("TcpConnection::handleRead thread = %ld fd = %d\n",syscall(SYS_gettid),channel->fd());    
     size_t n = inputBuffer.readFd(channel->fd());
     if(n > 0) {    
-        printf("n = %zd\n",n);
         messageCallback(shared_from_this(),&inputBuffer,n);
-        printf("haha\n");
     }
     else if(n == 0) {
         handleClose();
@@ -61,7 +58,6 @@ void TcpConnection::connectEstablished()
 
 TcpConnection::~TcpConnection()
 {
-    printf("~TcpConnection()\n");
     if(state != kDisconnected)
         connectDestoryed();
 }
@@ -69,7 +65,6 @@ TcpConnection::~TcpConnection()
 
 void TcpConnection::handleClose()
 {
-    printf("TcpConnection::handleClose\n");
     channel->disableAll();    
     setState(kDisconnected);
     if(closeCallback)
@@ -84,7 +79,6 @@ void TcpConnection::handleError()
 
 void TcpConnection::connectDestoryed()
 {
-    printf("TcpConnection::connectDestoryed\n");
     channel->remove();
     socket->shutdown();
 }

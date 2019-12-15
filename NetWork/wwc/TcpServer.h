@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <memory>
 #include "EventLoop.h"
 #include "Acceptor.h"
 #include "TcpConnection.h"
@@ -26,7 +27,7 @@ public:
         writeCompleteCallback_ = cb;
     }
     void setThreadNum(int threadNum) {
-        threadpool->setThreadNum(threadNum);
+        /* threadpool->setThreadNum(threadNum); */
     }
 private:
     
@@ -47,6 +48,6 @@ private:
     bool started;
     int nextConnId;
     ConnectionMap connections;
-    std::unique_ptr<EventLoopThreadPool> threadpool;
+    /* std::unique_ptr<EventLoopThreadPool> threadpool; */
 };
 

@@ -3,10 +3,12 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+/* #include "HttpServer.h" */
 #include "EventLoop.h"
 class EventLoopThreadPool
 {
 public:
+    typedef std::function<void()> ThreadInitCallback;
     EventLoopThreadPool(std::shared_ptr<EventLoop> baseLoop);
     ~EventLoopThreadPool();
     void setThreadNum(int numThreads);

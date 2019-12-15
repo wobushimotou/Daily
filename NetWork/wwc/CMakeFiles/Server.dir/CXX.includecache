@@ -289,6 +289,8 @@ TcpServer.h
 /home/wh/Daily/NetWork/wwc/TcpServer.h
 functional
 -
+memory
+-
 EventLoop.h
 /home/wh/Daily/NetWork/wwc/EventLoop.h
 Acceptor.h

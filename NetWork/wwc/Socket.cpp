@@ -18,7 +18,7 @@ void Socket::bindAddress(struct sockaddr_in addr)
     if(bind(sockfd,(struct sockaddr *)&addr,addrlen) < 0) {
 
     }
-
+    
 }
 
 void Socket::SetNonblock()
