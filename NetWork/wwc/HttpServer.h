@@ -10,7 +10,6 @@ public:
     void start();
 
 private:
-
     void onConnection(const TcpServer::TcpConnectionPtr &conn);
     void onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,size_t);
     int ReadFile(std::string filename);

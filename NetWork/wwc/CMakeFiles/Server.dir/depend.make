@@ -29,11 +29,18 @@ CMakeFiles/Server.dir/EventLoop.cpp.o: EventLoop.h
 
 CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: ./Channel.h
 CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: ./EventLoop.h
+CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: ./Socket.h
 CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: ./poll/epoll.h
+CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: Acceptor.h
+CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: Buffer.h
 CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: Channel.h
 CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: EventLoop.h
 CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: EventLoopThreadPool.cpp
 CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: EventLoopThreadPool.h
+CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: HttpServer.h
+CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: Socket.h
+CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: TcpConnection.h
+CMakeFiles/Server.dir/EventLoopThreadPool.cpp.o: TcpServer.h
 
 CMakeFiles/Server.dir/HttpServer.cpp.o: ./Channel.h
 CMakeFiles/Server.dir/HttpServer.cpp.o: ./EventLoop.h
@@ -43,7 +50,6 @@ CMakeFiles/Server.dir/HttpServer.cpp.o: Acceptor.h
 CMakeFiles/Server.dir/HttpServer.cpp.o: Buffer.h
 CMakeFiles/Server.dir/HttpServer.cpp.o: Channel.h
 CMakeFiles/Server.dir/HttpServer.cpp.o: EventLoop.h
-CMakeFiles/Server.dir/HttpServer.cpp.o: EventLoopThreadPool.h
 CMakeFiles/Server.dir/HttpServer.cpp.o: HttpServer.cpp
 CMakeFiles/Server.dir/HttpServer.cpp.o: HttpServer.h
 CMakeFiles/Server.dir/HttpServer.cpp.o: Socket.h
@@ -71,7 +77,6 @@ CMakeFiles/Server.dir/TcpServer.cpp.o: Acceptor.h
 CMakeFiles/Server.dir/TcpServer.cpp.o: Buffer.h
 CMakeFiles/Server.dir/TcpServer.cpp.o: Channel.h
 CMakeFiles/Server.dir/TcpServer.cpp.o: EventLoop.h
-CMakeFiles/Server.dir/TcpServer.cpp.o: EventLoopThreadPool.h
 CMakeFiles/Server.dir/TcpServer.cpp.o: Socket.h
 CMakeFiles/Server.dir/TcpServer.cpp.o: TcpConnection.h
 CMakeFiles/Server.dir/TcpServer.cpp.o: TcpServer.cpp

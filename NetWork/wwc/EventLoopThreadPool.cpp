@@ -1,14 +1,20 @@
 #include <iostream>
 #include "EventLoopThreadPool.h"
-EventLoopThreadPool::EventLoopThreadPool(std::shared_ptr<EventLoop> baseLoop)
-    : baseLoop_(baseLoop),
-    start_(false),
+EventLoopThreadPool::EventLoopThreadPool()
+    :start_(false),
     numThreads_(1),
     loops(numThreads_),
     next_(0),
     distributions(numThreads_)
 {
 }
+
+EventLoopThreadPool::EventLoopThreadPool(std::shared_ptr<EventLoop> baseloop)
+    :baseLoop_(baseloop)
+{
+    EventLoop();
+}
+
 void EventLoopThreadPool::threadFun() {
     std::shared_ptr<EventLoop> loop = std::make_shared<EventLoop>();
     {
@@ -18,8 +24,8 @@ void EventLoopThreadPool::threadFun() {
         Mutex.unlock();
     }
 
-    /* HttpServer server(loop,9999,"wang"); */ 
-    /* server.start(); */
+    HttpServer server(loop,9999,"wang"); 
+    server.start();
 
     loop->loop();
     

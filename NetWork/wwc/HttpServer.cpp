@@ -1,6 +1,8 @@
 #include <iostream>
 #include "HttpServer.h"
-using namespace std::placeholders;
+using std::placeholders::_1;
+using std::placeholders::_2;
+using std::placeholders::_3;
 
 HttpServer::HttpServer(std::shared_ptr<EventLoop> loop,int port,std::string name)
     :server(loop,port,name)
@@ -18,7 +20,6 @@ void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
 
 void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,size_t size)
 {
-    printf("HttpServer::onMessage\n");
     std::string head;
     buf->retrieveAllAsString(head);
     int b = 0;

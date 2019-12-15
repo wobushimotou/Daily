@@ -1,7 +1,7 @@
 #include "EventLoop.h"
 #include "TcpServer.h"
+#include "EventLoopThreadPool.h"
 #include "Buffer.h"
-#include "HttpServer.h"
 #include <signal.h>
 #include <fstream>
 void signal_handle(int signal_num) {
@@ -58,10 +58,15 @@ void Construct(string &s,string &head) {
 }
 int main()
 {
-    std::shared_ptr<EventLoop> loop(new EventLoop());
-    HttpServer server2(loop,9999,"wang");
-    server2.start();
-    loop->loop();
+
+    /* std::shared_ptr<EventLoop> loop(new EventLoop()); */
+    /* HttpServer server2(loop,9999,"wang"); */
+    /* server2.start(); */
+    /* loop->loop(); */
+
+    EventLoopThreadPool ep;
+    ep.setThreadNum(10);
+    ep.start();
     return 0;
 }
 
