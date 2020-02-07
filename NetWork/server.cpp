@@ -43,7 +43,7 @@ int main(int argc,char *argv[])
         struct sockaddr_in serv;
         memset(&serv,0,sizeof(serv));
         serv.sin_family = AF_INET;
-        serv.sin_port = htons(5678);
+        serv.sin_port = 9527;
         serv.sin_addr.s_addr = htonl(INADDR_ANY);
 
         int num = 1;

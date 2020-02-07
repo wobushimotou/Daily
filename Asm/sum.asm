@@ -1,0 +1,46 @@
+DATA SEGMENT
+    OBUF DB 6 DUP(?)
+    INF1 DB "+$"
+DATA ENDS
+CODE SEGMENT
+    ASSUME CS:CODE,DS:DATA
+START:
+    MOV AX,DATA
+    MOV DS,AX
+    
+    MOV SI,0
+    MOV DI,1
+
+LOOP1:
+    ADD SI,DI
+    INC DI
+    MOV AX,DI
+    MOV BX,DI
+
+    MOV BX,OFFSET OBUF+5
+    MOV BYTE PTR[BX],'$'
+    MOV CX,10
+LOOP2:
+    MOV DX,0
+    DIV CX
+    ADD DL,30H
+    DEC BX
+    MOV [BX],DL
+    OR AX,AX
+    JNZ LOOP2
+
+    MOV DX,BX
+    MOV AH,09H
+    INT 21H
+
+    LEA DX,INF1
+    MOV AH,09H
+    INT 21H
+
+    CMP  SI,60000
+    JB LOOP1
+
+    MOV AH,4CH
+    INT 21H
+CODE ENDS
+    END START

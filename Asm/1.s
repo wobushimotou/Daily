@@ -10,14 +10,13 @@ fun:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	movq	%rdi, -8(%rbp)
-	movq	%rsi, -16(%rbp)
+	movq	%rdi, -24(%rbp)
+	movq	%rsi, -32(%rbp)
+	movq	-24(%rbp), %rdx
+	movq	-32(%rbp), %rax
+	addq	%rdx, %rax
+	movq	%rax, -8(%rbp)
 	movq	-8(%rbp), %rax
-	movl	$10, (%rax)
-	movq	-16(%rbp), %rax
-	movl	$20, (%rax)
-	movq	-8(%rbp), %rax
-	movl	(%rax), %eax
 	popq	%rbp
 	.cfi_def_cfa 7, 8
 	ret
