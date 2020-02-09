@@ -1,10 +1,9 @@
-#include <iostream>
-#include "Thread_Download.h"
-
-int main()
+#include "HttpDown.h"
+#include "myhttp_down.h"
+int main(int argc,char *argv[])
 {
-    string _url("http://img.ljia.net/upload2016/2016-03/22931/2016032316433620132.jpg");
-    HTTP h(_url);
+    HttpDown Hd(argv[1]);
+    Hd.DownLoad();
     return 0;
 }
 
