@@ -1,5 +1,5 @@
 #include "HttpDown.h"
-#include "myhttp_down.h"
+#include "HttpOperation.h"
 int main(int argc,char *argv[])
 {
     HttpDown Hd(argv[1]);

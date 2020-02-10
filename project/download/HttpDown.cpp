@@ -47,7 +47,7 @@ void ThreadDownLoad(long start,long end,HttpOperation Ho,HttpDown *Hd) {
     char buf[size];     //缓冲区
     long s = 0;
     while(s < size) {
-        s += read(Ho.fd,buf+s,size-s);
+        s += Ho.HttpRead(buf+s,size-s);
     }
 
     Ho.Close();

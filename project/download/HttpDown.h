@@ -7,7 +7,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "myhttp_down.h"
+#include "HttpOperation.h"
 using namespace std;
 class HttpDown
 {
@@ -25,5 +25,3 @@ private:
     void Print(int,int);   //显示下载进度
     HttpOperation Hp;
 };
-
-
