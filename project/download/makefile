@@ -1,5 +1,5 @@
 main:main.o HttpDown.o HttpOperation.o
-	g++ main.o HttpOperation.o HttpDown.o -lpthread -g -l ssl -l crypto
+	g++ main.o HttpOperation.o HttpDown.o -lpthread -g -l ssl -l crypto -o main
 main.o:main.cpp
 	g++ -c main.cpp
 HttpOperation.o:HttpOperation.cpp HttpOperation.h

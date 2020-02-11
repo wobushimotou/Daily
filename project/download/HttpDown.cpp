@@ -93,13 +93,21 @@ int HttpDown::DownLoad() {
     cout << "类型:"+Hp.type << endl;
     cout << "路径:" << "." << endl;
 
+    if(Hp.filename == "")
+        Hp.filename = "1."+Hp.type;
     filesize = Hp.size;
 
     filename = Hp.filename;
     filepath = ".";
     int Content = 10240;
 
+        
     long Part = filesize/Content+(((filesize-(filesize/Content)*Content)>0)?1:0);
+
+    //网页不支持分段下载
+    if(Hp.type == "html")
+        Part = 1;
+
 
     current = new char[Part];
     bzero(current,Part);
@@ -130,7 +138,6 @@ int HttpDown::DownLoad() {
         if(s)
             break;
     }
-
 
     //下载完毕去除文件校验码
     truncate(Hp.filename.c_str(),filesize);    

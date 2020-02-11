@@ -115,7 +115,6 @@ void HttpOperation::SendHttpHead(long start,long end) {//发送http请求头
         //设置http请求头
         head = "GET "+url+" HTTP/1.1\r\n"+
             "Host: "+host+"\r\n"+
-            "User-Agent: curl/7.16.3 libcurl/7.16.3 OpenSSL/0.9.7l zlib/1.2.3\r\n"+
             "Connection: Close\r\n"+
             "Accept: */*\r\n"+
             "Range: bytes="+to_string(start)+"-"+((end>0)?to_string(end):"")+"\r\n"+
@@ -123,7 +122,6 @@ void HttpOperation::SendHttpHead(long start,long end) {//发送http请求头
         //发送
             
 
-        cout << head << endl;
         if(protocol == 0)
             send(fd,head.c_str(),head.length(),0); 
         else
@@ -149,7 +147,6 @@ void HttpOperation::ReadHttpHead() {//读取http响应头
                 break;
         }
 
-        cout << buf << endl;
     }
 
 void HttpOperation::ParseHead() {//解析响应头

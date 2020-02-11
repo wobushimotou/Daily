@@ -54,7 +54,7 @@ class String{
         void resize(size_t len,char c);    //把字符串当前大小置为len，多去少补，多出的字符c填充不足的部分
 
         //查找函数
-        size_t find(const String &str,size_t index); //从index开始寻找,返回str在字符串中第一次出现的位置 
+        size_t find(const String &str,size_t index); //从index开始寻找,返回str在字符串中第一次出现的位置
         size_t find( const char *str, size_t index );
         size_t find(const String &str,size_t index,size_t length);
         size_t find( const char *str, size_t index,size_t length);

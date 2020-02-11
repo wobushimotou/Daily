@@ -1,0 +1,431 @@
+GET https://www.cnblogs.com/bwar/p/9879893.html HTTP/1.1
+Host: www.cnblogs.com
+User-Agent: curl/7.16.3 libcurl/7.16.3 OpenSSL/0.9.7l zlib/1.2.3
+Connection: Close
+Accept: */*
+
+
+ret = 182
+HTTP/1.1 200 OK
+Date: Mon, 10 Feb 2020 01:22:08 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: close
+Vary: Accept-Encoding
+
+4d0
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta property="og:description" content="HTTPS是以安全为目标的HTTP通道，简单讲是HTTP的安全版。即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。Nebula是一个为开发者提供一个快速开发高并" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>基于OpenSSL的HTTPS通信C++实现 - 铁芒箕 - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=PEqf9X5sM-TqgxEJ-34zllMNrLPY7PzC3YhmnDnLGWA" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=4KE41eS1YQSSwl64fGzzTUj6ijs-YQFat4AaN-g_jxc" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=14y836ONdWu0_jxwS0i0t1S3KjlMl55rzUI5k1qhIdc" />
+    
+    <link t
+20c4
+ype="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/bwar/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/bwar/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/bwar/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=F-Iy-_Lj7VcUKRIvNkS6UZ5LItMqjh1_L0VZk9Yxfb8"></script>
+    <script>
+        var currentBlogId = 437464;
+        var currentBlogApp = 'bwar';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+    </script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/bwar/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/bwar/">铁芒箕</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/bwar/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E9%93%81%E8%8A%92%E7%AE%95">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/bwar/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+14&nbsp; </span>
+<span id="stats_article_count">文章 - 
+1&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+35</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/bwar/p/9879893.html">基于OpenSSL的HTTPS通信C++实现</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <p>&emsp;&emsp;HTTPS是以安全为目标的HTTP通道，简单讲是HTTP的安全版。即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。<a href="https://github.com/Bwar/Nebula">Nebula</a>是一个为开发者提供一个快速开发高并发网络服务程序或搭建高并发分布式服务集群的高性能事件驱动网络框架。Nebula作为通用网络框架提供HTTPS支持十分重要，Nebula既可用作https服务器，又可用作https客户端。本文将结合Nebula框架的https实现详细讲述基于openssl的SSL编程。如果觉得本文对你有用，帮忙到Nebula的<a href="https://github.com/Bwar/Nebula">Github</a>或<a href="https://gitee.com/Bwar/Nebula">码云</a>给个star，谢谢。Nebula不仅是一个框架，还提供了一系列基于这个框架的应用，目标是打造一个高性能分布式服务集群解决方案。Nebula的主要应用领域：即时通讯（成功应用于一款<a href="https://github.com/Bwar/Nebula/wiki/%E9%A6%96%E9%A1%B5">IM</a>）、消息推送平台、数据实时分析计算(<a href="https://github.com/Bwar/Nebio">成功案例</a>)等，Bwar还计划基于Nebula开发爬虫应用。</p>
+<h3 id="h3_1">1. SSL加密通信</h3>
+<p>&emsp;&emsp;HTTPS通信是在TCP通信层与HTTP应用层之间增加了SSL层，如果应用层不是HTTP协议也是可以使用SSL加密通信的，比如WebSocket协议WS的加上SSL层之后的WSS。Nebula框架可以通过更换Codec达到不修改代码变更通讯协议目的，Nebula增加SSL支持后，所有Nebula支持的通讯协议都有了SSL加密通讯支持，基于Nebula的业务代码无须做任何修改。</p>
+<p><img title="https_communication" src="https://oscimg.oschina.net/oscnet/73a2c1617c996e553b18b3f3558e638c76c.jpg" alt="https_communication" /></p>
+<p>&emsp;&emsp;Socket连接建立后的SSL连接建立过程：</p>
+<p><img title="ssl_communication" src="https://oscimg.oschina.net/oscnet/7cb795766fac25cc3cff3e4a075311d6d3b.jpg" alt="ssl_communication" /></p>
+<h3 id="h3_2">2. OpenSSL API</h3>
+<p>&emsp;&emsp;OpenSSL的API很多，但并不是都会被使用到，如果需要查看某个API的详细使用方法可以阅读<a href="https://www.openssl.org/docs/man1.1.0/ssl/">API文档</a>。</p>
+<h4 id="h4_3">2.1 初始化OpenSSL</h4>
+<p>&emsp;&emsp;OpenSSL在使用之前，必须进行相应的初始化工作。在建立SSL连接之前，要为Client和Server分别指定本次连接采用的协议及其版本，目前能够使用的协议版本包括SSLv2、SSLv3、SSLv2/v3和TLSv1.0。SSL连接若要正常建立，则要求Client和Server必须使用相互兼容的协议。 &emsp;&emsp;下面是Nebula框架SocketChannelSslImpl::SslInit()函数初始化OpenSSL的代码，根据OpenSSL的不同版本调用了不同的API进行初始化。</p>
+<pre><code class="hljs C"><span class="hljs-meta">#<span class="hljs-meta-keyword">if OPENSSL_VERSION_NUMBER &gt;= 0x10100003L
+
+    <span class="hljs-keyword">if (OPENSSL_init_ssl(OPENSSL_INIT_LOAD_CONFIG, <span class="hljs-literal">NULL) == <span class="hljs-number">0)
+    {
+        pLogger-&gt;WriteLog(neb::Logger::ERROR, __FILE__, __LINE__, __FUNCTION__, <span class="hljs-string">"OPENSSL_init_ssl() failed!");
+        <span class="hljs-keyword">return(ERR_SSL_INIT);
+    }
+
+    <span class="hljs-comment">/*
+     * OPENSSL_init_ssl() may leave errors in the error queue
+     * while returning success
+     */
+
+    ERR_clear_error();
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">else
+
+    OPENSSL_config(<span class="hljs-literal">NULL);
+
+    SSL_library_init();         <span class="hljs-comment">// 初始化SSL算法库函数( 加载要用到的算法 )，调用SSL函数之前必须调用此函数
+    SSL_load_error_strings();   <span class="hljs-comment">// 错误信息的初始化
+
+    OpenSSL_add_all_algorithms();
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+<h4 id="h4_4">2.2 创建CTX</h4>
+<p>&emsp;&emsp;CTX是SSL会话环境，建立连接时使用不同的协议，其CTX也不一样。创建CTX的相关OpenSSL函数：</p>
+<pre><code class="hljs C"><span class="hljs-comment">//客户端、服务端都需要调用
+SSL_CTX_new();                       <span class="hljs-comment">//申请SSL会话环境
+
+<span class="hljs-comment">//若有验证对方证书的需求，则需调用
+SSL_CTX_set_verify();                <span class="hljs-comment">//指定证书验证方式
+SSL_CTX_load_verify_location();      <span class="hljs-comment">//为SSL会话环境加载本应用所信任的CA证书列表
+
+<span class="hljs-comment">//若有加载证书的需求，则需调用
+<span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_CTX_use_certificate_file<span class="hljs-params">();      <span class="hljs-comment">//为SSL会话加载本应用的证书
+<span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_CTX_use_certificate_chain_file<span class="hljs-params">();<span class="hljs-comment">//为SSL会话加载本应用的证书所属的证书链
+<span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_CTX_use_PrivateKey_file<span class="hljs-params">();       <span class="hljs-comment">//为SSL会话加载本应用的私钥
+<span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_CTX_check_private_key<span class="hljs-params">();         <span class="hljs-commen
+1062
+t">//验证所加载的私钥和证书是否相匹配 
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+<h4 id="h4_5">2.3 创建SSL套接字</h4>
+<p>&emsp;&emsp;在创建SSL套接字之前要先创建Socket套接字，建立TCP连接。创建SSL套接字相关函数：</p>
+<pre><code class="hljs C"><span class="hljs-function">SSL *<span class="hljs-title">SSl_new<span class="hljs-params">(SSL_CTX *ctx);          <span class="hljs-comment">//创建一个SSL套接字
+<span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_set_fd<span class="hljs-params">(SSL *ssl, <span class="hljs-keyword">int fd);     <span class="hljs-comment">//以读写模式绑定流套接字
+<span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_set_rfd<span class="hljs-params">(SSL *ssl, <span class="hljs-keyword">int fd);    <span class="hljs-comment">//以只读模式绑定流套接字
+<span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_set_wfd<span class="hljs-params">(SSL *ssl, <span class="hljs-keyword">int fd);    <span class="hljs-comment">//以只写模式绑定流套接字
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+<h4 id="h4_6">2.4 完成SSL握手</h4>
+<p>&emsp;&emsp;在这一步，我们需要在普通TCP连接的基础上，建立SSL连接。与普通流套接字建立连接的过程类似：Client使用函数SSL_connect()【类似于流套接字中用的connect()】发起握手，而Server使用函数SSL_ accept()【类似于流套接字中用的accept()】对握手进行响应，从而完成握手过程。两函数原型如下：</p>
+<pre><code class="hljs C"><span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_connect<span class="hljs-params">(SSL *ssl);
+<span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_accept<span class="hljs-params">(SSL *ssl);
+</span></span></span></span></span></span></span></span></code></pre>
+<p>&emsp;&emsp;握手过程完成之后，Client通常会要求Server发送证书信息，以便对Server进行鉴别。其实现会用到以下两个函数:</p>
+<pre><code class="hljs C"><span class="hljs-function">X509 *<span class="hljs-title">SSL_get_peer_certificate<span class="hljs-params">(SSL *ssl);  <span class="hljs-comment">//从SSL套接字中获取对方的证书信息
+<span class="hljs-function">X509_NAME *<span class="hljs-title">X509_get_subject_name<span class="hljs-params">(X509 *a); <span class="hljs-comment">//得到证书所用者的名字
+</span></span></span></span></span></span></span></span></code></pre>
+<h4 id="h4_7">2.5 数据传输</h4>
+<p>&emsp;&emsp;经过前面的一系列过程后，就可以进行安全的数据传输了。在数据传输阶段，需要使用SSL_read( )和SSL_write( )来代替普通流套接字所使用的read( )和write( )函数，以此完成对SSL套接字的读写操作,两个新函数的原型分别如下：</p>
+<pre><code class="hljs C"><span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_read<span class="hljs-params">(SSL *ssl,<span class="hljs-keyword">void *buf,<span class="hljs-keyword">int num);            <span class="hljs-comment">//从SSL套接字读取数据
+<span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_write<span class="hljs-params">(SSL *ssl,<span class="hljs-keyword">const <span class="hljs-keyword">void *buf,<span class="hljs-keyword">int num);     <span class="hljs-comment">//向SSL套接字写入数据
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+<h4 id="h4_8">2.6 会话结束</h4>
+<p>&emsp;&emsp;当Client和Server之间的通信过程完成后，就使用以下函数来释放前面过程中申请的SSL资源：</p>
+<pre><code class="hljs 
+1062
+C"><span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SSL_shutdown<span class="hljs-params">(SSL *ssl);       <span class="hljs-comment">//关闭SSL套接字
+<span class="hljs-function"><span class="hljs-keyword">void <span class="hljs-title">SSl_free<span class="hljs-params">(SSL *ssl);          <span class="hljs-comment">//释放SSL套接字
+<span class="hljs-function"><span class="hljs-keyword">void <span class="hljs-title">SSL_CTX_free<span class="hljs-params">(SSL_CTX *ctx);  <span class="hljs-comment">//释放SSL会话环境
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+<h3 id="h3_9">3. SSL 和 TLS</h3>
+<p>&emsp;&emsp;HTTPS 使用 SSL（Secure Socket Layer） 和 TLS（Transport LayerSecurity）这两个协议。 SSL 技术最初是由浏览器开发商网景通信公司率先倡导的，开发过 SSL3.0之前的版本。目前主导权已转移到 IETF（Internet Engineering Task Force，Internet 工程任务组）的手中。</p>
+<p>&emsp;&emsp;IETF 以 SSL3.0 为基准，后又制定了 TLS1.0、TLS1.1 和 TLS1.2。TSL 是以SSL 为原型开发的协议，有时会统一称该协议为 SSL。当前主流的版本是SSL3.0 和 TLS1.0。</p>
+<p>&emsp;&emsp;由于 SSL1.0 协议在设计之初被发现出了问题，就没有实际投入使用。SSL2.0 也被发现存在问题，所以很多浏览器直接废除了该协议版本。</p>
+<h3 id="h3_10">4. Nebula中的SSL通讯实现</h3>
+<p>&emsp;&emsp;Nebula框架同时支持SSL服务端应用和SSL客户端应用，对openssl的初始化只需要初始化一次即可（SslInit()只需调用一次）。Nebula框架的SSL相关代码（包括客户端和服务端的实现）都封装在<a href="https://github.com/Bwar/Nebula/blob/master/src/channel/SocketChannelSslImpl.hpp">SocketChannelSslImpl</a>这个类中。Nebula的SSL通信是基于异步非阻塞的socket通信，并且不使用openssl的BIO（因为没有必要，代码还更复杂了）。</p>
+<p>&emsp;&emsp;SocketChannelSslImpl是<a href="https://github.com/Bwar/Nebula/blob/master/src/channel/SocketChannelImpl.hpp">SocketChannelImpl</a>的派生类，在SocketChannelImpl常规TCP通信之上增加了SSL通信层，两个类的调用几乎没有差异。SocketChannelSslImpl类声明如下：</p>
+<pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class <span class="hljs-title">SocketChannelSslImpl : <span class="hljs-keyword">public SocketChannelImpl
+{
+<span class="hljs-keyword">public:
+    SocketChannelSslImpl(SocketChannel* pSocketChannel, <span class="hljs-built_in">std::<span class="hljs-built_in">shared_ptr&lt;NetLogger&gt; pLogger, <span class="hljs-keyword">int iFd, uint32 ulSeq, ev_tstamp dKeepAlive = <span class="hljs-number">0.0);
+    <span class="hljs-keyword">virtual ~SocketChannelSslImpl();
+
+    <span class="hljs-function"><span class="hljs-keyword">static <span class="hljs-keyword">int <span class="hljs-title">SslInit<span class="hljs-params">(<span class="hljs-built_in">std::<span class="hljs-built_in">shared_ptr&lt;NetLogger&gt; pLogger);
+    <span class="hljs-function"><span class="hljs-keyword">static <span class="hljs-keyword">int <span class="hljs-title">SslServerCtxCreate<span class="hljs-params">(<span class="hljs-built_in">std::<span class="hljs-built_in">shared_ptr&lt;NetLogger&gt; pLogger);
+    <span class="hljs-function"><span class="hljs-keyword">static <span class="hljs-keyword">int <span class="hljs-title">SslServerCertificate<span class="hljs-params">(<span class="hljs-built_in">std::<span class="hljs-built_in">shared_ptr&lt;NetLogger&gt; pLogger,
+                <span class="hljs-keyword">const <span class="hljs-built_in">std::<span class="hljs-built_in">string&amp; strCertFile, <span class="hljs-keyword">const <span class="hljs-built_in">std::<span class="hljs-built_in">string&amp; strKeyFile);
+    <span class="hljs-function"><span class="hljs-keyword">static <span class="hljs-keyword">void <span class="hljs-title">SslFree<span class="hljs-params">();
+
+    <span class="hljs-function"><span class="hljs-keyword">int <sp
+576
+an class="hljs-title">SslClientCtxCreate<span class="hljs-params">();
+    <span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SslCreateConnection<span class="hljs-params">();
+    <span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SslHandshake<span class="hljs-params">();
+    <span class="hljs-function"><span class="hljs-keyword">int <span class="hljs-title">SslShutdown<span class="hljs-params">();
+
+    <span class="hljs-function"><span class="hljs-keyword">virtual <span class="hljs-keyword">bool <span class="hljs-title">Init<span class="hljs-params">(E_CODEC_TYPE eCodecType, <span class="hljs-keyword">bool bIsClient = <span class="hljs-literal">false) override;
+
+    <span class="hljs-comment">// 覆盖基类的Send()方法，实现非阻塞socket连接建立后继续建立SSL连接，并收发数据
+    <span class="hljs-function"><span class="hljs-keyword">virtual E_CODEC_STATUS <span class="hljs-title">Send<span class="hljs-params">() override;      
+    <span class="hljs-function"><span class="hljs-keyword">virtual E_CODEC_STATUS <span class="hljs-title">Send<span class="hljs-params">(int32 iCmd, uint32 uiSeq, <span class="hljs-keyword">const MsgBody&amp; oMsgBody) override;
+    <span class="hljs-function"><span class="hljs-keyword">virtual E_CODEC_STATUS <span class="hljs-title">Send<span class="hl
+56e
+js-params">(<span class="hljs-keyword">const HttpMsg&amp; oHttpMsg, uint32 ulStepSeq) override;
+    <span class="hljs-function"><span class="hljs-keyword">virtual E_CODEC_STATUS <span class="hljs-title">Recv<span class="hljs-params">(MsgHead&amp; oMsgHead, MsgBody&amp; oMsgBody) override;
+    <span class="hljs-function"><span class="hljs-keyword">virtual E_CODEC_STATUS <span class="hljs-title">Recv<span class="hljs-params">(HttpMsg&amp; oHttpMsg) override;
+    <span class="hljs-function"><span class="hljs-keyword">virtual E_CODEC_STATUS <span class="hljs-title">Recv<span class="hljs-params">(MsgHead&amp; oMsgHead, MsgBody&amp; oMsgBody, HttpMsg&amp; oHttpMsg) override;
+    <span class="hljs-function"><span class="hljs-keyword">virtual <span class="hljs-keyword">bool <span class="hljs-title">Close<span class="hljs-params">() override;
+
+<span class="hljs-keyword">protected:
+    <span class="hljs-function"><span class="hljs-keyword">virtual <span class="hljs-keyword">int <span class="hljs-title">Write<span class="hljs-params">(CBuffer* pBuff, <span class="hljs-keyword">int&amp; iErrno) override;
+    <span class="hljs-function"><span class="hljs-keyword">virtual <span class="hljs-keyword">int <span class="hljs-title">Read<span class="hljs-params">(CBuffer* pBuff, <span class="hljs-keyword">int&amp; iErrno) override;
+
+<span class="hljs-keyword">private:
+    E_SS
+aec
+L_CHANNEL_STATUS m_eSslChannelStatus;   <span class="hljs-comment">//在基类m_ucChannelStatus通道状态基础上增加SSL通道状态
+    <span class="hljs-keyword">bool m_bIsClientConnection;
+    SSL* m_pSslConnection;
+
+    <span class="hljs-keyword">static SSL_CTX* m_pServerSslCtx;    <span class="hljs-comment">//当打开ssl选项编译，启动Nebula服务则自动创建
+    <span class="hljs-keyword">static SSL_CTX* m_pClientSslCtx;    <span class="hljs-comment">//默认为空，当打开ssl选项编译并且第一次发起了对其他SSL服务的连接时（比如访问一个https地址）创建
+};
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+<p>&emsp;&emsp;SocketChannelSslImpl类中带override关键字的方法都是覆盖基类SocketChannelImpl的同名方法，也是实现SSL通信与非SSL通信调用透明的关键。不带override关键字的方法都是SSL通信相关方法，这些方法里有openssl的函数调用。不带override的方法中有静态和非静态之分，静态方法在进程中只会被调用一次，与具体Channel对象无关。SocketChannel外部不需要调用非静态的ssl相关方法。</p>
+<p>&emsp;&emsp;因为是非阻塞的socket，SSL_do_handshake()和SSL_write()、SSL_read()返回值并不完全能判断是否出错，还需要SSL_get_error()获取错误码。SSL_ERROR_WANT_READ和SSL_ERROR_WANT_WRITE都是正常的。</p>
+<p>&emsp;&emsp;网上的大部分openssl例子程序是按顺序调用openssl函数简单实现同步ssl通信，在非阻塞IO应用中，ssl通信要复杂许多。SocketChannelSslImpl实现的是非阻塞的ssl通信，从该类的实现上看整个通信过程并非完全线性的。下面的SSL通信图更清晰地说明了Nebula框架中SSL通信是如何实现的：</p>
+<p><img title="Nebula_ssl" src="https://oscimg.oschina.net/oscnet/e6f58a56d4fbcf9dbc3c4a1d9c3fdbb970e.jpg" alt="Nebula_ssl" /></p>
+<p>&emsp;&emsp;SocketChannelSslImpl中的静态方法在进程生命期内只需调用一�
+aec
+��，也可以理解成SSL_CTX_new()、SSL_CTX_free()等方法只需调用一次。更进一步理解SSL_CTX结构体在进程内只需要创建一次（在Nebula中分别为Server和Client各创建一个）就可以为所有SSL连接所用；当然，为每个SSL连接创建独立的SSL_CTX也没问题（Nebula 0.4中实测过为每个Client创建独立的SSL_CTX），但一般不这么做，因为这样会消耗更多的内存资源，并且效率也会更低。</p>
+<p>&emsp;&emsp;建立SSL连接时，客户端调用SSL_connect()，服务端调用SSL_accept()，许多openssl的demo都是这么用的。Nebula中用的是SSL_do_handshake()，这个方法同时适用于客户端和服务端，在兼具client和server功能的服务更适合用SSL_do_handshake()。注意调用SSL_do_handshake()前，如果是client端需要先调用SSL_set_connect_state()，如果是server端则需要先调用SSL_set_accept_state()。非阻塞IO中，SSL_do_handshake()可能需要调用多次才能完成握手，具体调用时机需根据SSL_get_error()获取错误码SSL_ERROR_WANT_READ和SSL_ERROR_WANT_WRITE判断需监听读事件还是写事件，在对应事件触发时再次调用SSL_do_handshake()。详细实现请参考SocketChannelSslImpl的Send和Recv方法。</p>
+<p>&emsp;&emsp;关闭SSL连接时先调用SSL_shutdown()正常关闭SSL层连接（非阻塞IO中SSL_shutdown()亦可能需要调用多次）再调用SSL_free()释放SSL连接资源，最后关闭socket连接。SSL_CTX无须释放。整个SSL通信顺利完成，Nebula 0.4在开多个终端用shell脚本死循环调用curl简单压测中SSL client和SSL server功能一切正常:</p>
+<pre><code class="hljs bash"><span class="hljs-keyword">while :
+<span class="hljs-keyword">do 
+     curl -v -k -H <span class="hljs-string">"Content-Type:application/json" -X POST -d <span class="hljs-string">'{"hello":"nebula ssl test"}' https://192.168.157.168:16003/test_ssl 
+<span class="hljs-keyword">done
+</span></span></span></span></span></code></pre>
+<p>&emsp;&emsp;测试方法如下图：</p>
+<p><img title="ssl_test" src="https://oscimg.oschina.net/oscnet/2a0a60a927c7ca348df285e6299987aab10.jpg" alt="ssl_test" /></p>
+<p>&emsp;&emsp;查看资源使用情况，SSL Server端的内存使用一直在增长，疑似有内存泄漏，不过pmap -d查看某一项anon内存达到近18MB时不再增长，说明可能不是内存泄漏，只是部分内存被openssl当作cache使用了。这个问题网上没找到解决办法。从struct ssl_ctx_st结构体定义发现端倪，再从nginx源码中发现了SSL_CTX_remove_session()，于是在SSL_free()之前加上SSL_CTX_remove_session()。session复用可以提高SSL通信效率，不过Nebula暂时不需要。</p>
+<p>&emsp;&emsp;这种测试方法把NebulaI
+15d8
+nterface作为SSL服务端，NebulaLogic作为SSL客户端，同时完成了Nebula框架SSL服务端和客户端功能测试，简单的压力测试。Nebula框架的SSL通信测试通过，也可以投入生产应用，在后续应用中肯定还会继续完善。openssl真的难用，难怪被吐槽那么多，或许不久之后的Nebula版本将用其他ssl库替换掉openssl。</p>
+<h3 id="h3_11">5. 结束</h3>
+<p>&emsp;&emsp;加上SSL支持的Nebula框架测试通过，虽然不算太复杂，但过程还是蛮曲折，耗时也挺长。这里把Nebula使用openssl开发SSL通信分享出来，希望对准备使用openssl的开发者有用。如果觉得本文对你有用，别忘了到Nebula的<a href="https://github.com/Bwar/Nebula">Github</a>或<a href="https://gitee.com/Bwar/Nebula">码云</a>给个star，谢谢。</p>
+<p>&lt;br/&gt;</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="http://www.cppblog.com/qinqing1984/archive/2014/04/11/206536.aspx">基于OpenSSL实现的安全连接</a></li>
+<li><a href="https://www.openssl.org/docs/man1.1.0/ssl/">SSL API文档</a></li>
+<li><a href="https://blog.csdn.net/hellopaul8597/article/details/52327730">Https协议详解</a></li>
+<li><a href="https://blog.csdn.net/wetest_tencent/article/details/53425198">HTTPS是大势所趋？看腾讯专家通过Epoll+OpenSSL在高并发压测机器人中支持https</a></li>
+<li><a href="https://wenku.baidu.com/view/74575278ed630b1c58eeb517.html">openssl 编程入门(含完整示例)</a></li>
+<li><a href="https://blog.csdn.net/jinhill/article/details/3615626">SSL连接建立过程分析</a></li>
+<li><a href="https://blog.csdn.net/pony_maggie/article/details/51315946">SSL socket 通讯详解</a></li>
+<li><a href="https://www.jianshu.com/p/c93612b3abac">HTTPS从原理到应用(三)：SSL/TLS协议</a></li>
+<li><a href="http://blog.jobbole.com/94332/">SSL/TLS 握手优化详解</a></li>
+<li><a href="http://www.cnblogs.com/dongfuye/p/4121066.html">非阻塞/异步(epoll) openssl</a></li>
+<li><a href="https://my.oschina.net/vincentwy/blog/620282?p=1">两个基于openssl的https client例子</a></li>
+<li><a href="https://blog.csdn.net/howeverpf/article/details/18993945">OpenSSL编程初探1 --- 使用OpenSSL API建立SSL通信的一般流程简介</a></li>
+<li><a href="https://blog.csdn.net/howeverpf/article/details/14108063">OpenSSL编程初探2 --- 关于证书文件的加载</a></li>
+</ul>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2018-10-30 21:58</span>&nbsp;
+<a href="https://www.cnblogs.com/bwar/">铁芒箕</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9879893" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(9879893);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 437464, cb_blogApp = 'bwar', cb_blogUserGuid = 'ab6f1dec-a863-4461-bbb5-08d5cabb872d';
+    var cb_entryId = 9879893, cb_entryCreatedDate = '2018-10-30 21:58', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c
+5a9
+_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 铁芒箕
+<br /><span id="poweredby">Powered by .NET Core 3.1.1 on Linux</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>
+0
+
+
