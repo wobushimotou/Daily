@@ -10,7 +10,7 @@ class TcpServer
 public:
     typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
     typedef std::function<void (std::shared_ptr<TcpConnection>)> ConnectionCallback;
-    typedef std::function<void (const TcpConnectionPtr&,Buffer*,size_t)> MessageCallback;
+    typedef std::function<void (const TcpConnectionPtr&,TcpConnection::BufferPtr,size_t)> MessageCallback;
 
     TcpServer(std::shared_ptr<EventLoop> loop,int port,std::string namearg);
     ~TcpServer();

@@ -48,7 +48,6 @@ int Socket::acceptAddr(struct sockaddr_in *addr)
 
 Socket::~Socket()
 {
-    printf("~Socket()\n");
     shutdown();
 }
 

@@ -19,7 +19,6 @@ void onConnection1(std::shared_ptr<TcpConnection> conn) {
 
 void Construct(string &s,string &head);
 void onMessage1(std::shared_ptr<TcpConnection> conn,Buffer *data,size_t n) {
-    printf("onMessage\n");
     std::string buff;
     data->retrieveAllAsString(buff);
     buff.clear();

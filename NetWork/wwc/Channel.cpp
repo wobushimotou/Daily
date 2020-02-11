@@ -26,10 +26,6 @@ void Channel::handleEvent()
             closeCallback();
     }
 
-    if(revents_ & POLLNVAL) {
-    }
-
-
     if(revents_ & (POLLERR | POLLNVAL)) {
         if(errorCallback) 
             errorCallback();
@@ -52,4 +48,3 @@ void Channel::remove()
 {
     loop_->removeChannel(this);
 }
-

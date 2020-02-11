@@ -17,7 +17,7 @@ public:
     void listen();
 
 private:
-    void handleRead();
+    void handleRead();  //处理连接事件
     void initAddr();
 
     std::shared_ptr<EventLoop> loop;

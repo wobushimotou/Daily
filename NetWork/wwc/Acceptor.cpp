@@ -37,6 +37,7 @@ void Acceptor::handleRead()
         }
     }
     else {
+        printf("Acceptor::handleRead error\n");
     }
 }
 
@@ -51,6 +52,7 @@ void Acceptor::listen()
 
 Acceptor::~Acceptor()
 {
-    acceptSocket.~Socket(); 
+    acceptChannel.disableAll();
+    acceptChannel.remove();
 }
 

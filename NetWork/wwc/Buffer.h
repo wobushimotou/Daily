@@ -20,7 +20,7 @@ public:
 
     }
     size_t readableBytes() const { return writeIndex - readIndex;  }
-    size_t writeableBytes() const { return buffer_.size() - writeIndex; }
+    size_t writeableBytes() const { return buffer_.size() - writeIndex;}
     size_t prependableBytes() const { return readIndex; }
     char *begin() { return &*buffer_.begin(); }
     char *beginWriten() { return begin()+writeIndex; }
@@ -32,9 +32,8 @@ public:
     void retrieveAll();
 
     void append(std::string msg);
-    void append(const char *data,int len);
+    void append(const char *data,size_t len);
     Buffer *getPointer() { return this; }
-    ~Buffer();
 
 private:
     std::vector<char> buffer_;

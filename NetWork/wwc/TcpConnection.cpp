@@ -1,13 +1,23 @@
 #include <iostream>
 #include <signal.h>
 #include "TcpConnection.h"
-void handleSIGPIPE(int Signal) {
-    if(Signal == SIGPIPE) {
-    }
+
+TcpConnection::TcpConnection(std::shared_ptr<EventLoop> loop,std::string &name,int sockfd)
+    :   socket(new Socket(sockfd)),
+        channel(new Channel(loop,sockfd)),
+        loop(loop),
+        name_(name)
+{
+    channel->setReadCallback( std::bind(&TcpConnection::handleRead,this));
+    channel->setCloseCallback(std::bind(&TcpConnection::handleClose,this));
 }
+
+
 void TcpConnection::handleRead()
 {
+    printf("TcpConnection::handleRead\n");
     size_t n = inputBuffer.readFd(channel->fd());
+    printf("n = %zd\n",n);
     if(n > 0) {    
         messageCallback(shared_from_this(),&inputBuffer,n);
     }
@@ -37,18 +47,6 @@ void TcpConnection::handleWrite()
         }
     }
 }
-
-TcpConnection::TcpConnection(std::shared_ptr<EventLoop> loop,std::string &name,int sockfd)
-    :   socket(new Socket(sockfd)),
-        loop(loop),
-        name_(name),
-        channel(new Channel(loop,sockfd))
-{
-    channel->setReadCallback( std::bind(&TcpConnection::handleRead,this));
-    channel->setCloseCallback(std::bind(&TcpConnection::handleClose,this));
-    signal(SIGPIPE,handleSIGPIPE);
-}
-
 void TcpConnection::connectEstablished()
 {
     setState(kConnected);

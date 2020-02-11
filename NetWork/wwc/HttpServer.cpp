@@ -18,7 +18,7 @@ void HttpServer::onConnection(const TcpServer::TcpConnectionPtr &conn)
     }
 }
 
-void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,Buffer *buf,size_t size)
+void HttpServer::onMessage(const TcpServer::TcpConnectionPtr &conn,TcpConnection::BufferPtr buf,size_t size)
 {
     std::string head;
     buf->retrieveAllAsString(head);

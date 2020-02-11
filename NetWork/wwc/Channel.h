@@ -8,7 +8,7 @@ public:
     typedef std::function<void()> EventCallback;
     Channel(std::shared_ptr<EventLoop> loop,int fd);
     
-    ~Channel() {printf("~Channel %p %ld\n",this,syscall(SYS_gettid));}
+    ~Channel() {  }
 
     void handleEvent();
 

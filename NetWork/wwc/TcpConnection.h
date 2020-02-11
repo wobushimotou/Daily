@@ -11,8 +11,9 @@ class TcpConnection :   boost::noncopyable,
 {
 public: 
     typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
+    typedef Buffer * BufferPtr;
     typedef std::function<void(std::shared_ptr<TcpConnection>)> ConnectionCallback;
-    typedef std::function<void(const TcpConnectionPtr&,Buffer*,size_t)> MessageCallback;
+    typedef std::function<void(const TcpConnectionPtr&,BufferPtr,size_t)> MessageCallback;
     typedef std::function<void (const TcpConnectionPtr&)> CloseCallback;
     typedef std::function<void (const TcpConnectionPtr&)> writeCompleteCallback;
 

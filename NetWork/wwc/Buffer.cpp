@@ -3,10 +3,12 @@
 #include "Buffer.h"
 size_t Buffer::readFd(int fd)
 {
+    printf("Buffer::readFd\n");
     char extrabuf[65535];     
     bzero(extrabuf,65535);
     size_t writable = writeableBytes();
     size_t n = read(fd,extrabuf,65535);
+    printf("n = %zd\n",n);
     if(n < 0) {
 
     }
@@ -22,6 +24,7 @@ size_t Buffer::readFd(int fd)
     
     return n;
 }
+
 
 size_t Buffer::retrieveAsString(size_t len,std::string &buff)
 {
@@ -65,17 +68,13 @@ void Buffer::retrieveAll() {
 
 void Buffer::append(std::string msg)
 {
-    std::copy(msg.begin(),msg.end(),beginWriten());
-    writeIndex += msg.size();
+    append(msg.c_str(),msg.size());
 }
 
-void Buffer::append(const char *data,int len)
+void Buffer::append(const char *data,size_t len)
 {
-    append(std::string(data));
+    std::copy(data,data+len,beginWriten());
+    writeIndex += len;
 }
 
-Buffer::~Buffer()
-{
-    printf("~Buffer()\n");
-}
 
