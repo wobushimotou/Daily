@@ -1,0 +1,3 @@
+/home/wh/Daily/project/download/src/CMakeFiles/rebuild_cache.dir
+/home/wh/Daily/project/download/src/CMakeFiles/Download.dir
+/home/wh/Daily/project/download/src/CMakeFiles/edit_cache.dir
