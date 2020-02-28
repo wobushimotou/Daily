@@ -3,8 +3,7 @@
 HttpDown::HttpDown(string _url,string _name,string _path):
     filename(_name),
     filepath(_path),
-    Hp(_url), 
-    threadpool(make_shared<mythreadpool>(50))
+    Hp(_url)
 {
 
 }
@@ -127,7 +126,7 @@ int HttpDown::DownLoad() {
     
 
     filesize = Hp.size;
-    int Content = 10240;
+    int Content = 1024000;
         
     long Part = ((filesize + Content -1 )/Content);
        
@@ -139,7 +138,7 @@ int HttpDown::DownLoad() {
     
     if(Part > 100) {
         //根据文件大小初始化线程池
-        threadpool = make_shared<mythreadpool>(Part/3);
+        threadpool = make_shared<mythreadpool>(500);
     }
 
 

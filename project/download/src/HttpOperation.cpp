@@ -163,7 +163,6 @@ void HttpOperation::ReadHttpHead() {//读取http响应头
         if(flag == 4)
             break;
     }
-    cout << buf << endl;
 }
 
 int HttpOperation::ParseHead() {//解析响应头
