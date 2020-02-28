@@ -1,9 +1,16 @@
 #include "HttpDown.h"
 
-HttpDown::HttpDown(string _url) :Hp(_url)
-    ,threadpool(100)
+HttpDown::HttpDown(string _url,string _name,string _path):
+    filename(_name),
+    filepath(_path),
+    Hp(_url), 
+    threadpool(make_shared<mythreadpool>(50))
 {
 
+}
+
+HttpDown::HttpDown(string _url):
+    HttpDown(_url,"1","./") {
 }
 
 long HttpDown::Position(int k) {
@@ -35,7 +42,6 @@ long HttpDown::Position(int k) {
         *(current + Written) = ch;
         Written++;
     }
-
     
     in.close();
     return Written;
@@ -43,28 +49,30 @@ long HttpDown::Position(int k) {
 
 
 void ThreadDownLoad(long start,long end,HttpOperation Ho,HttpDown *Hd) {
-    
     long EndSize = 0;
     if(end > Hd->filesize) {
         EndSize = end-start;
         end = Hd->filesize;
     }
-    //下载的字节数
-    int size = end-start;
+    //需下载的字节数
+    long size = end-start;
+    
 
     Ho.Connect();
     Ho.SendHttpHead(start,end);
     Ho.ReadHttpHead();
 
+
     char buf[size];     //缓冲区
     long s = 0;
+    
     while(s < size) {
         s += Ho.HttpRead(buf+s,size-s);
     }
-
+    
     Ho.Close();
-    fstream out(Hd->filename);
 
+    fstream out(Hd->filepath+Hd->filename);
     //将缓冲区数据写入文件
     out.seekp(start,ios::beg);
     out.write(buf,size);
@@ -89,45 +97,50 @@ void ThreadDownLoad(long start,long end,HttpOperation Ho,HttpDown *Hd) {
 }
 
 int HttpDown::DownLoad() {
-    //获取文件大小，类型等数据
-    Hp.Parse();    
-    Hp.GetIpAddr();
-    Hp.Connect();
-    Hp.SendHttpHead(0,-1);
-    Hp.ReadHttpHead();
-    Hp.ParseHead();    
-    Hp.Close();
+
+    printf("开始下载\n");
+    //获取资源信息
+    if(GetAttribute() < 0) {
+        //重定向URL
+        GetAttribute();
+    }
 
     //显示文件信息
     cout << "文件:"+Hp.filename << endl;    
     cout << "来自:"+Hp.host << endl;
     cout << "大小:"+((Hp.size > 1024)?(to_string(Hp.size/1024)+"K"):(to_string(Hp.size))) << endl;
     cout << "类型:"+Hp.type << endl;
-    cout << "路径:" << "." << endl;
 
-    if(Hp.filename == "")
-        Hp.filename = "1."+Hp.type;
+
+    cout << "保存路径:" << filepath+filename+"."+Hp.type << endl;
+
+    filename += "."+Hp.type; 
+    if(Hp.filename.size() > 0)
+        filename = Hp.filename;
+
+    /* filename += "."+Hp.type; */
+
+    /* Hp.filename = filename; */
+    
+    /* filename = filepath + filename; */
+
+    
+
     filesize = Hp.size;
-
-    filename = Hp.filename;
-    filepath = ".";
     int Content = 10240;
-
         
-    long Part = filesize/Content+(((filesize-(filesize/Content)*Content)>0)?1:0);
-
-    /* //网页不支持分段下载 */
-    /* if(Hp.type == "html") { */
-    /*     Part = 1; */
-    /* } */
-
-
+    long Part = ((filesize + Content -1 )/Content);
+       
     current = new char[Part];
     bzero(current,Part);
 
     //获取文件信息
     Position(Part);
     
+    if(Part > 100) {
+        //根据文件大小初始化线程池
+        threadpool = make_shared<mythreadpool>(Part/3);
+    }
 
 
     //开始多线程下载文件
@@ -136,10 +149,13 @@ int HttpDown::DownLoad() {
         if(*(current + i) == 1)
             continue;
 
-        threadpool.Append(ThreadDownLoad,i*Content,(i+1)*Content,Hp,this);
-
-        /* thread t(ThreadDownLoad,i*Content,(i+1)*Content,Hp,this); */        
-        /* t.detach(); */
+        if(Part > 100) {
+            threadpool->Append(ThreadDownLoad,i*Content,(i+1)*Content,Hp,this);
+        }
+        else {
+            thread t(ThreadDownLoad,i*Content,(i+1)*Content,Hp,this);        
+            t.detach();
+        }
     }
 
     while(true) {
@@ -163,19 +179,36 @@ int HttpDown::DownLoad() {
 }
 
 void HttpDown::Print(int Current,int Final) {
-      printf("[");
+
+    //转化为百分比
+    Current = 100*((double)Current/Final);
+    Final = 100;
+
+    printf("[");
 
     for(int i = 0;i < Current;++i)
-        putchar('#');
+        printf("#");
 
     for(int i = 0;i < Final-Current;++i)
-        putchar('-');
+        printf("-");
 
     printf("]");
     fflush(stdout);
     sleep(1);
     for(int i = 0;i < Final+2;++i)
-        putchar('\b');
+        printf("\b");
+}
+
+int HttpDown::GetAttribute() {
+    //获取文件大小，类型等数据
+    Hp.Parse();    
+    Hp.GetIpAddr();
+    Hp.Connect();
+    Hp.SendHttpHead(0,-1);
+    Hp.ReadHttpHead();
+    Hp.Close();
+
+    return Hp.ParseHead();
 }
 
 HttpDown::~HttpDown() {

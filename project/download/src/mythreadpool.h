@@ -16,6 +16,8 @@ public:
     
     template<class F,class...Args>
     auto Append(F&& f,Args&&... args)->std::future<typename std::result_of<F(Args...)>::type>;
+
+    void Wait();//等待所有线程任务结束
     
     ~mythreadpool();        
     

@@ -18,6 +18,12 @@ mythreadpool::~mythreadpool() {
     }
 }
 
+void mythreadpool::Wait() {
+    for(auto &e:work_threads) {
+        e.join();
+    }
+}
+
 void mythreadpool::work(mythreadpool *t,int t_num) {
     while(!t->stop) {
         std::unique_lock<std::mutex> lock(t->tasks_mutex);

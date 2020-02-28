@@ -15,6 +15,7 @@
 #include <thread>
 #include <openssl/ssl.h>
 #include <openssl/bio.h>
+#include <error.h>
 
 using namespace std;
 class HttpOperation{
@@ -36,6 +37,7 @@ public:
     SSL *ssl;       //SSL套接字
 
     HttpOperation(string _url) : url(_url) {  }
+    ~HttpOperation();
 
     void Parse();   //解析URL链接
 
@@ -53,7 +55,7 @@ public:
 
     int HttpWrite(char *buf,size_t len);
 
-    void ParseHead();//解析响应头
+    int ParseHead();//解析响应头
 
     void Close();//关闭TCP连接
 
