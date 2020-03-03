@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/wh/Daily/NetWork/wwc/././Channel.h
+/home/wh/Daily/NetWork/wwc/src/././Channel.h
 functional
 -
 EventLoop.h
-/home/wh/Daily/NetWork/wwc/././EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/././EventLoop.h
 
-/home/wh/Daily/NetWork/wwc/././EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/././EventLoop.h
 algorithm
 -
 sys/eventfd.h
@@ -36,11 +36,11 @@ memory
 pthread.h
 -
 ./poll/epoll.h
-/home/wh/Daily/NetWork/wwc/./././poll/epoll.h
+/home/wh/Daily/NetWork/wwc/src/./././poll/epoll.h
 Channel.h
-/home/wh/Daily/NetWork/wwc/././Channel.h
+/home/wh/Daily/NetWork/wwc/src/././Channel.h
 
-/home/wh/Daily/NetWork/wwc/././poll/epoll.h
+/home/wh/Daily/NetWork/wwc/src/././poll/epoll.h
 sys/epoll.h
 -
 vector
@@ -48,17 +48,17 @@ vector
 map
 -
 ../EventLoop.h
-/home/wh/Daily/NetWork/wwc/././EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/././EventLoop.h
 ../Channel.h
-/home/wh/Daily/NetWork/wwc/././Channel.h
+/home/wh/Daily/NetWork/wwc/src/././Channel.h
 
-/home/wh/Daily/NetWork/wwc/./Channel.h
+/home/wh/Daily/NetWork/wwc/src/./Channel.h
 functional
 -
 EventLoop.h
-/home/wh/Daily/NetWork/wwc/./EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/./EventLoop.h
 
-/home/wh/Daily/NetWork/wwc/./EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/./EventLoop.h
 algorithm
 -
 sys/eventfd.h
@@ -82,11 +82,11 @@ memory
 pthread.h
 -
 ./poll/epoll.h
-/home/wh/Daily/NetWork/wwc/././poll/epoll.h
+/home/wh/Daily/NetWork/wwc/src/././poll/epoll.h
 Channel.h
-/home/wh/Daily/NetWork/wwc/./Channel.h
+/home/wh/Daily/NetWork/wwc/src/./Channel.h
 
-/home/wh/Daily/NetWork/wwc/./Socket.h
+/home/wh/Daily/NetWork/wwc/src/./Socket.h
 iostream
 -
 sys/socket.h
@@ -106,7 +106,7 @@ sys/ioctl.h
 string.h
 -
 
-/home/wh/Daily/NetWork/wwc/./poll/epoll.h
+/home/wh/Daily/NetWork/wwc/src/./poll/epoll.h
 sys/epoll.h
 -
 vector
@@ -114,15 +114,15 @@ vector
 map
 -
 ../EventLoop.h
-/home/wh/Daily/NetWork/wwc/./EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/./EventLoop.h
 ../Channel.h
-/home/wh/Daily/NetWork/wwc/./Channel.h
+/home/wh/Daily/NetWork/wwc/src/./Channel.h
 
-/home/wh/Daily/NetWork/wwc/Acceptor.cpp
+/home/wh/Daily/NetWork/wwc/src/Acceptor.cpp
 Acceptor.h
-/home/wh/Daily/NetWork/wwc/Acceptor.h
+/home/wh/Daily/NetWork/wwc/src/Acceptor.h
 
-/home/wh/Daily/NetWork/wwc/Acceptor.h
+/home/wh/Daily/NetWork/wwc/src/Acceptor.h
 netinet/in.h
 -
 arpa/inet.h
@@ -130,19 +130,19 @@ arpa/inet.h
 functional
 -
 ./EventLoop.h
-/home/wh/Daily/NetWork/wwc/./EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/./EventLoop.h
 ./Socket.h
-/home/wh/Daily/NetWork/wwc/./Socket.h
+/home/wh/Daily/NetWork/wwc/src/./Socket.h
 
-/home/wh/Daily/NetWork/wwc/Buffer.cpp
+/home/wh/Daily/NetWork/wwc/src/Buffer.cpp
 iostream
 -
 unistd.h
 -
 Buffer.h
-/home/wh/Daily/NetWork/wwc/Buffer.h
+/home/wh/Daily/NetWork/wwc/src/Buffer.h
 
-/home/wh/Daily/NetWork/wwc/Buffer.h
+/home/wh/Daily/NetWork/wwc/src/Buffer.h
 algorithm
 -
 vector
@@ -156,23 +156,23 @@ string
 iostream
 -
 
-/home/wh/Daily/NetWork/wwc/Channel.cpp
+/home/wh/Daily/NetWork/wwc/src/Channel.cpp
 Channel.h
-/home/wh/Daily/NetWork/wwc/Channel.h
+/home/wh/Daily/NetWork/wwc/src/Channel.h
 EventLoop.h
-/home/wh/Daily/NetWork/wwc/EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/EventLoop.h
 
-/home/wh/Daily/NetWork/wwc/Channel.h
+/home/wh/Daily/NetWork/wwc/src/Channel.h
 functional
 -
 EventLoop.h
-/home/wh/Daily/NetWork/wwc/EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/EventLoop.h
 
-/home/wh/Daily/NetWork/wwc/EventLoop.cpp
+/home/wh/Daily/NetWork/wwc/src/EventLoop.cpp
 EventLoop.h
-/home/wh/Daily/NetWork/wwc/EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/EventLoop.h
 
-/home/wh/Daily/NetWork/wwc/EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/EventLoop.h
 algorithm
 -
 sys/eventfd.h
@@ -196,17 +196,17 @@ memory
 pthread.h
 -
 ./poll/epoll.h
-/home/wh/Daily/NetWork/wwc/./poll/epoll.h
+/home/wh/Daily/NetWork/wwc/src/./poll/epoll.h
 Channel.h
-/home/wh/Daily/NetWork/wwc/Channel.h
+/home/wh/Daily/NetWork/wwc/src/Channel.h
 
-/home/wh/Daily/NetWork/wwc/EventLoopThreadPool.cpp
+/home/wh/Daily/NetWork/wwc/src/EventLoopThreadPool.cpp
 iostream
 -
 EventLoopThreadPool.h
-/home/wh/Daily/NetWork/wwc/EventLoopThreadPool.h
+/home/wh/Daily/NetWork/wwc/src/EventLoopThreadPool.h
 
-/home/wh/Daily/NetWork/wwc/EventLoopThreadPool.h
+/home/wh/Daily/NetWork/wwc/src/EventLoopThreadPool.h
 vector
 -
 thread
@@ -216,29 +216,29 @@ mutex
 condition_variable
 -
 EventLoop.h
-/home/wh/Daily/NetWork/wwc/EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/EventLoop.h
 HttpServer.h
-/home/wh/Daily/NetWork/wwc/HttpServer.h
+/home/wh/Daily/NetWork/wwc/src/HttpServer.h
 
-/home/wh/Daily/NetWork/wwc/HttpServer.cpp
+/home/wh/Daily/NetWork/wwc/src/HttpServer.cpp
 iostream
 -
 HttpServer.h
-/home/wh/Daily/NetWork/wwc/HttpServer.h
+/home/wh/Daily/NetWork/wwc/src/HttpServer.h
 
-/home/wh/Daily/NetWork/wwc/HttpServer.h
+/home/wh/Daily/NetWork/wwc/src/HttpServer.h
 TcpServer.h
-/home/wh/Daily/NetWork/wwc/TcpServer.h
+/home/wh/Daily/NetWork/wwc/src/TcpServer.h
 EventLoop.h
-/home/wh/Daily/NetWork/wwc/EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/EventLoop.h
 fstream
 -
 
-/home/wh/Daily/NetWork/wwc/Socket.cpp
+/home/wh/Daily/NetWork/wwc/src/Socket.cpp
 Socket.h
-/home/wh/Daily/NetWork/wwc/Socket.h
+/home/wh/Daily/NetWork/wwc/src/Socket.h
 
-/home/wh/Daily/NetWork/wwc/Socket.h
+/home/wh/Daily/NetWork/wwc/src/Socket.h
 iostream
 -
 sys/socket.h
@@ -258,15 +258,15 @@ sys/ioctl.h
 string.h
 -
 
-/home/wh/Daily/NetWork/wwc/TcpConnection.cpp
+/home/wh/Daily/NetWork/wwc/src/TcpConnection.cpp
 iostream
 -
 signal.h
 -
 TcpConnection.h
-/home/wh/Daily/NetWork/wwc/TcpConnection.h
+/home/wh/Daily/NetWork/wwc/src/TcpConnection.h
 
-/home/wh/Daily/NetWork/wwc/TcpConnection.h
+/home/wh/Daily/NetWork/wwc/src/TcpConnection.h
 boost/noncopyable.hpp
 -
 functional
@@ -274,41 +274,41 @@ functional
 algorithm
 -
 EventLoop.h
-/home/wh/Daily/NetWork/wwc/EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/EventLoop.h
 Socket.h
-/home/wh/Daily/NetWork/wwc/Socket.h
+/home/wh/Daily/NetWork/wwc/src/Socket.h
 Channel.h
-/home/wh/Daily/NetWork/wwc/Channel.h
+/home/wh/Daily/NetWork/wwc/src/Channel.h
 Buffer.h
-/home/wh/Daily/NetWork/wwc/Buffer.h
+/home/wh/Daily/NetWork/wwc/src/Buffer.h
 
-/home/wh/Daily/NetWork/wwc/TcpServer.cpp
+/home/wh/Daily/NetWork/wwc/src/TcpServer.cpp
 iostream
 -
 TcpServer.h
-/home/wh/Daily/NetWork/wwc/TcpServer.h
+/home/wh/Daily/NetWork/wwc/src/TcpServer.h
 
-/home/wh/Daily/NetWork/wwc/TcpServer.h
+/home/wh/Daily/NetWork/wwc/src/TcpServer.h
 functional
 -
 memory
 -
 EventLoop.h
-/home/wh/Daily/NetWork/wwc/EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/EventLoop.h
 Acceptor.h
-/home/wh/Daily/NetWork/wwc/Acceptor.h
+/home/wh/Daily/NetWork/wwc/src/Acceptor.h
 TcpConnection.h
-/home/wh/Daily/NetWork/wwc/TcpConnection.h
+/home/wh/Daily/NetWork/wwc/src/TcpConnection.h
 
-/home/wh/Daily/NetWork/wwc/main.cpp
+/home/wh/Daily/NetWork/wwc/src/main.cpp
 EventLoop.h
-/home/wh/Daily/NetWork/wwc/EventLoop.h
+/home/wh/Daily/NetWork/wwc/src/EventLoop.h
 TcpServer.h
-/home/wh/Daily/NetWork/wwc/TcpServer.h
+/home/wh/Daily/NetWork/wwc/src/TcpServer.h
 EventLoopThreadPool.h
-/home/wh/Daily/NetWork/wwc/EventLoopThreadPool.h
+/home/wh/Daily/NetWork/wwc/src/EventLoopThreadPool.h
 Buffer.h
-/home/wh/Daily/NetWork/wwc/Buffer.h
+/home/wh/Daily/NetWork/wwc/src/Buffer.h
 signal.h
 -
 fstream

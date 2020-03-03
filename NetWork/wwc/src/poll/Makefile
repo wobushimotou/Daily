@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/wh/Daily/NetWork/wwc
+CMAKE_SOURCE_DIR = /home/wh/Daily/NetWork/wwc/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/wh/Daily/NetWork/wwc
+CMAKE_BINARY_DIR = /home/wh/Daily/NetWork/wwc/src
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/wh/Daily/NetWork/wwc && $(CMAKE_COMMAND) -E cmake_progress_start /home/wh/Daily/NetWork/wwc/CMakeFiles /home/wh/Daily/NetWork/wwc/poll/CMakeFiles/progress.marks
-	cd /home/wh/Daily/NetWork/wwc && $(MAKE) -f CMakeFiles/Makefile2 poll/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wh/Daily/NetWork/wwc/CMakeFiles 0
+	cd /home/wh/Daily/NetWork/wwc/src && $(CMAKE_COMMAND) -E cmake_progress_start /home/wh/Daily/NetWork/wwc/src/CMakeFiles /home/wh/Daily/NetWork/wwc/src/poll/CMakeFiles/progress.marks
+	cd /home/wh/Daily/NetWork/wwc/src && $(MAKE) -f CMakeFiles/Makefile2 poll/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wh/Daily/NetWork/wwc/src/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/wh/Daily/NetWork/wwc && $(MAKE) -f CMakeFiles/Makefile2 poll/clean
+	cd /home/wh/Daily/NetWork/wwc/src && $(MAKE) -f CMakeFiles/Makefile2 poll/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,22 +97,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/wh/Daily/NetWork/wwc && $(MAKE) -f CMakeFiles/Makefile2 poll/preinstall
+	cd /home/wh/Daily/NetWork/wwc/src && $(MAKE) -f CMakeFiles/Makefile2 poll/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/wh/Daily/NetWork/wwc && $(MAKE) -f CMakeFiles/Makefile2 poll/preinstall
+	cd /home/wh/Daily/NetWork/wwc/src && $(MAKE) -f CMakeFiles/Makefile2 poll/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/wh/Daily/NetWork/wwc && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/wh/Daily/NetWork/wwc/src && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 poll/CMakeFiles/PollFunctions.dir/rule:
-	cd /home/wh/Daily/NetWork/wwc && $(MAKE) -f CMakeFiles/Makefile2 poll/CMakeFiles/PollFunctions.dir/rule
+	cd /home/wh/Daily/NetWork/wwc/src && $(MAKE) -f CMakeFiles/Makefile2 poll/CMakeFiles/PollFunctions.dir/rule
 .PHONY : poll/CMakeFiles/PollFunctions.dir/rule
 
 # Convenience name for target.
@@ -122,7 +122,7 @@ PollFunctions: poll/CMakeFiles/PollFunctions.dir/rule
 
 # fast build rule for target.
 PollFunctions/fast:
-	cd /home/wh/Daily/NetWork/wwc && $(MAKE) -f poll/CMakeFiles/PollFunctions.dir/build.make poll/CMakeFiles/PollFunctions.dir/build
+	cd /home/wh/Daily/NetWork/wwc/src && $(MAKE) -f poll/CMakeFiles/PollFunctions.dir/build.make poll/CMakeFiles/PollFunctions.dir/build
 .PHONY : PollFunctions/fast
 
 epoll.o: epoll.cpp.o
@@ -131,7 +131,7 @@ epoll.o: epoll.cpp.o
 
 # target to build an object file
 epoll.cpp.o:
-	cd /home/wh/Daily/NetWork/wwc && $(MAKE) -f poll/CMakeFiles/PollFunctions.dir/build.make poll/CMakeFiles/PollFunctions.dir/epoll.cpp.o
+	cd /home/wh/Daily/NetWork/wwc/src && $(MAKE) -f poll/CMakeFiles/PollFunctions.dir/build.make poll/CMakeFiles/PollFunctions.dir/epoll.cpp.o
 .PHONY : epoll.cpp.o
 
 epoll.i: epoll.cpp.i
@@ -140,7 +140,7 @@ epoll.i: epoll.cpp.i
 
 # target to preprocess a source file
 epoll.cpp.i:
-	cd /home/wh/Daily/NetWork/wwc && $(MAKE) -f poll/CMakeFiles/PollFunctions.dir/build.make poll/CMakeFiles/PollFunctions.dir/epoll.cpp.i
+	cd /home/wh/Daily/NetWork/wwc/src && $(MAKE) -f poll/CMakeFiles/PollFunctions.dir/build.make poll/CMakeFiles/PollFunctions.dir/epoll.cpp.i
 .PHONY : epoll.cpp.i
 
 epoll.s: epoll.cpp.s
@@ -149,7 +149,7 @@ epoll.s: epoll.cpp.s
 
 # target to generate assembly for a file
 epoll.cpp.s:
-	cd /home/wh/Daily/NetWork/wwc && $(MAKE) -f poll/CMakeFiles/PollFunctions.dir/build.make poll/CMakeFiles/PollFunctions.dir/epoll.cpp.s
+	cd /home/wh/Daily/NetWork/wwc/src && $(MAKE) -f poll/CMakeFiles/PollFunctions.dir/build.make poll/CMakeFiles/PollFunctions.dir/epoll.cpp.s
 .PHONY : epoll.cpp.s
 
 # Help Target
@@ -175,6 +175,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/wh/Daily/NetWork/wwc && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/wh/Daily/NetWork/wwc/src && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

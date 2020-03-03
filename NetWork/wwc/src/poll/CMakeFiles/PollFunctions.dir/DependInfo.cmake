@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/wh/Daily/NetWork/wwc/poll/epoll.cpp" "/home/wh/Daily/NetWork/wwc/poll/CMakeFiles/PollFunctions.dir/epoll.cpp.o"
+  "/home/wh/Daily/NetWork/wwc/src/poll/epoll.cpp" "/home/wh/Daily/NetWork/wwc/src/poll/CMakeFiles/PollFunctions.dir/epoll.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

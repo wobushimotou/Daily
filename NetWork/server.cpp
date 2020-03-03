@@ -43,7 +43,7 @@ int main(int argc,char *argv[])
         struct sockaddr_in serv;
         memset(&serv,0,sizeof(serv));
         serv.sin_family = AF_INET;
-        serv.sin_port = 9527;
+        serv.sin_port = htons(9527);
         serv.sin_addr.s_addr = htonl(INADDR_ANY);
 
         int num = 1;
@@ -70,21 +70,21 @@ int main(int argc,char *argv[])
             exit(0);
         }
 
-        getsockopt(fd,IPPROTO_TCP,TCP_MAXSEG,(void *)&size,&len);
-        cout << "listen后mss大小="<< size << endl;
-
-        size = 0;
-        getsockopt(fd,SOL_SOCKET,SO_RCVBUF,(void *)&size,&len);
-        cout << "listen后接收缓冲区大小=" << size << endl;
-
 
         int sockfd;
+        char buf[1001];
         while((sockfd = accept(fd,NULL,NULL)) > 0) {
             cout << "主线程" << endl;
-            thread t(handle,sockfd);
-            t.detach();
-            g_lock.lock();
-            g_lock.unlock();
+            /* thread t(handle,sockfd); */
+            /* t.detach(); */
+            /* g_lock.lock(); */
+            /* g_lock.unlock(); */
+         getsockopt(fd,IPPROTO_TCP,TCP_MAXSEG,(void *)&size,&len);
+         cout << "listen后mss大小="<< size << endl;
+
+         size = 0;
+         getsockopt(fd,SOL_SOCKET,SO_RCVBUF,(void *)&size,&len);
+         cout << "连接后接收缓冲区大小=" << size << endl;
         }
     }
     else {

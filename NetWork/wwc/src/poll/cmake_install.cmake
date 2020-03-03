@@ -1,4 +1,4 @@
-# Install script for directory: /home/wh/Daily/NetWork/wwc/poll
+# Install script for directory: /home/wh/Daily/NetWork/wwc/src/poll
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

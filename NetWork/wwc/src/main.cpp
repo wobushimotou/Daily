@@ -64,7 +64,7 @@ int main()
     /* loop->loop(); */
 
     EventLoopThreadPool ep;
-    ep.setThreadNum(10);
+    ep.setThreadNum(1);
     ep.start();
     return 0;
 }

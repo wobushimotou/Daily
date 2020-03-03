@@ -3,12 +3,10 @@
 #include "Buffer.h"
 size_t Buffer::readFd(int fd)
 {
-    printf("Buffer::readFd\n");
     char extrabuf[65535];     
     bzero(extrabuf,65535);
     size_t writable = writeableBytes();
     size_t n = read(fd,extrabuf,65535);
-    printf("n = %zd\n",n);
     if(n < 0) {
 
     }

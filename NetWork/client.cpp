@@ -18,38 +18,31 @@ int main()
 
     struct sockaddr_in servaddr;
     servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    servaddr.sin_port = htons(9999);
+    servaddr.sin_addr.s_addr = inet_addr("192.168.1.109");
+    servaddr.sin_port = htons(9527);
 
     int size = 0;
     int n;
     int sum = 0;
-
+    
     socklen_t len = sizeof(size);    
+         size = 0;
+         getsockopt(fd,SOL_SOCKET,SO_RCVBUF,(void *)&size,&len);
+         cout << "连接前接收缓冲区大小=" << size << endl;
+ 
+    char buf[1000];
     int  connfd = socket(AF_INET,SOCK_STREAM,0);
     if(connect(connfd,(const struct sockaddr *)&servaddr,sizeof(servaddr)) < 0) {
+        write(connfd,buf,1);
+    }   
+    size = 0;
 
-    }
-    else {
-        char ch;
-        const char *buf = "wwwwwww";
-        printf("连接成功\n");
-        cin >> ch;
-        write(connfd,buf,strlen(buf));
-       while(1) {
-            if((n = ::read(connfd,&ch,1)) > 0) {
-                putchar(ch);
-                sum += n;
-            }
-            else
-                break;
-        }
-
-    }
-
-    //setsockopt(fd,SOL_SOCKET,SO_LINGER)
-
+         getsockopt(fd,SOL_SOCKET,SO_RCVBUF,(void *)&size,&len);
+         cout << "连接后接收缓冲区大小=" << size << endl;
+ 
+    sleep(1);
     cout << "sum  = " << sum << endl;
+
     return 0;
 }
 
