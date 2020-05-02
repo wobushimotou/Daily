@@ -2,6 +2,8 @@
 #include <list>
 #include <string>
 #include <sstream>
+#include <thread>
+#include <vector>
 using namespace std;
 int GetNum(int k,int m,int n) {//得到I的[m:n]范围内的后k位数字
     int I = 1231;
@@ -16,8 +18,14 @@ int GetNum(int k,int m,int n) {//得到I的[m:n]范围内的后k位数字
 
     return value;
 }
+void f(vector<int> &vec) {
+    
+}
 int main()
 {
-    cout << GetNum(2,1,4) << endl;
+    vector<int> vec;
+    thread t(f,std::ref(vec));
+    t.join();
+    return 0;
 }
 

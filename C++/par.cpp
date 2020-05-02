@@ -1,37 +1,44 @@
 #include <iostream>
+#include <functional>
 using namespace std;
 
 class A{
 public:
-    A() = default;
-    A(int _a):a(_a) {  cout << "4\n";}
-    A(const A &a);
-    ~A() {
-        a = 0;
-    }
-    A operator=(const A &a) {
-        cout << "3\n";
-        this->a = a.a;
-        return *this;
-    }
 
-    int a;
+    A() { cout << "A()" << endl; }
+    ~A() { cout << "~A()" << endl; }
+    A(const A&) { cout << "A(const A&)" << endl;}
+    A& operator=(const A&)  { cout << "=A&" << endl; return *this;}
+    A* operator&() { cout << "AAAA" << endl; return this; } 
+    const A* operator&()const { cout << "AAAA" << endl; return this; } 
+    A(A &&){ cout << "A&&" << endl; }
+    A& operator=(A &&) { cout << "=A&&" << endl; return *this;}
+
+    virtual void func()const { cout << "func" << endl;}
 };
 
-A::A(const A &a) {
-    cout << "2" << endl;
-}
 
+class B{
+public:
+    B():b(1){  }
+    long b;
+    void f(){ cout << ">>>" << endl; }
+};
 
-A fun() {
-    A t(9);
-    return t;
-}
+class C:public B{
+public:
+    C():c(2){  }
+    long c;
+    void f(int i){ cout << "<<<" << endl; }
+    void fc2(){ cout << "<<<" << endl; }
+};
 
+struct D{
+    char a;
+    int b;
+};
 int main()
 {
-    A b = fun();
-    /* cout << b.a << endl; */
+    cout << sizeof(B) << endl;
     return 0;
 }
-

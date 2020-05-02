@@ -132,8 +132,9 @@ void HttpOperation::SendHttpHead(long start,long end) {//发送http请求头
     //设置http请求头
     head = "GET "+url+" HTTP/1.1\r\n"+
         "Host: "+host+"\r\n"+
-        "Connection: keep-alive\r\n"+
+        "Connection: close\r\n"+
         /* "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11\r\n"+ */
+        "Cache-Control: no-store\r\n"+
         "Accept: */*\r\n"+
         "Range: bytes="+to_string(start)+"-"+((end>0)?to_string(end):"")+"\r\n"+
         "\r\n";
@@ -163,6 +164,7 @@ void HttpOperation::ReadHttpHead() {//读取http响应头
         if(flag == 4)
             break;
     }
+    cout << buf << endl;
 }
 
 int HttpOperation::ParseHead() {//解析响应头

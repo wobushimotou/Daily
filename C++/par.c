@@ -3,20 +3,19 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
-struct A
-{
-    int b;
-    int c;
-};
+#include <stdlib.h>
+#include <time.h>
+#include <strings.h>
 int main()
 {
+    unsigned int a = clock();
+    double num = (double)rand_r(&a)/rand();
 
-    int8_t i = 0;
-    for(i = 0;i>= 0;++i)
-        i++;
-        ;
+    while(num > 1)
+        num -= 1;
 
-    printf("%d\n",i);
+    num -= 0.5;
+    printf("%lf\n",num);
     return 0;
 }
 

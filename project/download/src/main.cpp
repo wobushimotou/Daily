@@ -24,7 +24,7 @@ int main(int argc,char *argv[])
 
     Hd->DownLoad();
 */
-    HttpDown Hd("http://releases.ubuntu.com/18.04.4/ubuntu-18.04.4-desktop-amd64.iso?_ga=2.250982342.1328127375.1582905067-392630687.1582905067");
+    HttpDown Hd(argv[1]);
     Hd.DownLoad();
 
     clock_t end = clock();

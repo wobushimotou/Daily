@@ -54,14 +54,16 @@ int main()
     getsockopt(fd,SOL_SOCKET,SO_SNDBUF,(void *)&size,&len);
     cout << "连接后发送缓冲区大小=" << size << endl;
 
-    write(fd,buf,1000);
+    /* write(fd,buf,1000); */
 
     size = 0;
     getsockopt(fd,SOL_SOCKET,SO_SNDBUF,(void *)&size,&len);
     cout << "连接后发送缓冲区大小=" << size << endl;
 
 
-    sleep(10);
+    /* sleep(10); */
+    sleep(1);
+    close(fd);
 
     return 0;
 }

@@ -69,6 +69,7 @@ int main(int argc,char *argv[])
         cout << "接收缓冲区大小=" << size << endl;
 
 
+        /* sleep(1); */
         sleep(1);
     }
 

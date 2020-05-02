@@ -126,7 +126,7 @@ int HttpDown::DownLoad() {
     
 
     filesize = Hp.size;
-    int Content = 1024000;
+    int Content = 10240;
         
     long Part = ((filesize + Content -1 )/Content);
        

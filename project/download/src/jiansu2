@@ -1,0 +1,23 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>400 Bad Request</title>
+</head>
+<body>
+<div id='main' style='display:none'>
+<i><h2>Something error:</h2></i>
+<p><h3>400 Bad Request</h3><h3><font color='red'>host not found.</font></h3></p>
+<p>Please check or <a href='javascript:location.reload()'>try again</a> later.</p>
+<div>hostname: jiansu2</div><hr>
+<div id='pb'></div>
+</div>
+<script language='javascript'>
+	var referer = escape(document.referrer);
+	var url = escape(document.URL);
+	var msg = 'host%20not%20found.';
+    var hostname='jiansu2';
+	var event_id='';
+	document.write('<scr'+'ipt language="javascript" src="http://www.baidu.com?code=400"></scr' + 'ipt>');
+</script>
+<!-- padding for ie --><!-- padding for ie --><!-- padding for ie --><!-- padding for ie -->
+</body></html>
