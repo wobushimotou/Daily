@@ -15,30 +15,16 @@
 #include <netinet/tcp.h>
 
 using namespace std;
-
-int fd;
-mutex g_lock;
-void handle(int sockfd)
-{
-    int size;
-    char ch;
-    while((size = recv(sockfd,&ch,1,0)) > 0) {
-        send(sockfd,&ch,1,0);
-    }
-    close(sockfd);
-}
-void manage(int sig);
-
 int main(int argc,char *argv[])
 {
     
+    int fd;
     if(argc == 1) {
         fd = socket(AF_INET,SOCK_STREAM,0);
         if(fd < 0) {
             cout << "套接字申请失败" << endl;
             exit(0);
         }
-        signal(SIGTSTP,manage);
 
         struct sockaddr_in serv;
         memset(&serv,0,sizeof(serv));

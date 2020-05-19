@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <deque>
+#include <map>
 using namespace std;
 class Transform {
 public:
@@ -55,6 +56,12 @@ public:
         return ss;
     }
 };
+
+void Find(string s,map<char,int> &imap) {
+    for(int i = 0;i != s.size();++i) {
+        imap[s[i]]++;
+    }
+}
 int main() {
     Transform ts;
     string s = "hello world";

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <fstream>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <arpa/inet.h>
@@ -12,7 +14,6 @@ int main()
 {
     int fd = socket(AF_INET,SOCK_STREAM,0);
     if(fd < 0) {
-        cout << "套接字创建失败" << endl;
         exit(0);
     }
 
@@ -22,49 +23,39 @@ int main()
     servaddr.sin_port = htons(9527);
 
     int size = 0;
-    int sum = 0;
-
-    socklen_t len = sizeof(size);    
-
-    size = 0;
-    getsockopt(fd,IPPROTO_TCP,TCP_MAXSEG,(void *)&size,&len);
-    cout << "连接前mss大小=" << size << endl;
- 
-    size = 0;
-    getsockopt(fd,SOL_SOCKET,SO_RCVBUF,(void *)&size,&len);
-    cout << "连接前接收缓冲区大小=" << size << endl;
-
-    size = 0;
-    getsockopt(fd,SOL_SOCKET,SO_SNDBUF,(void *)&size,&len);
-    cout << "连接前发送缓冲区大小=" << size << endl;
-
-
-    char buf[1000];
     if(connect(fd,(const struct sockaddr *)&servaddr,sizeof(servaddr)) < 0) {
     }   
-    size = 0;
-    getsockopt(fd,SOL_SOCKET,SO_RCVBUF,(void *)&size,&len);
-    cout << "连接后接收缓冲区大小=" << size << endl;
 
-    size = 0;
-    getsockopt(fd,IPPROTO_TCP,TCP_MAXSEG,(void *)&size,&len);
-    cout << "连接后mss大小=" << size << endl;
- 
-    size = 0;
-    getsockopt(fd,SOL_SOCKET,SO_SNDBUF,(void *)&size,&len);
-    cout << "连接后发送缓冲区大小=" << size << endl;
+    vector<string> vec;
+    while(true) {
+        string request;
+        cin >> request;
+        write(fd,request.c_str(),request.size());
+        write(fd,"\n",1);
 
-    /* write(fd,buf,1000); */
+        string sentence;
+        while(true) {
+            char ch;
+            read(fd,&ch,1);
+            sentence += ch;
 
-    size = 0;
-    getsockopt(fd,SOL_SOCKET,SO_SNDBUF,(void *)&size,&len);
-    cout << "连接后发送缓冲区大小=" << size << endl;
+            int flag = 0;
+            if(ch == '\n') {
+                for(auto p = vec.begin();p != vec.end();++p) {
+                    if(*p == sentence)
+                        flag = 1;
+                }
 
-
-    /* sleep(10); */
-    sleep(1);
-    close(fd);
-
+                if(!flag) {
+                    fstream file("2.txt",ios::app);
+                    file << sentence;
+                    vec.push_back(sentence);
+                }
+                sentence = "";
+                break;
+            }
+        }
+    }
     return 0;
 }
 
