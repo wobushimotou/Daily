@@ -1,21 +1,16 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <time.h>
-#include <strings.h>
 int main()
 {
-    unsigned int a = clock();
-    double num = (double)rand_r(&a)/rand();
+    int i = 0;
+    /* int i = 0; */
 
-    while(num > 1)
-        num -= 1;
+    /* int n = 0; */
+    /* n = i++; */
+    /* n = ++i; */
 
-    num -= 0.5;
-    printf("%lf\n",num);
+    volatile int n = 0;
+    n = i++;
+    n = ++i;
+
     return 0;
 }
 

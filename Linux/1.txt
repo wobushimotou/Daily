@@ -1,0 +1,15 @@
+127.0.0.1 adfaw afcs1 
+127.0.0.1 adfaw afcs2
+127.0.0.1 adfaw afcs3 
+127.0.0.1 adfaw afcs4 
+127.0.0.1 adfaw afcs5 
+127.0.0.1 adfaw afcs6 
+192.168.1.1 ad ai1
+192.168.1.1 ad ai2
+192.168.1.1 ad ai3
+192.168.1.1 ad ai4
+192.168.1.1 ad ai5
+255.255.255.255 adxml  bakj2
+255.255.255.255 adxml  bakj3 
+255.255.255.255 adxml  bakj4 
+255.255.255.255 adxml  bakj5 

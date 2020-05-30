@@ -3,14 +3,16 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <dirent.h>
-
+#include <signal.h>
 int main()
 {
     int a;
     
     int b;
-    printf("a = %p\n",&a);
-    printf("b = %p\n",&b);
+    printf("recevice a sig=%d\n",SIGINT);
+    printf("recevice a sig=%d\n",SIGRTMIN);
+    printf("recevice a sig=%d\n",SIGRTMIN);
+    printf("recevice a sig=%d\n",SIGRTMIN);
     return 0;
 }
 

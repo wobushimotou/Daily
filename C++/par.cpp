@@ -39,6 +39,5 @@ struct D{
 };
 int main()
 {
-    cout << sizeof(B) << endl;
     return 0;
 }
