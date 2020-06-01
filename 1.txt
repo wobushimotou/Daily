@@ -1,7 +1,1 @@
-Web Server
-概述
-支持静态网页请求的Web服务器，实现了对GET,POST等基本请求的解析和响应
-具体技术
-使用C++11开发，参考muduo网络库实现的异步Reactor架构，使用多个线程监听同一端口，设置SO_REUSEPORT，由内核负责负载均衡
-
-
+hello,wrold!
