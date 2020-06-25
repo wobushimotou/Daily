@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <time.h>
 
 int main(void)
 {
@@ -15,7 +16,13 @@ int main(void)
     }
     if (i == 0) { //兄
         close(fd[0]);
-        const char *buf = "hello";
+        char buf[100];
+        time_t timep;
+        struct tm *p;
+        time (&timep);
+        p=gmtime(&timep);
+        sprintf(buf,"%d-%d-%d %d:%d:%d",1900+p->tm_year,1+p->tm_mon,p->tm_mday,8+p->tm_hour,p->tm_min,p->tm_sec);
+
         write(fd[1],buf,strlen(buf)+1);
 
     } else if (i == 1) { //弟
